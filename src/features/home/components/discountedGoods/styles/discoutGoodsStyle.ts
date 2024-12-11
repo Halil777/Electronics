@@ -1,0 +1,111 @@
+export const discountGoodsTitle = {
+  fontSize: { lg: "18px", md: "16px", sm: "16px", xs: "15px" },
+  fontWeight: 600,
+  lineHeight: "25px",
+  color: "#000000",
+};
+
+export const discountGoodsSeeAllButton = {
+  fontSize: "12px",
+  fontWeight: 400,
+  lineHeight: "17px",
+  color: "#000000",
+  textTransform: "none",
+};
+
+export const auctionImageBox = {
+  height: { lg: "120px", md: "120px", sm: "120px", xs: "120px" },
+  my: { lg: 2, md: 2, sm: 1, xs: 1 },
+};
+
+export const auctionTextBox = {
+  background: "#FFD043",
+  width: "64px",
+  height: "22px",
+  color: "#2E2F38",
+  fontSize: "11px",
+  fontWeight: 600,
+  lineHeight: "15px",
+  borderRadius: "2px 0px 0px 2px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
+export const auctionDiscountTextCountBox = {
+  background: "#2E3294",
+  width: "38px",
+  height: "22px",
+  color: "#ffffff",
+  fontSize: "11px",
+  fontWeight: 600,
+  lineHeight: "15px",
+  borderRadius: "0px 2px 2px 0px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
+export const discountGoodTitle = {
+  color: "#000000",
+  fontSize: "14px",
+  fontWeight: 600,
+  lineHeight: "19px",
+};
+
+export const discountGoodCompanyTitle = {
+  color: "#0470C4",
+  fontSize: "14px",
+  fontWeight: 600,
+  lineHeight: "19px",
+};
+
+export const discountGoodCodeText = {
+  color: "#000000",
+  fontSize: "12px",
+  fontWeight: 300,
+  lineHeight: "19px",
+};
+
+export const discountGoodCost = {
+  color: "#2E2F38",
+  fontSize: "14px",
+  fontWeight: 700,
+  lineHeight: "19px",
+};
+
+export const discountGoodLastCount = {
+  background: "#BDE5C6",
+  width: "86px",
+  height: "24px",
+  color: "#2E2F38",
+  fontSize: "11px",
+  fontWeight: 600,
+  lineHeight: "15px",
+  borderRadius: "4px",
+  textTransform: "none",
+};
+
+export const addStoreDiscountGoodButton = {
+  background: "#E0E0E0",
+  height: { lg: "39px", md: "39px", sm: "36px", xs: "34px" },
+  color: "#2E2F38",
+  fontSize: "14px",
+  fontWeight: 600,
+  lineHeight: "15px",
+  borderRadius: "4px",
+  textTransform: "none",
+};
+
+export const compareDiscountGoodsCostButton = {
+  color: "#929292",
+  fontSize: "12px",
+  fontWeight: 400,
+  lineHeight: "15px",
+  textTransform: "none",
+  display: "flex",
+  alignItems: "center",
+  gap: "6px",
+  padding: 0,
+  mt: 1,
+};

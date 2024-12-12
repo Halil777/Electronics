@@ -29,15 +29,21 @@ const OfferedGoodsBox: FC = () => {
         </Button>
       </Stack>
       <Grid container spacing={2} my={3}>
-        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 12 }}>
+        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 6 }}>
           <Box>
-            <Stack direction="row" justifyContent="center" my={2}>
+            <Box
+              sx={{
+                width: "100%",
+                height: { lg: "200px", md: "200px", sm: "180px", xs: "150px" },
+              }}
+            >
               <img
                 src="./images/banner1.png"
-                style={{ width: "80%", height: "200px", objectFit: "cover" }}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 alt=""
               />
-            </Stack>
+            </Box>
+
             <Stack my={2}>
               <Typography sx={discountGoodTitle}>
                 Kamera Xiaomi Mi Home Security (360° 1080P)
@@ -72,7 +78,7 @@ const OfferedGoodsBox: FC = () => {
               alignItems="center"
             >
               <Button sx={compareDiscountGoodsCostButton}>
-                <img src="./icons/compare.svg" alt="" /> Deňeşdirmek
+                <img src="./icons/compare.svg" alt="" /> Deňeşdir
               </Button>
               <Button
                 startIcon={
@@ -86,23 +92,29 @@ const OfferedGoodsBox: FC = () => {
                 }
                 sx={compareDiscountGoodsCostButton}
               >
-                Saýlanan
+                Saýla
               </Button>
             </Stack>
           </Box>
         </Grid>
-        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 12 }}>
+        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 6 }}>
           <Box>
-            <Stack direction="row" justifyContent="center" my={2}>
+            <Box
+              sx={{
+                width: "100%",
+                height: { lg: "200px", md: "200px", sm: "180px", xs: "150px" },
+              }}
+            >
               <img
                 src="./images/banner1.png"
-                style={{ width: "80%", height: "200px", objectFit: "cover" }}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 alt=""
               />
-            </Stack>
+            </Box>
+
             <Stack my={2}>
               <Typography sx={discountGoodTitle}>
-                Kamera Xiaomi Mi Home Security (360° 1080P)
+                Kamera Xiaomi Mi Home Security Kamera Xiaomi Mi Home
               </Typography>
               <Typography sx={discountGoodCompanyTitle}>Mi</Typography>
               <Stack direction="row" spacing={1} my={1}>
@@ -134,7 +146,7 @@ const OfferedGoodsBox: FC = () => {
               alignItems="center"
             >
               <Button sx={compareDiscountGoodsCostButton}>
-                <img src="./icons/compare.svg" alt="" /> Deňeşdirmek
+                <img src="./icons/compare.svg" alt="" /> Deňeşdir
               </Button>
               <Button
                 startIcon={
@@ -148,20 +160,26 @@ const OfferedGoodsBox: FC = () => {
                 }
                 sx={compareDiscountGoodsCostButton}
               >
-                Saýlanan
+                Saýla
               </Button>
             </Stack>
           </Box>
         </Grid>
-        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 12 }}>
+        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 6 }}>
           <Box>
-            <Stack direction="row" justifyContent="center" my={2}>
+            <Box
+              sx={{
+                width: "100%",
+                height: { lg: "200px", md: "200px", sm: "180px", xs: "150px" },
+              }}
+            >
               <img
                 src="./images/banner1.png"
-                style={{ width: "80%", height: "200px", objectFit: "cover" }}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 alt=""
               />
-            </Stack>
+            </Box>
+
             <Stack my={2}>
               <Typography sx={discountGoodTitle}>
                 Kamera Xiaomi Mi Home Security (360° 1080P)
@@ -196,7 +214,7 @@ const OfferedGoodsBox: FC = () => {
               alignItems="center"
             >
               <Button sx={compareDiscountGoodsCostButton}>
-                <img src="./icons/compare.svg" alt="" /> Deňeşdirmek
+                <img src="./icons/compare.svg" alt="" /> Deňeşdir
               </Button>
               <Button
                 startIcon={
@@ -210,20 +228,26 @@ const OfferedGoodsBox: FC = () => {
                 }
                 sx={compareDiscountGoodsCostButton}
               >
-                Saýlanan
+                Saýla
               </Button>
             </Stack>
           </Box>
         </Grid>
-        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 12 }}>
+        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 6 }}>
           <Box>
-            <Stack direction="row" justifyContent="center" my={2}>
+            <Box
+              sx={{
+                width: "100%",
+                height: { lg: "200px", md: "200px", sm: "180px", xs: "150px" },
+              }}
+            >
               <img
                 src="./images/banner1.png"
-                style={{ width: "80%", height: "200px", objectFit: "cover" }}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 alt=""
               />
-            </Stack>
+            </Box>
+
             <Stack my={2}>
               <Typography sx={discountGoodTitle}>
                 Kamera Xiaomi Mi Home Security (360° 1080P)
@@ -258,7 +282,7 @@ const OfferedGoodsBox: FC = () => {
               alignItems="center"
             >
               <Button sx={compareDiscountGoodsCostButton}>
-                <img src="./icons/compare.svg" alt="" /> Deňeşdirmek
+                <img src="./icons/compare.svg" alt="" /> Deňeşdir
               </Button>
               <Button
                 startIcon={
@@ -272,7 +296,7 @@ const OfferedGoodsBox: FC = () => {
                 }
                 sx={compareDiscountGoodsCostButton}
               >
-                Saýlanan
+                Saýla
               </Button>
             </Stack>
           </Box>

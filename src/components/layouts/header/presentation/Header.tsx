@@ -1,11 +1,16 @@
 import { FC } from "react";
 import HeaderLogo from "../components/HeaderLogo";
-import { Box, Container } from "@mui/material";
+import { Box, Container, Stack } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { size1_4, size4_1 } from "../utils/gridSize";
 import HeaderContacts from "../components/HeaderContacts";
+import { useNavigate } from "react-router-dom";
+import LangFlags from "../../../../language/LangFlags";
+import BasketM from "../components/BasketM";
 
 const Header: FC = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <Box
@@ -22,6 +27,32 @@ const Header: FC = () => {
               </Grid>
             </Grid>
           </Box>
+        </Container>
+      </Box>
+      <Box
+        sx={{
+          display: { lg: "none", md: "none", sm: "flex", xs: "flex" },
+          height: "100px",
+        }}
+      >
+        <Container>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            height="100%"
+          >
+            <img
+              onClick={() => navigate("/")}
+              src="./icons/logo.svg"
+              style={{ width: "150px", height: "28px" }}
+              alt=""
+            />
+            <Stack direction="row" alignItems={"center"} spacing={2}>
+              <LangFlags />
+              <BasketM />
+            </Stack>
+          </Stack>
         </Container>
       </Box>
     </>

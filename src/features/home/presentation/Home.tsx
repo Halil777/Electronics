@@ -19,7 +19,10 @@ const Home: FC = () => {
   return (
     <Container>
       <Grid container width="100%" mt={2} spacing={2}>
-        <Grid size={size1_4}>
+        <Grid
+          size={size1_4}
+          sx={{ display: { lg: "block", md: "block", sm: "none", xs: "none" } }}
+        >
           <Stack spacing={4}>
             <Box>
               <Sidebar />

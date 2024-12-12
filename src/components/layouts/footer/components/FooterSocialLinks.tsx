@@ -4,7 +4,7 @@ import { Instagram, Google, Twitter, Facebook } from "@mui/icons-material";
 
 const FooterSocialLinks: FC = () => {
   return (
-    <div style={{ display: "flex", gap: "16px" }}>
+    <div style={{ display: "flex", gap: "16px", marginBottom: "20px" }}>
       <IconButton
         sx={{
           width: "24px",

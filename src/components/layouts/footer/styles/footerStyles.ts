@@ -12,10 +12,11 @@ export const footersubLogo = {
 
 export const footerTitle = {
   color: "#fff",
-  fontSize: "18px",
+  fontSize: { lg: "18px", md: "18px", sm: "16px", xs: "16px" },
   fontWeight: 700,
   lineHeight: "21px",
   position: "relative",
+  marginTop: { lg: 0, md: 0, sm: 4, xs: 4 },
 };
 
 export const underlineStyle = {
@@ -33,7 +34,7 @@ export const footerLinksStyle = {
   cursor: "pointer",
   fontWeight: 400,
   lineHeight: "29px",
-  marginBottom: "10px",
+  marginBottom: { lg: "10px", md: "10px", sm: "5px", xs: "5px" },
   "&:hover": {
     color: "#C3000E",
     textDecoration: "underline",

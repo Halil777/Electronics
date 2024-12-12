@@ -34,8 +34,19 @@ const WeeksGood: FC = () => {
     <Paper elevation={3} sx={{ padding: 3 }}>
       <Grid container>
         <Grid size={{ lg: 7, md: 7, sm: 12, xs: 12 }}>
-          <Stack direction="row" spacing={10}>
-            <Stack spacing={1}>
+          <Stack
+            direction={{ lg: "row", md: "row", sm: "column", xs: "column" }}
+            spacing={{ lg: 10, md: 10, sm: 1, xs: 1 }}
+          >
+            <Stack
+              direction={{
+                lg: "column",
+                md: "column",
+                sm: "row",
+                xs: "row",
+              }}
+              spacing={1}
+            >
               {smallImages.map((image, index) => (
                 <Box
                   key={index}
@@ -56,12 +67,20 @@ const WeeksGood: FC = () => {
               ))}
             </Stack>
             <Box sx={weeksGoodsBigImageBox}>
-              <img src={bigImage} style={{ width: "90%" }} alt="Big Image" />
+              <img
+                src={bigImage}
+                style={{ width: "90%", height: "100%", objectFit: "cover" }}
+                alt="Big Image"
+              />
             </Box>
           </Stack>
         </Grid>
         <Grid size={{ lg: 5, md: 5, sm: 12, xs: 12 }}>
-          <Stack spacing={2.5} minHeight="400px" justifyContent="center">
+          <Stack
+            spacing={{ lg: 2.5, md: 2, sm: 2, xs: 1 }}
+            minHeight={{ lg: "400px", md: "400px", sm: "300px", xs: "200px" }}
+            justifyContent="center"
+          >
             <Stack direction="row" alignItems="center" spacing={1}>
               <img src="./icons/lucide_crown.svg" alt="crown" />
               <Typography sx={weeksGoodTitle}>Товар недели</Typography>

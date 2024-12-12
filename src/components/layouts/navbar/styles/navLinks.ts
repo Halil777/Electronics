@@ -7,7 +7,7 @@ export const navLinks = {
     xl: "20px", // Extra large screens (large monitors)
   },
   fontWeight: 400,
-  color: "#fff",
+  color: "#2E2F38",
   lineHeight: "1.5",
   cursor: "pointer",
 };

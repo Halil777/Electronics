@@ -1,6 +1,6 @@
 export const weeksGoodsSmallImageBox = {
-  width: "95px",
-  height: "95px",
+  width: { lg: "95px", md: "95px", sm: "85px", xs: "75px" },
+  height: { lg: "95px", md: "95px", sm: "85px", xs: "75px" },
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -12,7 +12,7 @@ export const weeksGoodsSmallImageBox = {
 
 export const weeksGoodsBigImageBox = {
   width: "auto",
-  height: "400px",
+  height: { lg: "400px", md: "400px", sm: "200px", xs: "200px" },
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -54,9 +54,9 @@ export const weeksGoodBuyNowButton = {
   textTransform: "none",
   background: "#E0E0E0",
   color: "#2E2F38",
-  fontSize: "18px",
+  fontSize: { lg: "18px", md: "18px", sm: "16px", xs: "15px" },
   fontWeight: 700,
   borderRadius: "4px",
-  width: "242px",
-  height: "57px",
+  width: { lg: "242px", md: "242px", sm: "100%", xs: "100%" },
+  height: { lg: "57px", md: "55px", sm: "50px", xs: "40px" },
 };

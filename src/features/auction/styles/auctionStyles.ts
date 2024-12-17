@@ -8,7 +8,7 @@ export const auctionBox = {
     position: "absolute",
     top: 0,
     left: 0,
-    width: "33%", // Left side border width
+    width: { lg: "33%", md: "33%", sm: "23%", xs: "23%" }, // Left side border width
     height: "1px",
     background: "#C3000E", // Border color
   },
@@ -17,7 +17,7 @@ export const auctionBox = {
     position: "absolute",
     top: 0,
     right: 0,
-    width: "33%", // Right side border width
+    width: { lg: "33%", md: "33%", sm: "23%", xs: "23%" }, // Right side border width
     height: "1px",
     background: "#C3000E", // Border color
   },
@@ -77,19 +77,19 @@ export const auctionParticipateButton = {
 // Auction Details styles starts here ....................................
 export const auctionDetailProductTitle = {
   color: "#000",
-  fontSize: "20px",
+  fontSize: { lg: "20px", md: "20px", sm: "18px", xs: "16px" },
   fontWeight: 700,
 };
 
 export const auctionDetailProductSubtitle = {
-  fontSize: "20px",
+  fontSize: { lg: "20px", md: "20px", sm: "18px", xs: "16px" },
   fontWeight: 400,
 };
 
 export const auctionDetailDateBox = {
   background: "#2E2F38",
   color: "#fff",
-  fontSize: "46px",
+  fontSize: { lg: "38px", md: "36px", sm: "30px", xs: "26px" },
   fontWeight: 400,
   display: "flex",
   alignItems: "center",
@@ -97,8 +97,8 @@ export const auctionDetailDateBox = {
   borderRadius: "4px",
   border: "none",
   outline: "none",
-  width: "88px",
-  height: "88px",
+  width: { lg: "50px", md: "50px", sm: "48px", xs: "40px" },
+  height: { lg: "50px", md: "50px", sm: "48px", xs: "40px" },
 };
 
 export const auctionDetailCurrentSmallPicture = {
@@ -128,8 +128,8 @@ export const auctionDetailNextSmallPicture = {
 
 export const auctionDetailCurrentBigPicture = {
   width: "100%",
-  height: "446px",
-  padding: "20px",
+  height: { lg: "446px", md: "440px", sm: "346px", xs: "200px" },
+  padding: { lg: "120px", md: "100px", sm: "20px", xs: "10px" },
   borderRadius: "8px",
   display: "flex",
   alignItems: "center",
@@ -147,7 +147,7 @@ export const auctionSmallBox = {
     position: "absolute",
     top: 0,
     left: 0,
-    width: "25%", // Left side border width
+    width: { lg: "18%", md: "15%", sm: "12%", xs: "12%" }, // Left side border width
     height: "1px",
     background: "#C3000E", // Border color
   },
@@ -156,7 +156,7 @@ export const auctionSmallBox = {
     position: "absolute",
     top: 0,
     right: 0,
-    width: "25%", // Right side border width
+    width: { lg: "18%", md: "15%", sm: "12%", xs: "12%" }, // Right side border width
     height: "1px",
     background: "#C3000E", // Border color
   },
@@ -168,29 +168,29 @@ export const auctionDetailRecomendationTitle = {
 };
 
 export const auctionDetailIconButton = {
-  width: "40px",
-  height: "40px",
+  width: { lg: "35px", md: "30px", sm: "25px", xs: "20px" },
+  height: { lg: "35px", md: "30px", sm: "25px", xs: "20px" },
   borderRadius: "5px",
   border: "1px solid #2E2F38",
   opacity: 0.5,
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  fontSize: "24px",
+  fontSize: { lg: "20px", md: "20px", sm: "18px", xs: "16px" },
 };
 
 export const auctionDetailCost = {
-  fontSize: "40px",
+  fontSize: { lg: "35px", md: "35px", sm: "30px", xs: "20px" },
   fontWeight: 700,
 };
 
 export const auctionDetailRecomendationButton = {
   background: "#E0E0E0",
   textTransform: "none",
-  fontSize: "18px",
+  fontSize: { lg: "18px", md: "16px", sm: "16px", xs: "15px" },
   color: "#2E2F38",
   fontWeight: 700,
-  height: "53px",
+  height: { lg: "43px", md: "40px", sm: "35px", xs: "35px" },
   borderRadius: "6px",
 };
 

@@ -1,5 +1,19 @@
 {
-  "home": {
-    "home": "Glawnaya stranisa"
+  "navbar": {
+    "categories": "Категории",
+    "delivery": "Доставка",
+    "service": "Сервис",
+    "return_exchange": "Возврат и обмен",
+    "how_to_order": "Как заказать",
+    "embassy": "Посольство",
+    "auction": "Аукцион"
+  },
+
+  "header": {
+    "header_subtitle": "Электроника и бытовая техника",
+    "work_time": "Рабочие часы",
+    "work_hours": "Понедельник - Пятница: 09:00 - 18:00; Суббота: 09:00 - 13:00",
+    "address_title": "Наш адрес",
+    "our_address": "Ашхабад, Битарап Туркменистан Шоссе 183"
   }
 }

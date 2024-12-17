@@ -2,10 +2,12 @@ import { Stack, Typography } from "@mui/material";
 import { FC } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { navLinks } from "../styles/navLinks";
+import { useTranslation } from "react-i18next";
 
 const NavbarMenuLinks: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
 
   const isActiveLink = (path: string) => location.pathname === path;
 
@@ -22,31 +24,37 @@ const NavbarMenuLinks: FC = () => {
         onClick={() => navigate("/delivery")}
         sx={linkStyles(isActiveLink("/delivery"))}
       >
-        Eltip berme
+        {t("navbar.delivery")}
       </Typography>
       <Typography
         onClick={() => navigate("/service")}
         sx={linkStyles(isActiveLink("/service"))}
       >
-        Hyzmat
+        {t("navbar.service")}
       </Typography>
       <Typography
         onClick={() => navigate("/return-exchange")}
         sx={linkStyles(isActiveLink("/return-exchange"))}
       >
-        Çalyşmak we gaýtarmak
+        {t("navbar.return_exchange")}
       </Typography>
       <Typography
         onClick={() => navigate("/how-to-order")}
         sx={linkStyles(isActiveLink("/how-to-order"))}
       >
-        Nädip sargyt etmeli
+        {t("navbar.how_to_order")}
+      </Typography>
+      <Typography
+        onClick={() => navigate("/embassy")}
+        sx={linkStyles(isActiveLink("/embassy"))}
+      >
+        {t("navbar.embassy")}
       </Typography>
       <Typography
         onClick={() => navigate("/auction")}
         sx={linkStyles(isActiveLink("/auction"))}
       >
-        Auksion
+        {t("navbar.auction")}
       </Typography>
     </Stack>
   );

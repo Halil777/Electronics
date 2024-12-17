@@ -7,25 +7,32 @@ import {
   headerContactTitle,
   headerContacttitleContainer,
 } from "../styles/headerStyles";
+import { useTranslation } from "react-i18next";
 
 const HeaderContacts: FC = () => {
+  const { t } = useTranslation();
+
   return (
     <>
       <Box pl={3}>
         <Grid container width="100%" columnSpacing={1}>
           <Grid size={size4_8}>
             <Box sx={{ ...headerContacttitleContainer, alignItems: "start" }}>
-              <Typography sx={headerContactTitle}>Iş sagady</Typography>
+              <Typography sx={headerContactTitle}>
+                {t("header.work_time")}
+              </Typography>
               <Typography sx={headerContactSubTitle}>
-                Duşenbe - Anna: 09:00 - 18:00; Şenbe: 09:00 - 13:00
+                {t("header.work_hours")}
               </Typography>
             </Box>
           </Grid>
           <Grid size={size4_8}>
             <Box sx={{ ...headerContacttitleContainer, alignItems: "start" }}>
-              <Typography sx={headerContactTitle}>Adres</Typography>
+              <Typography sx={headerContactTitle}>
+                {t("header.address_title")}
+              </Typography>
               <Typography sx={headerContactSubTitle}>
-                Aşgabat, Bitarap Türkmenistan şaýoly 183
+                {t("header.our_address")}
               </Typography>
             </Box>
           </Grid>

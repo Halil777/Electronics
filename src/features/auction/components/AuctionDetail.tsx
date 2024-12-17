@@ -42,10 +42,16 @@ const AuctionDetail: FC = () => {
       <Container>
         <Typography sx={deliveryNavigateTitle}>Baş sahypa / Auksion</Typography>
         <Stack
-          direction="row"
-          alignItems="center"
+          direction={{ lg: "row", md: "row", sm: "column", xs: "column" }}
+          alignItems={{
+            lg: "center",
+            md: "center",
+            sm: "flex-start",
+            xs: "flex-start",
+          }}
           justifyContent="space-between"
           mt={3}
+          spacing={2}
         >
           <Stack spacing={1}>
             <Typography sx={auctionDetailProductTitle}>
@@ -61,26 +67,62 @@ const AuctionDetail: FC = () => {
           <Stack direction="row" spacing={1}>
             <Stack direction="row" spacing={1} alignItems="center">
               <Box sx={auctionDetailDateBox}>2</Box>
-              <Box sx={{ fontSize: "46px" }}>:</Box>
+              <Box
+                sx={{
+                  fontSize: { lg: "46px", md: "46px", sm: "40px", xs: "36px" },
+                }}
+              >
+                :
+              </Box>
             </Stack>
             <Stack direction="row" spacing={1} alignItems="center">
               <Box sx={auctionDetailDateBox}>12</Box>
-              <Box sx={{ fontSize: "46px" }}>:</Box>
+              <Box
+                sx={{
+                  fontSize: { lg: "46px", md: "46px", sm: "40px", xs: "36px" },
+                }}
+              >
+                :
+              </Box>
             </Stack>
             <Stack direction="row" spacing={1} alignItems="center">
               <Box sx={auctionDetailDateBox}>3</Box>
-              <Box sx={{ fontSize: "46px" }}>:</Box>
+              <Box
+                sx={{
+                  fontSize: { lg: "46px", md: "46px", sm: "40px", xs: "36px" },
+                }}
+              >
+                :
+              </Box>
             </Stack>
             <Stack direction="row" spacing={1} alignItems="center">
               <Box sx={auctionDetailDateBox}>45</Box>
             </Stack>
           </Stack>
         </Stack>
-        <Grid container my={5} spacing={2}>
-          <Grid size={{ lg: 7, md: 7, sm: 12, xs: 12 }}>
+        <Grid
+          container
+          my={5}
+          spacing={2}
+          direction={{
+            lg: "row",
+            md: "row",
+            sm: "column-reverse",
+            xs: "column-reverse",
+          }}
+        >
+          <Grid size={{ lg: 8, md: 8, sm: 12, xs: 12 }}>
             <Grid container spacing={2} mb={2}>
-              <Grid size={{ lg: 2, md: 2, sm: 6, xs: 12 }}>
-                <Stack spacing={1}>
+              <Grid size={{ lg: 2, md: 2, sm: 12, xs: 12 }}>
+                <Stack
+                  spacing={1}
+                  direction={{
+                    lg: "column",
+                    md: "column",
+                    sm: "row",
+                    xs: "row",
+                  }}
+                >
                   {smallImages.map((image, index) => (
                     <Box
                       key={index}
@@ -100,10 +142,14 @@ const AuctionDetail: FC = () => {
                   ))}
                 </Stack>
               </Grid>
-              <Grid size={{ lg: 10, md: 10, sm: 6, xs: 12 }}>
+              <Grid size={{ lg: 10, md: 10, sm: 12, xs: 12 }}>
                 <Box sx={auctionDetailCurrentBigPicture}>
                   <img
-                    style={{ width: "70%" }}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
                     src={currentBigImage}
                     alt="big"
                   />
@@ -112,7 +158,7 @@ const AuctionDetail: FC = () => {
             </Grid>
             <AuctionDetailProporties />
           </Grid>
-          <Grid size={{ lg: 5, md: 5, sm: 12, xs: 12 }}>
+          <Grid size={{ lg: 4, md: 4, sm: 12, xs: 12 }}>
             <Box sx={auctionSmallBox}>
               <Stack direction="row" justifyContent="center" mt={-4}>
                 <Typography sx={auctionDetailRecomendationTitle}>
@@ -127,11 +173,19 @@ const AuctionDetail: FC = () => {
                 my={3}
               >
                 <IconButton sx={auctionDetailIconButton}>
-                  <RemoveIcon />
+                  <RemoveIcon
+                    sx={{
+                      width: { lg: "20px", md: "20px", sm: "15px", xs: "10px" },
+                    }}
+                  />
                 </IconButton>
                 <Typography sx={auctionDetailCost}>5050</Typography>
                 <IconButton sx={auctionDetailIconButton}>
-                  <AddIcon />
+                  <AddIcon
+                    sx={{
+                      width: { lg: "20px", md: "20px", sm: "15px", xs: "10px" },
+                    }}
+                  />
                 </IconButton>
               </Stack>
               <Button

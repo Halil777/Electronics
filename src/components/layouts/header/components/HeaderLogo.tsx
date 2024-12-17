@@ -1,9 +1,11 @@
 import { Stack, Typography } from "@mui/material";
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 const HeaderLogo: FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -21,7 +23,7 @@ const HeaderLogo: FC = () => {
             width: "100%",
           }}
         >
-          Электроника и бытовая техника
+          {t("header.header_subtitle")}
         </Typography>
       </Stack>
     </>

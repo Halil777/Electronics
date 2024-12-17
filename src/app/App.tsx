@@ -4,40 +4,56 @@ import { Suspense, lazy } from "react";
 import ScrollToTop from "../utils/ScrollToTop ";
 
 const Home = lazy(() => import("../features/home/presentation/Home"));
+
 const Categories = lazy(
   () => import("../features/categories/presentation/Categories")
 );
+
 const Dashboard = lazy(
   () => import("../features/dashboard/presentation/Dashboard")
 );
+
 const Products = lazy(
   () => import("../features/products/presentation/Products")
 );
+
 const Users = lazy(() => import("../features/users/presentation/Users"));
+
 const Basket = lazy(() => import("../features/basket/presentation/Basket"));
+
 const Delivery = lazy(
   () => import("../features/delivery/presentation/Delivery")
 );
+
 const Auction = lazy(() => import("../features/auction/presentation/Auction"));
+
 const Service = lazy(() => import("../features/service/presentation/Service"));
+
 const ReturnExchange = lazy(
   () => import("../features/returnExchange/presentation/ReturnExchange")
 );
+
 const HowToOrder = lazy(
   () => import("../features/howToOrder/presentation/HowToOrder")
 );
+
 const AuctionDetail = lazy(
   () => import("../features/auction/components/AuctionDetail")
 );
+
 const CompleteOrder = lazy(
   () => import("../features/delivery/components/CompleteOrder")
 );
+
 const PresentCard = lazy(
   () => import("../features/presentCard/presentation/PresentCard")
 );
+
 const BuyPresentCard = lazy(
   () => import("../features/presentCard/components/BuyPresentCard")
 );
+
+const Embassy = lazy(() => import("../features/embassy/presentation/Embassy"));
 
 const App = () => {
   return (
@@ -52,6 +68,7 @@ const App = () => {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/product" element={<Products />} />
               <Route path="/users" element={<Users />} />
+              <Route path="/embassy" element={<Embassy />} />
               <Route path="/basket" element={<Basket />} />
               <Route path="/delivery" element={<Delivery />} />
               <Route path="/auction" element={<Auction />} />

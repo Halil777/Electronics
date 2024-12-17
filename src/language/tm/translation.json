@@ -1,5 +1,19 @@
 {
-  "home": {
-    "home": "Bas sahypa"
+  "navbar": {
+    "categories": "Kategoriyalar",
+    "delivery": "Eltip bermek",
+    "service": "Hyzmat",
+    "return_exchange": "Geri alş we çalyş",
+    "how_to_order": "Nädip sargyt bermeli",
+    "embassy": "Ilçihanalar",
+    "auction": "Auksion"
+  },
+
+  "header": {
+    "header_subtitle": "Elektronika we öý enjamlary",
+    "work_time": "Iş wagty",
+    "work_hours": "Duşenbe - Anna: 09:00 - 18:00; Şenbe: 09:00 - 13:00",
+    "address_title": "Salgymyz",
+    "our_address": "Aşgabat, Bitarap Türkmenistan şaýoly 183"
   }
 }

@@ -3,11 +3,13 @@ import { FC, useState } from "react";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { navLinks } from "../styles/navLinks";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const NavLinks: FC = () => {
   const [category, setCategory] = useState<string>("");
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
 
   const handleCategoryChange = (event: SelectChangeEvent<string>) => {
     setCategory(event.target.value);
@@ -45,9 +47,9 @@ const NavLinks: FC = () => {
         }}
       >
         <MenuItem value="" disabled>
-          Category
+          {t("navbar.categories")}
         </MenuItem>
-        <MenuItem onClick={() => navigate("/categories")} value="electronics">
+        <MenuItem onClick={() => navigate("/categories")} value="categories">
           Electronics
         </MenuItem>
         <MenuItem onClick={() => navigate("/categories")} value="fashion">
@@ -72,7 +74,7 @@ const NavLinks: FC = () => {
           fontWeight: isActiveLink("/delivery") ? 700 : 400,
         }}
       >
-        Eltip berme
+        {t("navbar.delivery")}
       </Typography>
       <Typography
         onClick={() => navigate("/service")}
@@ -81,7 +83,7 @@ const NavLinks: FC = () => {
           fontWeight: isActiveLink("/service") ? 700 : 400,
         }}
       >
-        Hyzmat
+        {t("navbar.service")}
       </Typography>
       <Typography
         onClick={() => navigate("/return-exchange")}
@@ -90,7 +92,7 @@ const NavLinks: FC = () => {
           fontWeight: isActiveLink("/return-exchange") ? 700 : 400,
         }}
       >
-        Çalyşmak we gaýtarmak
+        {t("navbar.return_exchange")}
       </Typography>
       <Typography
         onClick={() => navigate("/how-to-order")}
@@ -99,7 +101,16 @@ const NavLinks: FC = () => {
           fontWeight: isActiveLink("/how-to-order") ? 700 : 400,
         }}
       >
-        Nädip sargyt etmeli
+        {t("navbar.how_to_order")}
+      </Typography>
+      <Typography
+        onClick={() => navigate("/embassy")}
+        sx={{
+          ...navLinks,
+          fontWeight: isActiveLink("/embassy") ? 700 : 400,
+        }}
+      >
+        {t("navbar.embassy")}
       </Typography>
       <Typography
         onClick={() => navigate("/auction")}
@@ -108,7 +119,7 @@ const NavLinks: FC = () => {
           fontWeight: isActiveLink("/auction") ? 700 : 400,
         }}
       >
-        Auksion
+        {t("navbar.auction")}
       </Typography>
     </Stack>
   );

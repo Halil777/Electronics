@@ -29,7 +29,12 @@ const PresentHeader: FC = () => {
         />
       </Box>
       <Typography
-        sx={{ my: 3, fontSize: "26px", width: "60%", fontWeight: 700 }}
+        sx={{
+          my: 3,
+          fontSize: { lg: "26px", md: "24px", sm: "23px", xs: "20px" },
+          width: { lg: "60%", md: "60%", sm: "100%", xs: "100%" },
+          fontWeight: 700,
+        }}
       >
         Подарочный сертификать - лучщий подарок современному человеку
       </Typography>

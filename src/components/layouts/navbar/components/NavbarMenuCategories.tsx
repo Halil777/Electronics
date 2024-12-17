@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import { Box, Stack, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { useTranslation } from "react-i18next";
 
 // Example Data Structure
 const categoriesData = [
@@ -36,6 +37,7 @@ const NavbarMenuCategories: FC = () => {
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(
     {}
   );
+  const { t } = useTranslation();
 
   const toggleCategory = (name: string) => {
     setOpenCategories((prevState) => ({
@@ -123,7 +125,7 @@ const NavbarMenuCategories: FC = () => {
           height: "40px",
         }}
       >
-        <Typography>Kategoriyalar</Typography>
+        <Typography> {t("navbar.categories")}</Typography>
         <KeyboardArrowDownIcon
           sx={{
             transform: openCategories["root"]

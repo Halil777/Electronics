@@ -36,11 +36,11 @@ const PresentCardBox: FC = () => {
     <>
       <Grid container spacing={3}>
         {cardData.map((card) => (
-          <Grid key={card.id} size={{ lg: 3, md: 4, sm: 6, xs: 12 }}>
+          <Grid key={card.id} size={{ lg: 3, md: 4, sm: 6, xs: 6 }}>
             <Box>
               <Stack
                 direction="row"
-                height="230px"
+                height={{ lg: "230px", md: "230px", sm: "200px", xs: "100px" }}
                 width="100%"
                 justifyContent="center"
                 alignItems="center"
@@ -51,7 +51,14 @@ const PresentCardBox: FC = () => {
                   alt="present"
                 />
               </Stack>
-              <Typography mt={2}>{card.description}</Typography>
+              <Typography
+                sx={{
+                  fontSize: { lg: "16px", md: "16px", sm: "15px", xs: "14px" },
+                }}
+                mt={2}
+              >
+                {card.description}
+              </Typography>
             </Box>
           </Grid>
         ))}

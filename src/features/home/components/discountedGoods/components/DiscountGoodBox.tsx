@@ -32,7 +32,7 @@ const DiscountGoodBox: FC = () => {
         </Button>
       </Stack>
       <Grid container spacing={2} my={3}>
-        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 12 }}>
+        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 6 }}>
           <Box>
             <Stack direction="row">
               <Box sx={auctionTextBox}>Aksiya</Box>
@@ -79,7 +79,7 @@ const DiscountGoodBox: FC = () => {
               alignItems="center"
             >
               <Button sx={compareDiscountGoodsCostButton}>
-                <img src="./icons/compare.svg" alt="" /> Deňeşdirmek
+                <img src="./icons/compare.svg" alt="" /> Deňeşdir
               </Button>
               <Button
                 startIcon={
@@ -98,7 +98,7 @@ const DiscountGoodBox: FC = () => {
             </Stack>
           </Box>
         </Grid>
-        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 12 }}>
+        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 6 }}>
           <Box>
             <Stack direction="row">
               <Box sx={auctionTextBox}>Aksiya</Box>
@@ -145,7 +145,7 @@ const DiscountGoodBox: FC = () => {
               alignItems="center"
             >
               <Button sx={compareDiscountGoodsCostButton}>
-                <img src="./icons/compare.svg" alt="" /> Deňeşdirmek
+                <img src="./icons/compare.svg" alt="" /> Deňeşdir
               </Button>
               <Button
                 startIcon={
@@ -164,7 +164,7 @@ const DiscountGoodBox: FC = () => {
             </Stack>
           </Box>
         </Grid>
-        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 12 }}>
+        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 6 }}>
           <Box>
             <Stack direction="row">
               <Box sx={auctionTextBox}>Aksiya</Box>
@@ -211,7 +211,7 @@ const DiscountGoodBox: FC = () => {
               alignItems="center"
             >
               <Button sx={compareDiscountGoodsCostButton}>
-                <img src="./icons/compare.svg" alt="" /> Deňeşdirmek
+                <img src="./icons/compare.svg" alt="" /> Deňeşdir
               </Button>
               <Button
                 startIcon={
@@ -230,7 +230,7 @@ const DiscountGoodBox: FC = () => {
             </Stack>
           </Box>
         </Grid>
-        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 12 }}>
+        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 6 }}>
           <Box>
             <Stack direction="row">
               <Box sx={auctionTextBox}>Aksiya</Box>
@@ -277,7 +277,7 @@ const DiscountGoodBox: FC = () => {
               alignItems="center"
             >
               <Button sx={compareDiscountGoodsCostButton}>
-                <img src="./icons/compare.svg" alt="" /> Deňeşdirmek
+                <img src="./icons/compare.svg" alt="" /> Deňeşdir
               </Button>
               <Button
                 startIcon={

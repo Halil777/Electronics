@@ -1,132 +1,109 @@
-import React, { useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Thumbs } from "swiper/modules";
-
-import "swiper/css";
-import "swiper/css/thumbs";
+import React, { useRef, useState, useEffect } from "react";
+import Slider from "react-slick";
 import { Box } from "@mui/material";
+import axiosInstance from "../../../../../api/instance";
+
+// Slick settings
+const settings = {
+  dots: false,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 3000,
+  arrows: true,
+  nextArrow: <div className="swiper-button-next" />,
+  prevArrow: <div className="swiper-button-prev" />,
+};
 
 const BannerSwiper: React.FC = () => {
-  const galleryThumbs = useRef<any>(null); // Create a reference for thumbs swiper
+  const [banners, setBanners] = useState<string[]>([]); // State to store banner URLs
+  const mainSliderRef = useRef<Slider | null>(null); // Main slider reference
+  const thumbsSliderRef = useRef<Slider | null>(null); // Thumbnail slider reference
+
+  // Fetch banner images
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        const response = await axiosInstance.post("/banners/all");
+        if (response?.data && response?.data.banners) {
+          setBanners(
+            response?.data.banners.map(
+              (banner: { image: string }) => banner.image
+            )
+          );
+        }
+      } catch (error) {
+        console.error("Failed to fetch banners:", error);
+      }
+    };
+
+    fetchBanners();
+  }, []);
+
+  if (!banners.length) {
+    return <div>Loading...</div>; // Loading state
+  }
 
   return (
     <div>
-      {/* Главный слайдер */}
-      <Swiper
-        spaceBetween={10}
-        loop={true}
-        navigation={{
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        }}
-        thumbs={{ swiper: galleryThumbs.current }} // Reference to the thumbs swiper
-        modules={[Thumbs]}
-        className="gallery-top"
+      {/* Main Slider */}
+      <Slider
+        {...settings}
+        ref={mainSliderRef}
+        asNavFor={thumbsSliderRef.current || undefined} // Link with thumbnail slider
       >
-        <SwiperSlide>
-          <Box
-            sx={{
-              height: { lg: "380px", md: "380px", sm: "200px", xs: "200px" },
-            }}
-          >
-            <img
-              src="/images/banner1.png" // Make sure path is correct
-              alt="Banner 1"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
+        {banners?.map((image: string, index) => (
+          <div key={index}>
+            <Box
+              sx={{
+                height: { lg: "380px", md: "380px", sm: "200px", xs: "200px" },
               }}
-            />
-          </Box>
-        </SwiperSlide>
-        <SwiperSlide>
-          <Box
-            sx={{
-              height: { lg: "380px", md: "380px", sm: "200px", xs: "200px" },
-            }}
-          >
-            <img
-              src="/images/banner2.png" // Make sure path is correct
-              alt="Banner 2"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-              }}
-            />
-          </Box>
-        </SwiperSlide>
-        <SwiperSlide>
-          <Box
-            sx={{
-              height: { lg: "380px", md: "380px", sm: "200px", xs: "200px" },
-            }}
-          >
-            <img
-              src="/images/banner3.png" // Make sure path is correct
-              alt="Banner 3"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-              }}
-            />
-          </Box>
-        </SwiperSlide>
-        {/* Add more slides if needed */}
-      </Swiper>
+            >
+              <img
+                src={`${axiosInstance.defaults.baseURL}/${image}`} // Corrected URL
+                alt={`Banner ${index + 1}`}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+              />
+            </Box>
+          </div>
+        ))}
+      </Slider>
 
-      {/* Маленькие слайды */}
-      <Swiper
-        onSwiper={(swiper) => (galleryThumbs.current = swiper)} // Set the thumbs swiper reference
-        spaceBetween={10}
-        slidesPerView={2}
-        loop={true}
-        freeMode={true}
-        watchSlidesProgress={true}
-        modules={[Thumbs]}
+      {/* Thumbs Slider */}
+      <Slider
+        {...{
+          ...settings,
+          slidesToShow: 2, // Show 2 thumbnails
+          slidesToScroll: 1,
+          focusOnSelect: true, // Enable selecting thumbnails
+          asNavFor: mainSliderRef.current || undefined, // Link with main slider
+        }}
+        ref={thumbsSliderRef}
         className="gallery-thumbs-small"
       >
-        <SwiperSlide>
-          <img
-            src="/images/banner1.png" // Ensure correct path
-            alt="Banner 1 Thumb"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img
-            src="/images/banner2.png" // Ensure correct path
-            alt="Banner 2 Thumb"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img
-            src="/images/banner3.png" // Ensure correct path
-            alt="Banner 3 Thumb"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-          />
-        </SwiperSlide>
-        {/* Add more thumbnails as needed */}
-      </Swiper>
-
-      {/* Кнопки навигации */}
-      <div className="swiper-button-next swiper-button-white"></div>
-      <div className="swiper-button-prev swiper-button-white"></div>
+        {banners.map((image, index) => (
+          <div
+            key={`small_banners_image_key${index}`}
+            style={{ marginRight: "10px" }}
+          >
+            <img
+              src={`${axiosInstance.defaults.baseURL}/${image}`} // Corrected URL
+              alt={`Thumbnail ${index + 1}`}
+              style={{
+                width: "100%",
+                height: "180px",
+                objectFit: "cover",
+              }}
+            />
+          </div>
+        ))}
+      </Slider>
     </div>
   );
 };

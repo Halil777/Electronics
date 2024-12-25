@@ -4,6 +4,7 @@ import { SelectChangeEvent } from "@mui/material/Select";
 import { navLinks } from "../styles/navLinks";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import NavbarCategory from "./NavbarCategory";
 
 const NavLinks: FC = () => {
   const [category, setCategory] = useState<string>("");
@@ -25,7 +26,7 @@ const NavLinks: FC = () => {
       alignItems="center"
     >
       {/* Select for Categories */}
-      <Select
+      {/* <Select
         value={category}
         onChange={handleCategoryChange}
         displayEmpty
@@ -64,8 +65,8 @@ const NavLinks: FC = () => {
         <MenuItem onClick={() => navigate("/categories")} value="sports">
           Sports
         </MenuItem>
-      </Select>
-
+      </Select> */}
+      <NavbarCategory />
       {/* Navigation Links */}
       <Typography
         onClick={() => navigate("/delivery")}

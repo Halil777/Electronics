@@ -3,10 +3,11 @@ import useSWR from "swr";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export const useProduct = () => {
-  const { data, error, mutate } = useSWR(
-    "http://localhost:3000/products",
-    fetcher
-  );
+  // Get the base URL from Vite environment variables
+  const BASE_URL = import.meta.env.BASE_URL;
+
+  // Use the base URL to construct the API endpoint
+  const { data, error, mutate } = useSWR(`${BASE_URL}products`, fetcher);
 
   const getLastAddedProducts = (
     products: any[] | undefined,

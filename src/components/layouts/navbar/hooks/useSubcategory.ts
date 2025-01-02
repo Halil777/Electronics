@@ -1,10 +1,11 @@
 import useSWR, { mutate } from "swr";
+import { BASE_URL } from "../../../../api/instance";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export const useSubcategories = () => {
   const { data, error, isLoading } = useSWR(
-    "http://localhost:3000/subcategories",
+    `${BASE_URL}subcategories`,
     fetcher
   );
 

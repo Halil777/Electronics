@@ -48,7 +48,7 @@ const SidebarLinks: FC = () => {
     <>
       <Box
         sx={{
-          background: "#E0E0E0",
+          background: "#C3000E5C",
           height: "34px",
           p: "10px",
           display: "flex",

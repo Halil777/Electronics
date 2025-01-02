@@ -2,88 +2,49 @@ import { FC, useEffect, useState } from "react";
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Grid from "@mui/material/Grid2";
-import axios from "axios";
-
-interface Category {
-  id: string;
-  nameRu: string;
-}
-
-interface Subcategory {
-  id: string;
-  nameRu: string;
-  categoryId: string;
-}
+import { useCategories } from "../hooks/useCategory";
+import { useSubcategories } from "../hooks/useSubcategory";
+import { useSegment } from "../hooks/useSegment";
 
 const NavbarCategory: FC = () => {
+  const { categories, isLoading, isError } = useCategories();
+  const { segment: allSegments } = useSegment();
+  const { subcategories: allSubcategories, isError: subcategoriesError } =
+    useSubcategories();
+
   const [openCategories, setOpenCategories] = useState(false);
-  const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null
   );
-  const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
-  const [currentSubcategories, setCurrentSubcategories] = useState<
-    Subcategory[]
-  >([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  // Toggle categories dropdown
+  const [filteredSubcategories, setFilteredSubcategories] = useState<any[]>([]);
+
   const toggleCategories = () => setOpenCategories(!openCategories);
 
-  // Fetch categories on mount
+  const subcategories = subcategoriesError ? [] : allSubcategories || [];
   useEffect(() => {
-    const fetchCategories = async () => {
-      setLoading(true);
-      try {
-        const { data } = await axios.get(
-          "http://localhost:8654/categories/fetch/all"
-        );
-        setCategories(data.categories || []);
-      } catch (err: any) {
-        setError("Failed to load categories");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCategories();
-  }, []);
-
-  // Fetch subcategories for a given category ID
-  const fetchSubcategories = async (categoryId: string) => {
-    setLoading(true);
-    try {
-      const { data } = await axios.get(
-        `http://localhost:8654/subcategories/fetch/all?categoryId=${categoryId}`
+    if (subcategories && selectedCategoryId) {
+      setFilteredSubcategories(
+        subcategories.filter(
+          (sub: any) => sub.category_id === selectedCategoryId
+        )
       );
-      const filteredSubcategories = data.subCategories || [];
-      setSubcategories(filteredSubcategories);
-      setCurrentSubcategories(filteredSubcategories); // Store current subcategories
-    } catch (err: any) {
-      setError("Failed to load subcategories");
-    } finally {
-      setLoading(false);
+    } else {
+      setFilteredSubcategories([]);
     }
-  };
+  }, [selectedCategoryId, subcategories]);
 
-  // Handle category selection
-  const handleCategoryClick = async (categoryId: string) => {
-    if (categoryId === selectedCategoryId) {
+  const handleCategoryClick = (categoryId: string) => {
+    if (selectedCategoryId === categoryId) {
       setSelectedCategoryId(null);
-      setSubcategories([]);
-      setCurrentSubcategories([]);
-      return;
+    } else {
+      setSelectedCategoryId(categoryId);
     }
-
-    setSelectedCategoryId(categoryId);
-    await fetchSubcategories(categoryId);
   };
 
-  // Render loading state
-  if (loading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography>{error}</Typography>;
+  if (isLoading) return <Typography>Loading...</Typography>;
+  if (isError) return <Typography>Error fetching categories</Typography>;
 
-  const subcategoriesToRender = selectedCategoryId ? currentSubcategories : [];
   return (
     <Box>
       {/* Dropdown toggle */}
@@ -115,35 +76,89 @@ const NavbarCategory: FC = () => {
         >
           <Grid container spacing={3}>
             {/* Categories */}
-            <Grid item lg={3} md={3} sm={12} xs={12}>
+            <Grid size={{ lg: 3, md: 3, sm: 12, xs: 12 }}>
               <Stack spacing={2}>
-                {categories.map((category) => (
-                  <Typography
-                    key={category.id}
-                    onClick={() => handleCategoryClick(category.id)}
-                    sx={{
-                      cursor: "pointer",
-                      fontWeight:
-                        selectedCategoryId === category.id ? "bold" : "normal",
-                      color:
-                        selectedCategoryId === category.id ? "red" : "black",
-                    }}
-                  >
-                    {category.nameRu}
-                  </Typography>
+                {categories.map((category: any) => (
+                  <Stack key={category.id} direction={"row"} spacing={1}>
+                    {category.imageUrl ? (
+                      <img
+                        src={category.imageUrl}
+                        alt={category.title_tm}
+                        style={{ width: "40px", height: "30px" }}
+                      />
+                    ) : (
+                      <span className="text-sm text-gray-500">No Image</span>
+                    )}
+                    <Typography
+                      onMouseEnter={() => handleCategoryClick(category.id)}
+                      sx={{
+                        cursor: "pointer",
+                        fontWeight:
+                          selectedCategoryId === category.id
+                            ? "bold"
+                            : "normal",
+                        color:
+                          selectedCategoryId === category.id ? "red" : "black",
+                      }}
+                    >
+                      {category.title_tm}
+                    </Typography>
+                  </Stack>
                 ))}
               </Stack>
             </Grid>
 
             {/* Subcategories */}
-            <Grid item lg={9} md={9} sm={12} xs={12}>
+            <Grid size={{ lg: 9, md: 9 }}>
               <Grid container spacing={2}>
-                {subcategoriesToRender?.length > 0 ? (
-                  subcategoriesToRender.map((sub) => (
-                    <Grid item key={sub.id} lg={3} md={3} sm={6} xs={12}>
-                      <Typography>{sub.nameRu}</Typography>
-                    </Grid>
-                  ))
+                {filteredSubcategories.length > 0 ? (
+                  filteredSubcategories.map((sub: any) => {
+                    const filteredSegments = allSegments
+                      ? allSegments.filter(
+                          (seg: any) => seg.subcategory_id === sub.id
+                        )
+                      : [];
+                    return (
+                      <Grid key={sub.id} size={{ lg: 3, md: 3, sm: 6, xs: 12 }}>
+                        <Stack mb={2} direction={"row"} spacing={1}>
+                          {sub.imageUrl ? (
+                            <img
+                              src={sub.imageUrl}
+                              alt={sub.title_tm}
+                              style={{ width: "40px", height: "30px" }}
+                            />
+                          ) : (
+                            <span className="text-sm text-gray-500">
+                              No Image
+                            </span>
+                          )}
+                          <Typography
+                            sx={{
+                              cursor: "pointer",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {sub.title_tm}
+                          </Typography>
+                        </Stack>
+
+                        {filteredSegments.length > 0
+                          ? filteredSegments.map((seg: any) => (
+                              <Typography
+                                key={seg.id}
+                                sx={{
+                                  cursor: "pointer",
+                                  mb: 1,
+                                  paddingLeft: "5px",
+                                }}
+                              >
+                                {seg.title_tm}
+                              </Typography>
+                            ))
+                          : null}
+                      </Grid>
+                    );
+                  })
                 ) : selectedCategoryId ? (
                   <Typography>No subcategories available</Typography>
                 ) : null}

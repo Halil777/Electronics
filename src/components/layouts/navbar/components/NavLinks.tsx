@@ -1,21 +1,14 @@
-import { Stack, Typography, Select, MenuItem } from "@mui/material";
-import { FC, useState } from "react";
-import { SelectChangeEvent } from "@mui/material/Select";
+import { FC } from "react";
+import { Stack, Typography } from "@mui/material";
 import { navLinks } from "../styles/navLinks";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import NavbarCategory from "./NavbarCategory";
 
 const NavLinks: FC = () => {
-  const [category, setCategory] = useState<string>("");
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
-
-  const handleCategoryChange = (event: SelectChangeEvent<string>) => {
-    setCategory(event.target.value);
-    console.log("Selected Category:", event.target.value);
-  };
 
   const isActiveLink = (path: string) => location.pathname === path;
 
@@ -25,47 +18,6 @@ const NavLinks: FC = () => {
       spacing={2}
       alignItems="center"
     >
-      {/* Select for Categories */}
-      {/* <Select
-        value={category}
-        onChange={handleCategoryChange}
-        displayEmpty
-        disableUnderline
-        variant="standard"
-        sx={{
-          color: "#2E2F38",
-          "& .MuiSelect-select": {
-            display: "flex",
-            alignItems: "center",
-            paddingLeft: 1,
-          },
-          "& .MuiSvgIcon-root": {
-            color: "#2E2F38", // Change the arrow icon color to white
-          },
-          "& .MuiSelect-root": {
-            padding: 0,
-          },
-        }}
-      >
-        <MenuItem value="" disabled>
-          {t("navbar.categories")}
-        </MenuItem>
-        <MenuItem onClick={() => navigate("/categories")} value="categories">
-          Electronics
-        </MenuItem>
-        <MenuItem onClick={() => navigate("/categories")} value="fashion">
-          Fashion
-        </MenuItem>
-        <MenuItem onClick={() => navigate("/categories")} value="home">
-          Home
-        </MenuItem>
-        <MenuItem onClick={() => navigate("/categories")} value="beauty">
-          Beauty
-        </MenuItem>
-        <MenuItem onClick={() => navigate("/categories")} value="sports">
-          Sports
-        </MenuItem>
-      </Select> */}
       <NavbarCategory />
       {/* Navigation Links */}
       <Typography

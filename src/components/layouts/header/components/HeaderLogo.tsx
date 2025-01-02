@@ -11,9 +11,9 @@ const HeaderLogo: FC = () => {
     <>
       <Stack onClick={() => navigate("/")}>
         <img
-          src="./icons/logo.svg"
-          style={{ width: "199px", height: "28px", cursor: "pointer" }}
-          alt=""
+          src="./navbarIcons/logo.svg"
+          style={{ width: "137px", height: "28px", cursor: "pointer" }}
+          alt="header logo"
         />
         <Typography
           sx={{

@@ -9,9 +9,11 @@ import {
   lastAddedProductTitle,
   productContainerStyle,
 } from "../styles/lastAddedProductsStyle";
+import { useProduct } from "../../../../../hooks/products/useProduct";
 
 const LastProductsDetails: FC = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+  const { lastAddedProducts, isLoading } = useProduct();
 
   // Variants for the cards
   const cardVariants = {
@@ -19,54 +21,13 @@ const LastProductsDetails: FC = () => {
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
-      transition: { delay: i * 0.5, duration: 1.2 },
+      transition: { delay: i * 0.2, duration: 1 },
     }),
   };
 
-  const products = [
-    {
-      id: 1,
-      image: "./images/banner1.png",
-      title: "Kamera Xiaomi Mi Home Security (360° 1080P)",
-      company: "Mi",
-      cost: "1871,50 m.",
-    },
-    {
-      id: 2,
-      image: "./images/banner1.png",
-      title: "Kamera Xiaomi Mi Home Security (360° 1080P)",
-      company: "Mi",
-      cost: "1871,50 m.",
-    },
-    {
-      id: 2,
-      image: "./images/banner1.png",
-      title: "Kamera Xiaomi Mi Home Security (360° 1080P)",
-      company: "Mi",
-      cost: "1871,50 m.",
-    },
-    {
-      id: 2,
-      image: "./images/banner1.png",
-      title: "Kamera Xiaomi Mi Home Security (360° 1080P)",
-      company: "Mi",
-      cost: "1871,50 m.",
-    },
-    {
-      id: 2,
-      image: "./images/banner1.png",
-      title: "Kamera Xiaomi Mi Home Security (360° 1080P)",
-      company: "Mi",
-      cost: "1871,50 m.",
-    },
-    {
-      id: 2,
-      image: "./images/banner1.png",
-      title: "Kamera Xiaomi Mi Home Security (360° 1080P)",
-      company: "Mi",
-      cost: "1871,50 m.",
-    },
-  ];
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -84,7 +45,7 @@ const LastProductsDetails: FC = () => {
         <Typography>Soňky goşulanlar</Typography>
       </Box>
       <Stack p={2} spacing={1} ref={ref}>
-        {products.map((product, index) => (
+        {lastAddedProducts?.map((product, index) => (
           <motion.div
             key={product.id}
             custom={index}
@@ -96,24 +57,26 @@ const LastProductsDetails: FC = () => {
               <Stack direction="row" spacing={1}>
                 <Box sx={lastAddedProductsImageBox}>
                   <img
-                    src={product.image}
+                    src={product.images?.[0] || "./images/banner1.png"}
                     style={{
                       width: "50px",
                       height: "50px",
                       objectFit: "cover",
                     }}
-                    alt=""
+                    alt={product.title_en}
                   />
                 </Box>
                 <Stack spacing={0.6}>
                   <Typography sx={lastAddedProductTitle}>
-                    {product.title}
+                    {product.title_tm || product.title_ru || product.title_en}
                   </Typography>
                   <Typography sx={lastAddedProductCompanyName}>
-                    {product.company}
+                    {product.brand?.title_tm ||
+                      product.brand?.title_ru ||
+                      product.brand?.title_en}
                   </Typography>
                   <Typography sx={lastAddedProductCost}>
-                    {product.cost}
+                    {product.price} m.
                   </Typography>
                 </Stack>
               </Stack>

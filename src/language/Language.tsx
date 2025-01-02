@@ -32,14 +32,14 @@ const Language: FC = () => {
         disableUnderline
         variant="standard"
         sx={{
-          color: "#2E2F38",
+          color: "#fff",
           "& .MuiSelect-select": {
             display: "flex",
             alignItems: "center",
             paddingLeft: 1,
           },
           "& .MuiSvgIcon-root": {
-            color: "#2E2F38", // Change the arrow icon color to white
+            color: "#fff", // Change the arrow icon color to white
           },
           "& .MuiSelect-root": {
             padding: 0,

@@ -3,17 +3,17 @@ import { FC } from "react";
 import NavLinks from "../components/NavLinks";
 import NavbarRightSide from "../components/NavbarRightSide";
 import NavbarMenu from "../components/NavbarMenu";
-import NavbarSearch from "../../navbarSearch/navbarSearch";
+import NavbarSearch from "../../navbarSearch/NavbarSearch";
 
 const Navbar: FC = () => {
   return (
     <>
       <Box
         sx={{
-          background: "#CFD8DC",
+          background: "#B71C1C",
           height: "64px",
           display: { lg: "block", md: "block", sm: "none", xs: "none" },
-          color: "#2E2F38",
+          color: "#fff",
         }}
       >
         <Container>

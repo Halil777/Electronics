@@ -54,6 +54,7 @@ const BuyPresentCard = lazy(
 );
 
 const Embassy = lazy(() => import("../features/embassy/presentation/Embassy"));
+const Compare = lazy(() => import("../features/compare/presentation/Compare"));
 
 const App = () => {
   return (
@@ -79,6 +80,7 @@ const App = () => {
               <Route path="/complete-order" element={<CompleteOrder />} />
               <Route path="/present-card" element={<PresentCard />} />
               <Route path="/buy-present-card" element={<BuyPresentCard />} />
+              <Route path="/compare" element={<Compare />} />
             </Route>
           </Routes>
         </Suspense>

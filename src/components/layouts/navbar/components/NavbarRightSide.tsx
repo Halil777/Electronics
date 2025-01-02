@@ -20,33 +20,36 @@ const NavbarRightSide: FC = () => {
       ) : (
         <Stack direction="row" alignItems="center" spacing={2}>
           <img
-            src="./icons/search.svg"
+            src="./navbarIcons/search.svg"
             style={{ cursor: "pointer" }}
             alt="search"
             onClick={handleSearchToggle}
           />
+
           <img
-            onClick={() => navigate("/present-card")}
-            src="./icons/gift.svg"
-            style={{ cursor: "pointer" }}
-            alt="gift"
-          />
-          <img
-            src="./icons/people.svg"
+            src="./navbarIcons/profile.svg"
             alt="profile"
             style={{ cursor: "pointer" }}
             onClick={openDrawer}
           />
           <img
-            src="./icons/heart.svg"
+            src="./navbarIcons/mdi-light_heart.svg"
             style={{ cursor: "pointer" }}
             alt="heart"
           />
           <img
             onClick={() => navigate("/basket")}
-            src="./icons/shopping-card.svg"
+            src="./navbarIcons/iconamoon_shopping-card-light.svg"
             alt="basket"
             style={{ cursor: "pointer" }}
+          />
+
+          {/* where gift card route click */}
+          <img
+            onClick={() => navigate("/compare")}
+            src="./navbarIcons/compare.svg"
+            style={{ cursor: "pointer" }}
+            alt="gift"
           />
           <Language />
         </Stack>

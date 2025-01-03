@@ -21,16 +21,16 @@ const NavLinks: FC = () => {
       <NavbarCategory />
       {/* Navigation Links */}
       <Typography
-        onClick={() => navigate("/delivery")}
+        onClick={() => navigate("delivery")} // Relative path
         sx={{
           ...navLinks,
-          fontWeight: isActiveLink("/delivery") ? 700 : 400,
+          fontWeight: isActiveLink("delivery") ? 700 : 400,
         }}
       >
         {t("navbar.delivery")}
       </Typography>
       <Typography
-        onClick={() => navigate("/service")}
+        onClick={() => navigate("service")} // Relative path
         sx={{
           ...navLinks,
           fontWeight: isActiveLink("/service") ? 700 : 400,
@@ -39,7 +39,7 @@ const NavLinks: FC = () => {
         {t("navbar.service")}
       </Typography>
       <Typography
-        onClick={() => navigate("/return-exchange")}
+        onClick={() => navigate("/return-exchange")} // Absolute Path
         sx={{
           ...navLinks,
           fontWeight: isActiveLink("/return-exchange") ? 700 : 400,
@@ -48,7 +48,7 @@ const NavLinks: FC = () => {
         {t("navbar.return_exchange")}
       </Typography>
       <Typography
-        onClick={() => navigate("/how-to-order")}
+        onClick={() => navigate("/how-to-order")} // Absolute path
         sx={{
           ...navLinks,
           fontWeight: isActiveLink("/how-to-order") ? 700 : 400,
@@ -57,7 +57,7 @@ const NavLinks: FC = () => {
         {t("navbar.how_to_order")}
       </Typography>
       <Typography
-        onClick={() => navigate("/embassy")}
+        onClick={() => navigate("/embassy")} // Absolute path
         sx={{
           ...navLinks,
           fontWeight: isActiveLink("/embassy") ? 700 : 400,
@@ -66,7 +66,7 @@ const NavLinks: FC = () => {
         {t("navbar.embassy")}
       </Typography>
       <Typography
-        onClick={() => navigate("/auction")}
+        onClick={() => navigate("/auction")} // Absolute path
         sx={{
           ...navLinks,
           fontWeight: isActiveLink("/auction") ? 700 : 400,

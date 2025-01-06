@@ -8,8 +8,12 @@ import {
 import CategoryFilters from "../components/categoryFilters/CategoryFilters";
 import CategoryHeader from "../components/CategoryHeader";
 import CategoryProductsBox from "../components/categoryProducts/CategoryProductsBox";
+import { useLocation } from "react-router-dom";
 
 const Categories: FC = () => {
+  const location = useLocation();
+  const { category } = location.state || {};
+
   return (
     <>
       <Container>
@@ -19,7 +23,7 @@ const Categories: FC = () => {
             <CategoryFilters />
           </Grid>
           <Grid size={size4_1}>
-            <CategoryProductsBox />
+            <CategoryProductsBox category={category} />
           </Grid>
         </Grid>
       </Container>

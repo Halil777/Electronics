@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import Grid from "@mui/material/Grid2";
@@ -15,9 +15,16 @@ import {
   discountGoodTitle,
 } from "../../../home/components/discountedGoods/styles/discoutGoodsStyle";
 import { useNavigate } from "react-router-dom";
+import { useProduct } from "../../../../hooks/products/useProduct";
 
-const CategoryProductsBox: FC = () => {
+interface CategoryProductsBoxProps {
+  category: any;
+}
+
+const CategoryProductsBox: FC<CategoryProductsBoxProps> = ({ category }) => {
   const navigate = useNavigate();
+  const { products, isLoading, isError } = useProduct();
+  const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   // Intersection Observer for triggering animations
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -39,24 +46,26 @@ const CategoryProductsBox: FC = () => {
     }),
   };
 
-  const products = [
-    { id: 1, image: "./images/category1.png" },
-    { id: 2, image: "./images/category2.png" },
-    { id: 3, image: "./images/category3.png" },
-    { id: 4, image: "./images/category1.png" },
-    { id: 5, image: "./images/category2.png" },
-    { id: 6, image: "./images/category3.png" },
-    { id: 7, image: "./images/category1.png" },
-    { id: 8, image: "./images/category2.png" },
-    { id: 9, image: "./images/category3.png" },
-    { id: 10, image: "./images/category1.png" },
-    { id: 11, image: "./images/category2.png" },
-    { id: 12, image: "./images/category3.png" },
-  ];
+  useEffect(() => {
+    if (products && category) {
+      const filtered = products.filter(
+        (product: any) => product.category_id === category.id
+      );
+      setFilteredProducts(filtered);
+    }
+  }, [products, category]);
+
+  if (isLoading) {
+    return <Typography>Loading products...</Typography>;
+  }
+
+  if (isError) {
+    return <Typography color="error">Error loading products.</Typography>;
+  }
 
   return (
     <Grid container spacing={2} ref={ref}>
-      {products.map((product, index) => (
+      {filteredProducts.map((product: any, index) => (
         <Grid
           key={product.id}
           size={{ lg: 3, md: 4, sm: 6, xs: 12 }}
@@ -70,14 +79,14 @@ const CategoryProductsBox: FC = () => {
             <Stack direction="row" justifyContent="center">
               <img
                 onClick={() => navigate("/product")}
-                src={product.image}
+                src={product.images[0]}
                 style={{
                   width: "100%",
                   height: "200px",
                   objectFit: "cover",
                   cursor: "pointer",
                 }}
-                alt=""
+                alt={product.title}
               />
             </Stack>
             <Stack
@@ -85,22 +94,28 @@ const CategoryProductsBox: FC = () => {
               onClick={() => navigate("/product")}
               sx={{ cursor: "pointer" }}
             >
-              <Typography sx={discountGoodTitle}>
-                Kamera Xiaomi Mi Home Security (360° 1080P)
+              <Typography sx={discountGoodTitle} noWrap>
+                {product.title_en}
               </Typography>
-              <Typography sx={discountGoodCompanyTitle}>Mi</Typography>
+              <Typography sx={discountGoodCompanyTitle}>
+                {product.brand}
+              </Typography>
               <Stack direction="row" spacing={1} my={1}>
                 <Typography sx={discountGoodCodeText}>Haryt kody:</Typography>
-                <Typography sx={discountGoodCodeText}>177546</Typography>
+                <Typography sx={discountGoodCodeText}>
+                  {product.product_code}
+                </Typography>
               </Stack>
               <Stack
                 direction="row"
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Typography sx={discountGoodCost}>1.871,50 m.</Typography>
+                <Typography sx={discountGoodCost}>
+                  {product.price} m.
+                </Typography>
                 <Button variant="contained" sx={discountGoodLastCount}>
-                  Nagt 5
+                  Nagt {product.stock}
                 </Button>
               </Stack>
             </Stack>

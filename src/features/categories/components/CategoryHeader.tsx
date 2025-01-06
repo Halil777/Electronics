@@ -1,12 +1,29 @@
 import { FC } from "react";
 import { MenuItem, Select, Stack, Typography } from "@mui/material";
 import { deliveryNavigateTitle } from "../../delivery/styles/deliveryStyle";
+import { Link, useLocation } from "react-router-dom";
 
 const CategoryHeader: FC = () => {
+  const location = useLocation();
+  const { category } = location.state || {};
+
   return (
     <>
       <Typography sx={deliveryNavigateTitle} mt={5}>
-        Baş sahypa / Öý tehnikalary / Guradyjy we kir ýuwujy maşynlar
+        <Link to="/" style={{ textDecoration: "none", color: "#777777" }}>
+          Baş sahypa
+        </Link>
+        {category && (
+          <>
+            /{" "}
+            <Link
+              to="/categories"
+              style={{ textDecoration: "none", color: "#777777" }}
+            >
+              {category?.title_en}
+            </Link>
+          </>
+        )}
       </Typography>
       <Stack
         my={3}
@@ -15,7 +32,7 @@ const CategoryHeader: FC = () => {
         justifyContent="space-between"
       >
         <Typography sx={{ fontWeight: 600 }}>
-          Guradyjy we kir ýuwujy maşynlar
+          {category ? category?.title_en : "All Products"}
         </Typography>
         <Select
           displayEmpty

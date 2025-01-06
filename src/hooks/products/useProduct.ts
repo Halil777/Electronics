@@ -1,15 +1,15 @@
 import useSWR from "swr";
+import { BASE_URL } from "../../api/instance";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export const useProduct = () => {
-  // Get the base URL from Vite environment variables
-  const BASE_URL = import.meta.env.BASE_URL;
+export const useProduct = (limit: number = 1300) => {
+  const { data, error, mutate } = useSWR(
+    `${BASE_URL}products?limit=${limit}`,
+    fetcher
+  );
 
-  // Use the base URL to construct the API endpoint
-  const { data, error, mutate } = useSWR(`${BASE_URL}products`, fetcher);
-
-  const getLastAddedProducts = (
+  const getLastAddedDiscountedProducts = (
     products: any[] | undefined,
     limit: number
   ): any[] => {
@@ -24,13 +24,20 @@ export const useProduct = () => {
       );
     });
 
+    const discountedProducts = sortedProducts.filter(
+      (product: any) => product.discount_percentage > 0
+    );
+
     // Return the first 'limit' number of products
-    return sortedProducts.slice(0, limit);
+    return discountedProducts.slice(0, limit);
   };
 
   return {
     products: data?.data,
-    lastAddedProducts: data?.data ? getLastAddedProducts(data.data, 6) : [],
+    totalProducts: data?.total, // Assuming the backend includes a total count
+    lastAddedDiscountedProducts: data?.data
+      ? getLastAddedDiscountedProducts(data.data, 4)
+      : [],
     isLoading: !error && !data,
     isError: error,
     mutate,

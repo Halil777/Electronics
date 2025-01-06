@@ -3,6 +3,7 @@ import { FC, useState } from "react";
 import { sideLinkBox, sidelinkImageBox } from "./sidelinksStyle";
 import { useCategories } from "../../../../../hooks/category/useCategory";
 import { useSubcategories } from "../../../../../hooks/subcategry/useSubcategory";
+import { useNavigate } from "react-router-dom";
 
 const SidebarLinks: FC = () => {
   const { categories, isLoading: isCategoriesLoading } = useCategories();
@@ -10,9 +11,18 @@ const SidebarLinks: FC = () => {
     useSubcategories();
 
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
+  const navigate = useNavigate();
 
-  const handleCategoryClick = (categoryId: number) => {
-    setExpandedCategory(expandedCategory === categoryId ? null : categoryId);
+  const handleCategoryMouseEnter = (categoryId: number) => {
+    setExpandedCategory(categoryId);
+  };
+
+  // const handleCategoryMouseLeave = () => {
+  //   setExpandedCategory(null);
+  // };
+
+  const handleCategoryClick = (category: any) => {
+    navigate(`/categories`, { state: { category } });
   };
 
   if (isCategoriesLoading)
@@ -28,9 +38,9 @@ const SidebarLinks: FC = () => {
         sx={{
           height: "50vh",
           overflowY: "auto",
-          scrollbarWidth: "none", // For Firefox
+          scrollbarWidth: "none",
           "&::-webkit-scrollbar": {
-            display: "none", // For Chrome, Safari, and Edge
+            display: "none",
           },
         }}
       >
@@ -50,7 +60,9 @@ const SidebarLinks: FC = () => {
                 borderRadius: "4px",
                 transition: "background-color 0.3s ease",
               }}
-              onClick={() => handleCategoryClick(category.id)}
+              onMouseEnter={() => handleCategoryMouseEnter(category.id)}
+              // onMouseLeave={handleCategoryMouseLeave}
+              onClick={() => handleCategoryClick(category)}
             >
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Box sx={sidelinkImageBox}>

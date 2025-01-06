@@ -1,10 +1,38 @@
 @import "slick-carousel/slick/slick.css";
 @import "slick-carousel/slick/slick-theme.css";
 
+/* Import Open Sans font */
+@font-face {
+  font-family: "Open Sans";
+  src: url("/fonts/Open_Sans/static/OpenSans-Regular.ttf") format("truetype");
+  font-weight: 400; /* Regular */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("/fonts/Open_Sans/static/OpenSans-Medium.ttf") format("truetype");
+  font-weight: 500; /* Medium */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("/fonts/Open_Sans/static/OpenSans-Bold.ttf") format("truetype");
+  font-weight: 700; /* Bold */
+  font-style: normal;
+}
+
+/* Reset and global styles */
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+}
+
+/* Apply Open Sans globally */
+body {
+  font-family: "Open Sans", sans-serif;
 }
 
 .swiper {

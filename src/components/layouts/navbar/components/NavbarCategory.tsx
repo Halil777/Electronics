@@ -1,10 +1,10 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useRef } from "react";
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Grid from "@mui/material/Grid2";
-import { useCategories } from "../hooks/useCategory";
-import { useSubcategories } from "../hooks/useSubcategory";
-import { useSegment } from "../hooks/useSegment";
+import { useCategories } from "../../../../hooks/category/useCategory";
+import { useSubcategories } from "../../../../hooks/subcategry/useSubcategory";
+import { useSegment } from "../../../../hooks/segment/useSegment";
 
 const NavbarCategory: FC = () => {
   const { categories, isLoading, isError } = useCategories();
@@ -18,10 +18,11 @@ const NavbarCategory: FC = () => {
   );
 
   const [filteredSubcategories, setFilteredSubcategories] = useState<any[]>([]);
-
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const toggleCategories = () => setOpenCategories(!openCategories);
 
   const subcategories = subcategoriesError ? [] : allSubcategories || [];
+
   useEffect(() => {
     if (subcategories && selectedCategoryId) {
       setFilteredSubcategories(
@@ -41,6 +42,23 @@ const NavbarCategory: FC = () => {
       setSelectedCategoryId(categoryId);
     }
   };
+  //close dropdown when click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpenCategories(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   if (isLoading) return <Typography>Loading...</Typography>;
   if (isError) return <Typography>Error fetching categories</Typography>;
@@ -73,6 +91,7 @@ const NavbarCategory: FC = () => {
             zIndex: 1000,
             p: 2,
           }}
+          ref={dropdownRef}
         >
           <Grid container spacing={3}>
             {/* Categories */}
@@ -87,7 +106,7 @@ const NavbarCategory: FC = () => {
                         style={{ width: "40px", height: "30px" }}
                       />
                     ) : (
-                      <span className="text-sm text-gray-500">No Image</span>
+                      <span>No Image</span>
                     )}
                     <Typography
                       onMouseEnter={() => handleCategoryClick(category.id)}
@@ -121,21 +140,22 @@ const NavbarCategory: FC = () => {
                     return (
                       <Grid key={sub.id} size={{ lg: 3, md: 3, sm: 6, xs: 12 }}>
                         <Stack mb={2} direction={"row"} spacing={1}>
-                          {sub.imageUrl ? (
-                            <img
-                              src={sub.imageUrl}
-                              alt={sub.title_tm}
-                              style={{ width: "40px", height: "30px" }}
-                            />
-                          ) : (
-                            <span className="text-sm text-gray-500">
-                              No Image
-                            </span>
-                          )}
+                          {/* {sub.imageUrl ? (
+                             <img
+                               src={sub.imageUrl}
+                               alt={sub.title_tm}
+                               style={{ width: "40px", height: "30px" }}
+                             />
+                           ) : (
+                             <span className="text-sm text-gray-500">
+                               No Image
+                             </span>
+                           )} */}
                           <Typography
                             sx={{
                               cursor: "pointer",
-                              fontWeight: "bold",
+                              fontSize: "14px",
+                              fontWeight: "600",
                             }}
                           >
                             {sub.title_tm}
@@ -150,6 +170,7 @@ const NavbarCategory: FC = () => {
                                   cursor: "pointer",
                                   mb: 1,
                                   paddingLeft: "5px",
+                                  fontSize: "14px",
                                 }}
                               >
                                 {seg.title_tm}

@@ -21,16 +21,16 @@ const NavLinks: FC = () => {
       <NavbarCategory />
       {/* Navigation Links */}
       <Typography
-        onClick={() => navigate("delivery")} // Relative path
+        onClick={() => navigate("/delivery")} // Relative path
         sx={{
           ...navLinks,
-          fontWeight: isActiveLink("delivery") ? 700 : 400,
+          fontWeight: isActiveLink("/delivery") ? 700 : 400,
         }}
       >
         {t("navbar.delivery")}
       </Typography>
       <Typography
-        onClick={() => navigate("service")} // Relative path
+        onClick={() => navigate("/service")} // Relative path
         sx={{
           ...navLinks,
           fontWeight: isActiveLink("/service") ? 700 : 400,

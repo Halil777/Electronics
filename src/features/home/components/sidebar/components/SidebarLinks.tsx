@@ -1,113 +1,136 @@
-import {
-  Select,
-  MenuItem,
-  Typography,
-  Box,
-  Stack,
-  FormControl,
-} from "@mui/material";
+import { Box, Paper, Stack, Typography, Collapse } from "@mui/material";
 import { FC, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { SelectChangeEvent } from "@mui/material";
+import { sideLinkBox, sidelinkImageBox } from "./sidelinksStyle";
+import { useCategories } from "../../../../../hooks/category/useCategory";
+import { useSubcategories } from "../../../../../hooks/subcategry/useSubcategory";
 
 const SidebarLinks: FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [selectedSubcategory, setSelectedSubcategory] = useState<string>("");
-  const navigate = useNavigate();
+  const { categories, isLoading: isCategoriesLoading } = useCategories();
+  const { subcategories, isLoading: isSubcategoriesLoading } =
+    useSubcategories();
 
-  const handleCategoryChange = (event: SelectChangeEvent<string>) => {
-    setSelectedCategory(event.target.value);
+  const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
+
+  const handleCategoryClick = (categoryId: number) => {
+    setExpandedCategory(expandedCategory === categoryId ? null : categoryId);
   };
 
-  const handleSubcategoryChange = (event: SelectChangeEvent<string>) => {
-    const subcategory = event.target.value;
-    setSelectedSubcategory(subcategory);
-    console.log(selectedSubcategory);
-    navigate(`/categories`);
-  };
-
-  const categories = {
-    electronics: {
-      image: "./images/pic1.png",
-      name: "TV we multimediýa",
-      subcategories: ["Laptops", "Phones", "TVs"],
-    },
-    fashion: {
-      image: "./images/pic1.png",
-      name: "Fashion",
-      subcategories: ["Shirts", "Jeans", "Shoes"],
-    },
-    home: {
-      image: "./images/pic1.png",
-      name: "Home",
-      subcategories: ["Furniture", "Kitchenware", "Decor"],
-    },
-  };
+  if (isCategoriesLoading)
+    return <Typography>Loading categories...</Typography>;
+  if (!categories) return <Typography>No categories found</Typography>;
 
   return (
     <>
+      <Paper elevation={2} sx={sideLinkBox}>
+        <Typography sx={{ fontWeight: 700 }}>Kategoriýa</Typography>
+      </Paper>
       <Box
         sx={{
-          background: "#C3000E5C",
-          height: "34px",
-          p: "10px",
-          display: "flex",
-          alignItems: "center",
-          color: "#2E2F38",
+          height: "50vh",
+          overflowY: "auto",
+          scrollbarWidth: "none", // For Firefox
+          "&::-webkit-scrollbar": {
+            display: "none", // For Chrome, Safari, and Edge
+          },
         }}
       >
-        <Typography>Kategoriýa</Typography>
-      </Box>
-
-      {Object.entries(categories).map(
-        ([key, { image, name, subcategories }]) => (
-          <Box key={key} sx={{ mb: 2 }}>
-            {/* Category Select */}
-            <FormControl fullWidth>
-              <Select
-                value={selectedCategory === name ? name : ""}
-                onChange={handleCategoryChange}
-                renderValue={() => (
-                  <Stack direction="row" alignItems="center" spacing={2}>
-                    <img
-                      src={image}
-                      alt={name}
-                      style={{ width: 24, height: 24 }}
-                    />
-                    <Typography>{name}</Typography>
-                  </Stack>
-                )}
-                displayEmpty
-                sx={{
-                  border: "none",
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    border: "none",
-                  },
-                  "& .MuiSelect-select": {
-                    display: "flex",
-                    alignItems: "center",
-                  },
+        {categories.map((category: any) => (
+          <div key={category.id}>
+            <Stack
+              direction="row"
+              justifyContent={"space-between"}
+              alignItems={"center"}
+              width="100%"
+              sx={{
+                cursor: "pointer",
+                mb: 2,
+                padding: "8px",
+                backgroundColor:
+                  expandedCategory === category.id ? "#f5f5f5" : "transparent",
+                borderRadius: "4px",
+                transition: "background-color 0.3s ease",
+              }}
+              onClick={() => handleCategoryClick(category.id)}
+            >
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <Box sx={sidelinkImageBox}>
+                  <img
+                    src={category.imageUrl || "./images/banner1.png"}
+                    alt={category.title_en}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </Box>
+                <Typography>{category.title_en}</Typography>
+              </Stack>
+              <img
+                src="./icons/arrow.svg"
+                alt="arrow"
+                style={{
+                  transform:
+                    expandedCategory === category.id
+                      ? "rotate(180deg)"
+                      : "rotate(0deg)",
+                  transition: "transform 0.3s ease",
                 }}
-              >
-                {/* Subcategories */}
-                {subcategories.map((subcategory, index) => (
-                  <MenuItem
-                    key={index}
-                    value={subcategory}
-                    onClick={() =>
-                      handleSubcategoryChange({
-                        target: { value: subcategory },
-                      } as SelectChangeEvent<string>)
-                    }
-                  >
-                    {subcategory}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
-        )
-      )}
+              />
+            </Stack>
+            <Collapse
+              in={expandedCategory === category.id}
+              timeout="auto"
+              unmountOnExit
+            >
+              <Stack spacing={1} mt={1} pl={2}>
+                {isSubcategoriesLoading ? (
+                  <Typography>Loading subcategories...</Typography>
+                ) : (
+                  subcategories
+                    ?.filter((sub: any) => sub.category_id === category.id)
+                    .map((sub: any) => (
+                      <Stack
+                        key={sub.id}
+                        direction="row"
+                        spacing={1}
+                        alignItems="center"
+                        sx={{
+                          padding: "6px",
+                          borderRadius: "4px",
+                          backgroundColor: "#e0f7fa",
+                          transition: "background-color 0.3s ease",
+                          "&:hover": {
+                            backgroundColor: "#b2ebf2",
+                          },
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            ...sidelinkImageBox,
+                            width: 30,
+                            height: 30,
+                          }}
+                        >
+                          <img
+                            src={sub.imageUrl || "./images/banner1.png"}
+                            alt={sub.title_en}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </Box>
+                        <Typography>{sub.title_en}</Typography>
+                      </Stack>
+                    ))
+                )}
+              </Stack>
+            </Collapse>
+          </div>
+        ))}
+      </Box>
     </>
   );
 };

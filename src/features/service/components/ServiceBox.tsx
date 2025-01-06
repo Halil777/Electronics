@@ -1,5 +1,8 @@
 import { FC } from "react";
 import { Box, Container, Typography } from "@mui/material";
+import useSWR, { BareFetcher } from "swr";
+import { BASE_URL } from "../../../api/instance";
+import { useTranslation } from "react-i18next";
 import {
   deliveryDescriptionText,
   deliveryNavigateTitle,
@@ -7,44 +10,48 @@ import {
   deliveryUnderlineTSyle,
 } from "../../delivery/styles/deliveryStyle";
 
+const fetcher: BareFetcher<any> = (url: string) =>
+  fetch(url).then((res) => res.json());
+
 const ServiceBox: FC = () => {
+  const { t, i18n } = useTranslation();
+  const { data, error, isLoading } = useSWR(() => {
+    return `${BASE_URL}service-rule`;
+  }, fetcher);
+
+  const titleKey = `title_${i18n.language}`;
+  const descriptionKey = `desc_${i18n.language}`;
+
+  if (isLoading) {
+    return <Typography sx={deliveryDescriptionText}>{t("loading")}</Typography>;
+  }
+
+  if (error) {
+    return <Typography sx={deliveryDescriptionText}>{t("error")}</Typography>;
+  }
+
+  if (!data || !data[0]) {
+    return <Typography sx={deliveryDescriptionText}>{t("noData")}</Typography>;
+  }
+
+  const rule = data[0];
+
   return (
     <>
       <Container>
         <Typography sx={deliveryNavigateTitle}>Baş sahypa / Hyzmat</Typography>
         <Box>
-          <Typography sx={deliveryTitle}>Hyzmat merkezi</Typography>
+          <Typography sx={deliveryTitle}>
+            {rule[titleKey] || rule.title_en || "Default Title"}
+          </Typography>
           <Box sx={deliveryUnderlineTSyle}></Box>
         </Box>
-        <Typography sx={deliveryDescriptionText}>
-          Biziň onlaýn dükanymyz, bizden satyn alnan islendik haryda özüniň
-          eltip berme hyzmatyny hödürleýär. <br /> Eger-de Siz biziň eltip berme
-          hyzmatymyzdan peýdalanmak kararyna gelseňiz – harytlary eltmegiň we
-          gowşurmagyň şertleri bilen tanyşmagyňyzy haýyş edýäris: <br /> Bahasy
-          150 TMT ýokary ähli sargytlar eltip bermesi mugt amala aşyrylýar! 150
-          TMT ýetmedik sargyt gowşurmagyň bahasy 20 TMT. <br /> Tizligi sargyt
-          berlen pursadyndan 2 sagadyň dowamynda amala aşyrylýan "Ekspress eltip
-          berme" hyzmatyny ulanyp bilersiňiz. Harytlaryň görnüşine garamazdan
-          "Express eltip berme" hyzmatynyň bahasy 20 TMT bolar <br />{" "}
-          Sargytlaryň kabul edilýän wagty: <br /> Duşenbe - Anna: 09:00 - 18:00{" "}
-          <br /> Şenbe: 09:00 - 13:00 <br />
-          Eltip bermegiň tizligi: <br /> “Standart gowşuryş” 16:00-dan öň sargyt
-          edilse şol gün amala aşyrylýar. Sagat 16:00-dan soň edilen sargytlar
-          ertesi güne geçirilýär. <br /> Haryt Siz bilen ylalaşylan günde we
-          Size amatly wagtda gowşurylar <br /> Haryt Siz tarapyndan görkezilen
-          salga eltip beriler <br /> Size gowşurylýan harytlary barlanyňyzda üns
-          beriň! <br /> Görünýän mehaniki zeperleriň ýokdugyna we toplumyň içine
-          girýän zatlaryň hemmesiniň ýerbe-ýerdigine göz ýetiriň. <br /> Harydyň
-          daş görnüşinde kemçilik ýoklugy, toplumda ähli zatlaryň ýerbe-ýerdigi
-          we resminamalaryň bardygy, harydy gowşuryş
-          zaýawkasyndaky/resminamasynda Siziň goluňyz bilen tassyklanýar we
-          eltip berilen haryda Siziň hiç hili arz-şikaýatyňyz ýoklugynyň
-          subutnamasy bolup durýar. Eger-de getirilen harydyň zeperi bar bolsa,
-          ony kabul etmezlige Siziň hakyňyz bar. <br /> Türkmenistanyň “Sarp
-          ediji hukuklaryny goramak” kanunyna laýyklykda, satyn alnan harytlary
-          kanunlarda göz öňünde tutulan möhletlerde çalyşyp ýa-da gaýtaryp
-          bilersiňiz.
-        </Typography>
+        <Typography
+          sx={deliveryDescriptionText}
+          dangerouslySetInnerHTML={{
+            __html: rule[descriptionKey] || rule.desc_en || "",
+          }}
+        />
       </Container>
     </>
   );

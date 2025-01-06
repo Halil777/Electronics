@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "../components/layouts/Layout";
 import { Suspense, lazy } from "react";
-import ScrollToTop from "../utils/ScrollToTop ";
+import ScrollToTop from "../language/utils/ScrollToTop ";
 
 const Home = lazy(() => import("../features/home/presentation/Home"));
 

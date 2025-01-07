@@ -33,25 +33,32 @@ const BannerSwiper: React.FC = () => {
         ref={mainSliderRef}
         asNavFor={thumbsSliderRef.current || undefined} // Link with thumbnail slider
       >
-        {banners.map((banner: { imageUrl: string }, index: number) => (
-          <div key={index}>
-            <Box
-              sx={{
-                height: { lg: "380px", md: "380px", sm: "200px", xs: "200px" },
-              }}
-            >
-              <img
-                src={banner.imageUrl}
-                alt={`Banner ${index + 1}`}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
-            </Box>
-          </div>
-        ))}
+        {banners && Array.isArray(banners)
+          ? banners?.map((banner: { imageUrl: string }, index: number) => (
+              <div key={index}>
+                <Box
+                  sx={{
+                    height: {
+                      lg: "380px",
+                      md: "380px",
+                      sm: "200px",
+                      xs: "200px",
+                    },
+                  }}
+                >
+                  <img
+                    src={banner.imageUrl}
+                    alt={`Banner ${index + 1}`}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </Box>
+              </div>
+            ))
+          : null}
       </Slider>
 
       {/* Thumbs Slider */}
@@ -66,22 +73,24 @@ const BannerSwiper: React.FC = () => {
         ref={thumbsSliderRef}
         className="gallery-thumbs-small"
       >
-        {banners.map((banner: { imageUrl: string }, index: number) => (
-          <div
-            key={`small_banners_image_key${index}`}
-            style={{ marginRight: "10px" }}
-          >
-            <img
-              src={banner.imageUrl}
-              alt={`Thumbnail ${index + 1}`}
-              style={{
-                width: "100%",
-                height: "180px",
-                objectFit: "cover",
-              }}
-            />
-          </div>
-        ))}
+        {banners && Array.isArray(banners)
+          ? banners?.map((banner: { imageUrl: string }, index: number) => (
+              <div
+                key={`small_banners_image_key${index}`}
+                style={{ marginRight: "10px" }}
+              >
+                <img
+                  src={banner.imageUrl}
+                  alt={`Thumbnail ${index + 1}`}
+                  style={{
+                    width: "100%",
+                    height: "180px",
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+            ))
+          : null}
       </Slider>
     </div>
   );

@@ -13,7 +13,7 @@ import { useProduct } from "../../../../../hooks/products/useProduct";
 
 const LastProductsDetails: FC = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
-  const { lastAddedProducts, isLoading } = useProduct();
+  const { lastAddedDiscountedProducts, isLoading } = useProduct();
 
   // Variants for the cards
   const cardVariants = {
@@ -45,7 +45,7 @@ const LastProductsDetails: FC = () => {
         <Typography>Soňky goşulanlar</Typography>
       </Box>
       <Stack p={2} spacing={1} ref={ref}>
-        {lastAddedProducts?.map((product, index) => (
+        {lastAddedDiscountedProducts?.map((product, index) => (
           <motion.div
             key={product.id}
             custom={index}

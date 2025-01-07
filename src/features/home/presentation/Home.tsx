@@ -46,10 +46,10 @@ const Home: FC = () => {
             <DiscountedGoods />
           </Box>
           <Box my={3}>
-            <GoodOfWeek />
+            <OfferedGoods />
           </Box>
           <Box my={3}>
-            <OfferedGoods />
+            <GoodOfWeek />
           </Box>
           <Box my={3}>
             <OurPartners />

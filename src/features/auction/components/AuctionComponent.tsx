@@ -1,13 +1,30 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
+import { Box, Container, Stack, Typography, Link } from "@mui/material";
 import { FC } from "react";
 import { deliveryNavigateTitle } from "../../delivery/styles/deliveryStyle";
 import { auctionBox } from "../styles/auctionStyles";
 import AuctionCard from "./AuctionCard";
+import { Link as RouterLink } from "react-router-dom"; // Importing RouterLink for navigation
 
 const AuctionComponent: FC = () => {
   return (
     <Container>
-      <Typography sx={deliveryNavigateTitle}>Baş sahypa / Auksion</Typography>
+      <Typography sx={deliveryNavigateTitle}>
+        <Link
+          component={RouterLink}
+          to="/"
+          sx={{ textDecoration: "none", color: "inherit" }}
+        >
+          Baş sahypa
+        </Link>{" "}
+        /{" "}
+        <Link
+          component={RouterLink}
+          to="/auction"
+          sx={{ textDecoration: "none", color: "inherit" }}
+        >
+          Auksion
+        </Link>
+      </Typography>
       <Box sx={auctionBox}>
         <Box
           sx={{

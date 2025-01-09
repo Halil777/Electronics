@@ -17,12 +17,16 @@ const SidebarLinks: FC = () => {
     setExpandedCategory(categoryId);
   };
 
-  // const handleCategoryMouseLeave = () => {
-  //   setExpandedCategory(null);
-  // };
+  const handleCategoryMouseLeave = () => {
+    setExpandedCategory(null);
+  };
 
   const handleCategoryClick = (category: any) => {
-    navigate(`/categories`, { state: { category } });
+    navigate(`/categories/${category.id}`, { state: { category } });
+  };
+
+  const handleSubcategoryClick = (subcategory: any) => {
+    navigate(`/subcategories/${subcategory.id}`, { state: { subcategory } });
   };
 
   if (isCategoriesLoading)
@@ -30,38 +34,39 @@ const SidebarLinks: FC = () => {
   if (!categories) return <Typography>No categories found</Typography>;
 
   return (
-    <>
-      <Paper elevation={2} sx={sideLinkBox}>
-        <Typography sx={{ fontWeight: 700 }}>Kategoriýa</Typography>
+    <Box sx={{ background: "#fff", width: "100%", height: "auto" }}>
+      <Paper elevation={1} sx={sideLinkBox}>
+        <Typography sx={{ fontWeight: 700, fontSize: "12px" }}>
+          Kategoriýa
+        </Typography>
       </Paper>
       <Box
         sx={{
           height: "50vh",
           overflowY: "auto",
           scrollbarWidth: "none",
-          "&::-webkit-scrollbar": {
-            display: "none",
-          },
+          "&::-webkit-scrollbar": { display: "none" },
         }}
       >
         {categories.map((category: any) => (
-          <div key={category.id}>
+          <div
+            key={category.id}
+            onMouseEnter={() => handleCategoryMouseEnter(category.id)}
+            onMouseLeave={handleCategoryMouseLeave}
+          >
             <Stack
               direction="row"
-              justifyContent={"space-between"}
-              alignItems={"center"}
+              justifyContent="space-between"
+              alignItems="center"
               width="100%"
               sx={{
                 cursor: "pointer",
-                mb: 2,
-                padding: "8px",
-                backgroundColor:
-                  expandedCategory === category.id ? "#f5f5f5" : "transparent",
                 borderRadius: "4px",
+                px: 1,
+                pt: 1,
+                mb: 0.3,
                 transition: "background-color 0.3s ease",
               }}
-              onMouseEnter={() => handleCategoryMouseEnter(category.id)}
-              // onMouseLeave={handleCategoryMouseLeave}
               onClick={() => handleCategoryClick(category)}
             >
               <Stack direction="row" alignItems="center" spacing={1}>
@@ -72,11 +77,13 @@ const SidebarLinks: FC = () => {
                     style={{
                       width: "100%",
                       height: "100%",
-                      objectFit: "cover",
+                      objectFit: "contain",
                     }}
                   />
                 </Box>
-                <Typography>{category.title_en}</Typography>
+                <Typography sx={{ fontSize: "12px" }}>
+                  {category.title_en}
+                </Typography>
               </Stack>
               <img
                 src="./icons/arrow.svg"
@@ -90,9 +97,10 @@ const SidebarLinks: FC = () => {
                 }}
               />
             </Stack>
+
             <Collapse
               in={expandedCategory === category.id}
-              timeout="auto"
+              timeout={300}
               unmountOnExit
             >
               <Stack spacing={1} mt={1} pl={2}>
@@ -110,31 +118,17 @@ const SidebarLinks: FC = () => {
                         sx={{
                           padding: "6px",
                           borderRadius: "4px",
-                          backgroundColor: "#e0f7fa",
                           transition: "background-color 0.3s ease",
                           "&:hover": {
-                            backgroundColor: "#b2ebf2",
+                            backgroundColor: "#fafafa",
+                            cursor: "pointer",
                           },
                         }}
+                        onClick={() => handleSubcategoryClick(sub)}
                       >
-                        <Box
-                          sx={{
-                            ...sidelinkImageBox,
-                            width: 30,
-                            height: 30,
-                          }}
-                        >
-                          <img
-                            src={sub.imageUrl || "./images/banner1.png"}
-                            alt={sub.title_en}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        </Box>
-                        <Typography>{sub.title_en}</Typography>
+                        <Typography sx={{ fontSize: "13px" }}>
+                          {sub.title_en}
+                        </Typography>
                       </Stack>
                     ))
                 )}
@@ -143,7 +137,7 @@ const SidebarLinks: FC = () => {
           </div>
         ))}
       </Box>
-    </>
+    </Box>
   );
 };
 

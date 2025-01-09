@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Typography, Link } from "@mui/material";
 import useSWR, { BareFetcher } from "swr";
 import {
   deliveryDescriptionText,
@@ -9,6 +9,7 @@ import {
 } from "../../delivery/styles/deliveryStyle";
 import { BASE_URL } from "../../../api/instance";
 import { useTranslation } from "react-i18next";
+import { Link as RouterLink } from "react-router-dom"; // Importing RouterLink from react-router-dom for navigation
 
 const fetcher: BareFetcher<any> = (url: string) =>
   fetch(url).then((res) => res.json());
@@ -40,7 +41,21 @@ const HowToOrderBox: FC = () => {
     <>
       <Container>
         <Typography sx={deliveryNavigateTitle}>
-          Baş sahypa / Sargyt Etmek
+          <Link
+            component={RouterLink}
+            to="/"
+            sx={{ textDecoration: "none", color: "inherit" }}
+          >
+            Baş sahypa
+          </Link>{" "}
+          /{" "}
+          <Link
+            component={RouterLink}
+            to="/how-to-order"
+            sx={{ textDecoration: "none", color: "inherit" }}
+          >
+            Sargyt Etmek
+          </Link>
         </Typography>
         <Box>
           <Typography sx={deliveryTitle}>

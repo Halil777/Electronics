@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Grid from "@mui/material/Grid2";
-import { Box, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { size2_4, size4_8 } from "../utils/gridSize";
 import {
   headerContactSubTitle,
@@ -14,7 +14,7 @@ const HeaderContacts: FC = () => {
 
   return (
     <>
-      <Box pl={3}>
+      {/* <Box pl={3}>
         <Grid container width="100%" columnSpacing={1}>
           <Grid size={size4_8}>
             <Box sx={{ ...headerContacttitleContainer, alignItems: "start" }}>
@@ -43,7 +43,29 @@ const HeaderContacts: FC = () => {
             </Box>
           </Grid>
         </Grid>
-      </Box>
+      </Box> */}
+      <Stack direction="row" justifyContent="space-between">
+        <Stack>
+          <Typography sx={headerContactTitle}>
+            {t("header.work_time")}
+          </Typography>
+          <Typography sx={headerContactSubTitle}>
+            {t("header.work_hours")}
+          </Typography>
+        </Stack>
+        <Stack>
+          <Typography sx={headerContactTitle}>
+            {t("header.address_title")}
+          </Typography>
+          <Typography sx={headerContactSubTitle}>
+            {t("header.our_address")}
+          </Typography>
+        </Stack>
+        <Stack>
+          <Typography sx={headerContactTitle}>+993 60 14 22 51</Typography>
+          <Typography sx={headerContactTitle}>+993 62 56 01 31</Typography>
+        </Stack>
+      </Stack>
     </>
   );
 };

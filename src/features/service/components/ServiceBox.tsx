@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Typography, Link } from "@mui/material";
 import useSWR, { BareFetcher } from "swr";
 import { BASE_URL } from "../../../api/instance";
 import { useTranslation } from "react-i18next";
@@ -9,6 +9,7 @@ import {
   deliveryTitle,
   deliveryUnderlineTSyle,
 } from "../../delivery/styles/deliveryStyle";
+import { Link as RouterLink } from "react-router-dom"; // Importing RouterLink for navigation
 
 const fetcher: BareFetcher<any> = (url: string) =>
   fetch(url).then((res) => res.json());
@@ -39,7 +40,23 @@ const ServiceBox: FC = () => {
   return (
     <>
       <Container>
-        <Typography sx={deliveryNavigateTitle}>Baş sahypa / Hyzmat</Typography>
+        <Typography sx={deliveryNavigateTitle}>
+          <Link
+            component={RouterLink}
+            to="/"
+            sx={{ textDecoration: "none", color: "inherit" }}
+          >
+            Baş sahypa
+          </Link>{" "}
+          /{" "}
+          <Link
+            component={RouterLink}
+            to="/service"
+            sx={{ textDecoration: "none", color: "inherit" }}
+          >
+            Hyzmat
+          </Link>
+        </Typography>
         <Box>
           <Typography sx={deliveryTitle}>
             {rule[titleKey] || rule.title_en || "Default Title"}

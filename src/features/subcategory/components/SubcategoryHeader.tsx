@@ -3,14 +3,16 @@ import { MenuItem, Select, Stack, Typography } from "@mui/material";
 import { deliveryNavigateTitle } from "../../delivery/styles/deliveryStyle";
 import { Link, useLocation } from "react-router-dom";
 
-interface Category {
+interface Subcategory {
   id: number;
   title_en: string;
+  category_id: number;
+  category_title_en: string;
 }
 
-const CategoryHeader: FC<Category> = () => {
+const SubcategoryHeader: FC = () => {
   const location = useLocation();
-  const { category }: { category?: Category } = location.state || {};
+  const { subcategory }: { subcategory?: Subcategory } = location.state || {};
 
   return (
     <>
@@ -19,16 +21,36 @@ const CategoryHeader: FC<Category> = () => {
         <Link to="/" style={{ textDecoration: "none", color: "#777777" }}>
           Baş sahypa
         </Link>
-        {category && (
+        {subcategory?.category_id && (
           <>
             {" / "}
             <Link
-              to={`/categories/${category.id}`}
-              state={{ category }}
+              to={`/categories/${subcategory.category_id}`}
+              state={{
+                category: {
+                  id: subcategory.category_id,
+                  title_en: subcategory.category_title_en,
+                },
+              }}
               style={{ textDecoration: "none", color: "#777777" }}
             >
-              {category.title_en}
+              {subcategory.category_title_en}
             </Link>
+          </>
+        )}
+        {subcategory && (
+          <>
+            {" / "}
+            <Typography
+              component="span"
+              style={{
+                textDecoration: "none",
+                color: "#777777",
+                fontWeight: "bold",
+              }}
+            >
+              {subcategory.title_en}
+            </Typography>
           </>
         )}
       </Typography>
@@ -42,7 +64,7 @@ const CategoryHeader: FC<Category> = () => {
       >
         {/* Title */}
         <Typography sx={{ fontWeight: 600, fontSize: "18px" }}>
-          {category?.title_en || "All Products"}
+          {subcategory?.title_en || "All Products"}
         </Typography>
 
         {/* Sort Dropdown */}
@@ -70,12 +92,12 @@ const CategoryHeader: FC<Category> = () => {
         >
           <MenuItem value="A-Z">A-dan Z cenli</MenuItem>
           <MenuItem value="Z-A">Z-dan A cenli</MenuItem>
-          <MenuItem value="Z-A">Arzandan Gymmada</MenuItem>
-          <MenuItem value="Z-A">Gymmatdan Arzana</MenuItem>
+          <MenuItem value="priceLowToHigh">Arzandan Gymmada</MenuItem>
+          <MenuItem value="priceHighToLow">Gymmatdan Arzana</MenuItem>
         </Select>
       </Stack>
     </>
   );
 };
 
-export default CategoryHeader;
+export default SubcategoryHeader;

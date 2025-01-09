@@ -5,7 +5,11 @@ import ColorFilter from "./ColorFilter";
 import BrendFilter from "./BrendFilter";
 import TypeFilter from "./TypeFilter";
 
-const CategoryFilters: FC = () => {
+interface CategoryFiltersProps {
+  category: any;
+}
+
+const CategoryFilters: FC<CategoryFiltersProps> = ({ category }) => {
   return (
     <>
       <Stack spacing={6}>

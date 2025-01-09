@@ -17,10 +17,10 @@ const Categories: FC = () => {
   return (
     <>
       <Container>
-        <CategoryHeader />
+        <CategoryHeader category={category} />
         <Grid container width="100%" my={5} spacing={3}>
           <Grid size={size1_4}>
-            <CategoryFilters />
+            <CategoryFilters category={category} />
           </Grid>
           <Grid size={size4_1}>
             <CategoryProductsBox category={category} />

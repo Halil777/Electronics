@@ -33,6 +33,7 @@
 /* Apply Open Sans globally */
 body {
   font-family: "Open Sans", sans-serif;
+  background-color: #fafafa;
 }
 
 .swiper {

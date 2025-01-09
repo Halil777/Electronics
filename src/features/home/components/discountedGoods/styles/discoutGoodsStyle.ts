@@ -106,7 +106,8 @@ export const compareDiscountGoodsCostButton = {
   textTransform: "none",
   display: "flex",
   alignItems: "center",
-  gap: "6px",
+  gap: "4px",
   padding: 0,
   mt: 1,
+  px: 1,
 };

@@ -23,12 +23,32 @@ import { useProduct } from "../../../../../hooks/products/useProduct";
 const DiscountGoodBox: FC = () => {
   const { lastAddedDiscountedProducts, isLoading, isError } = useProduct();
   const [discountedProducts, setDiscountedProducts] = useState<any[]>([]);
+  const [compareStates, setCompareStates] = useState<Record<number, boolean>>(
+    {}
+  );
+  const [favoriteStates, setFavoriteStates] = useState<Record<number, boolean>>(
+    {}
+  );
 
   useEffect(() => {
     if (lastAddedDiscountedProducts) {
       setDiscountedProducts(lastAddedDiscountedProducts);
     }
   }, [lastAddedDiscountedProducts]);
+
+  const handleCompareClick = (productId: number) => {
+    setCompareStates((prevState) => ({
+      ...prevState,
+      [productId]: !prevState[productId], // Toggle the compare state
+    }));
+  };
+
+  const handleFavoriteClick = (productId: number) => {
+    setFavoriteStates((prevState) => ({
+      ...prevState,
+      [productId]: !prevState[productId], // Toggle the favorite state
+    }));
+  };
 
   if (isLoading) {
     return <Typography>Loading...</Typography>;
@@ -57,18 +77,32 @@ const DiscountGoodBox: FC = () => {
         {discountedProducts.map((product: any) => (
           <Grid key={product.id} size={{ lg: 3, md: 4, sm: 6, xs: 6 }}>
             <Box>
-              <Stack direction="row">
-                <Box sx={auctionTextBox}>Aksiya</Box>
-                <Box sx={auctionDiscountTextCountBox}>
-                  -{product.discount_percentage}%
+              <Box
+                sx={{
+                  background: "#f7f7f7",
+                  width: "100%",
+                  height: "auto",
+                  p: 2,
+                  borderRadius: "6px",
+                }}
+              >
+                <Stack direction="row">
+                  <Box sx={auctionTextBox}>Aksiya</Box>
+                  <Box sx={auctionDiscountTextCountBox}>
+                    -{product.discount_percentage}%
+                  </Box>
+                </Stack>
+                <Box sx={auctionImageBox}>
+                  <img
+                    src={product.images[0]} // Assuming the first image is the main one
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                    alt={product.title}
+                  />
                 </Box>
-              </Stack>
-              <Box sx={auctionImageBox}>
-                <img
-                  src={product.images[0]} // Assuming the first image is the main one
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                  alt={product.title}
-                />
               </Box>
               <Stack my={2}>
                 <Typography sx={discountGoodTitle} noWrap>
@@ -109,22 +143,56 @@ const DiscountGoodBox: FC = () => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Button sx={compareDiscountGoodsCostButton}>
-                  <img src="./icons/compare.svg" alt="" /> Deňeşdir
-                </Button>
                 <Button
-                  startIcon={
-                    <FavoriteBorderIcon
-                      sx={{
-                        fontWeight: 300,
-                        width: "12px",
-                        marginRight: "-10px",
-                      }}
-                    />
-                  }
-                  sx={compareDiscountGoodsCostButton}
+                  onClick={() => handleCompareClick(product.id)}
+                  sx={{
+                    ...compareDiscountGoodsCostButton,
+                    backgroundColor: compareStates[product.id]
+                      ? "#C3000E"
+                      : "transparent",
+                    color: compareStates[product.id] ? "#fff" : "#929292",
+                    "&:hover": {
+                      backgroundColor: compareStates[product.id]
+                        ? "#C3000E"
+                        : "#f0f0f0",
+                    },
+                  }}
                 >
-                  Saýlanan
+                  <img
+                    src={
+                      compareStates[product.id]
+                        ? "./icons/compare white.svg" // Icon for active state
+                        : "./icons/compare.svg" // Icon for inactive state
+                    }
+                    alt="compare-icon"
+                    style={{ marginRight: "5px" }}
+                  />
+                  Deňeşdir
+                </Button>
+
+                <Button
+                  onClick={() => handleFavoriteClick(product.id)}
+                  sx={{
+                    ...compareDiscountGoodsCostButton,
+                    backgroundColor: favoriteStates[product.id]
+                      ? "#C3000E" // Red fill when favorited
+                      : "transparent",
+                    color: favoriteStates[product.id] ? "#fff" : "#929292",
+                    "&:hover": {
+                      backgroundColor: favoriteStates[product.id]
+                        ? "#C3000E"
+                        : "#f0f0f0",
+                    },
+                  }}
+                >
+                  <FavoriteBorderIcon
+                    sx={{
+                      fontWeight: 300,
+                      width: "12px",
+                      color: favoriteStates[product.id] ? "#fff" : "#929292", // Change icon color based on favorite state
+                    }}
+                  />
+                  Saýla
                 </Button>
               </Stack>
             </Box>

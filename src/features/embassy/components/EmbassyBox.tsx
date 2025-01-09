@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Typography, Link } from "@mui/material";
 import useSWR, { BareFetcher } from "swr";
 import {
   deliveryDescriptionText,
@@ -9,6 +9,7 @@ import {
 } from "../../delivery/styles/deliveryStyle";
 import { BASE_URL } from "../../../api/instance";
 import { useTranslation } from "react-i18next";
+import { Link as RouterLink } from "react-router-dom"; // Import RouterLink for navigation
 
 const fetcher: BareFetcher<any> = (url: string) =>
   fetch(url).then((res) => res.json());
@@ -37,25 +38,37 @@ const EmbassyBox: FC = () => {
   const rule = data[0];
 
   return (
-    <>
-      <Container>
-        <Typography sx={deliveryNavigateTitle}>
-          Baş sahypa / Ilçihanalar
+    <Container>
+      <Typography sx={deliveryNavigateTitle}>
+        <Link
+          component={RouterLink}
+          to="/"
+          sx={{ textDecoration: "none", color: "inherit" }}
+        >
+          Baş sahypa
+        </Link>{" "}
+        /{" "}
+        <Link
+          component={RouterLink}
+          to="/embassy"
+          sx={{ textDecoration: "none", color: "inherit" }}
+        >
+          Ilçihanalar
+        </Link>
+      </Typography>
+      <Box>
+        <Typography sx={deliveryTitle}>
+          {rule[titleKey] || rule.title_en || "Default Title"}
         </Typography>
-        <Box>
-          <Typography sx={deliveryTitle}>
-            {rule[titleKey] || rule.title_en || "Default Title"}
-          </Typography>
-          <Box sx={deliveryUnderlineTSyle}></Box>
-        </Box>
-        <Typography
-          sx={deliveryDescriptionText}
-          dangerouslySetInnerHTML={{
-            __html: rule[descriptionKey] || rule.desc_en || "",
-          }}
-        />
-      </Container>
-    </>
+        <Box sx={deliveryUnderlineTSyle}></Box>
+      </Box>
+      <Typography
+        sx={deliveryDescriptionText}
+        dangerouslySetInnerHTML={{
+          __html: rule[descriptionKey] || rule.desc_en || "",
+        }}
+      />
+    </Container>
   );
 };
 

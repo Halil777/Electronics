@@ -4,8 +4,7 @@ export const sideLinkBox = {
   background: "#C3000E5C",
   display: "flex",
   alignItems: "center",
-  justifyContent: "center",
-  marginBottom: "20px",
+  pl: 2,
 };
 
 export const sidelinkImageBox = {

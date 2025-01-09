@@ -10,7 +10,7 @@ import FooterSocialLinks from "./FooterSocialLinks";
 const FooterRightSide: FC = () => {
   return (
     <>
-      <Grid container>
+      {/* <Grid container>
         <Grid size={{ lg: 3, md: 4, sm: 6, xs: 12 }}>
           <Stack spacing={2}>
             <FooterTitle text="Tiz kömek" />
@@ -36,14 +36,42 @@ const FooterRightSide: FC = () => {
           </Stack>
         </Grid>
         <Grid size={{ lg: 3, md: 4, sm: 6, xs: 12 }}>
-          <Stack spacing={2}>
-            <FooterTitle text="Sosial ulgam" />
-            <Box>
-              <FooterSocialLinks />
-            </Box>
+          <Stack direction="row" justifyContent={"flex-end"}>
+            <Stack spacing={2}>
+              <FooterTitle text="Sosial ulgam" />
+              <Box>
+                <FooterSocialLinks />
+              </Box>
+            </Stack>
           </Stack>
         </Grid>
-      </Grid>
+      </Grid> */}
+      <Stack direction="row" justifyContent={"space-between"}>
+        <Stack spacing={2}>
+          <FooterTitle text="Tiz kömek" />
+          <Box>
+            <FooterLinks />
+          </Box>
+        </Stack>
+        <Stack spacing={2}>
+          <FooterTitle text="Habarlaşmak üçin" />
+          <Box>
+            <FooterContact />
+          </Box>
+        </Stack>
+        <Stack spacing={2}>
+          <FooterTitle text="Mobil goşundylar" />
+          <Box>
+            <FooterMobileApps />
+          </Box>
+        </Stack>
+        <Stack spacing={2}>
+          <FooterTitle text="Sosial ulgam" />
+          <Box>
+            <FooterSocialLinks />
+          </Box>
+        </Stack>
+      </Stack>
     </>
   );
 };

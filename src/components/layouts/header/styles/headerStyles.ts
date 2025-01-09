@@ -1,13 +1,11 @@
 export const headerContactTitle = {
-  fontSize: "16px",
+  fontSize: "13px",
   fontWeight: 700,
-  lineHeight: "21.8px",
 };
 
 export const headerContactSubTitle = {
-  fontSize: "14px",
+  fontSize: "13px",
   fontWeight: 400,
-  lineHeight: "21.8px",
   color: "#2E2F38",
 };
 

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Box, Container, Divider } from "@mui/material";
+import { Box, Container, Divider, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import FooterLeftSide from "../components/FooterLeftSide";
 import FooterRightSide from "../components/FooterRightSide";
@@ -20,6 +20,9 @@ const Footer: FC = () => {
           </Grid>
         </Container>
         <Divider color="#F2F2F2" />
+        <Typography sx={{ color: "#DBDBDB", mt: 2, textAlign: "center" }}>
+          Ähli hukuklary goralan. Powered by Älem Tilsimat
+        </Typography>
       </Box>
     </>
   );

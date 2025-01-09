@@ -15,7 +15,7 @@ const NavLinks: FC = () => {
   return (
     <Stack
       direction={{ xs: "column", md: "row" }}
-      spacing={2}
+      spacing={4}
       alignItems="center"
     >
       <NavbarCategory />

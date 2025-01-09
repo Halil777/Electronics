@@ -1,10 +1,10 @@
 import { FC, useEffect, useState, useRef } from "react";
 import { Box, Paper, Stack, Typography } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Grid from "@mui/material/Grid2";
 import { useCategories } from "../../../../hooks/category/useCategory";
 import { useSubcategories } from "../../../../hooks/subcategry/useSubcategory";
 import { useSegment } from "../../../../hooks/segment/useSegment";
+import { navLinks } from "../styles/navLinks";
 
 const NavbarCategory: FC = () => {
   const { categories, isLoading, isError } = useCategories();
@@ -73,9 +73,14 @@ const NavbarCategory: FC = () => {
         sx={{ cursor: "pointer" }}
         onClick={toggleCategories}
       >
-        <Typography>Categories</Typography>
-        <KeyboardArrowDownIcon
+        <Typography sx={navLinks}>Kategoriýa</Typography>
+        {/* <KeyboardArrowDownIcon
           sx={{ transform: openCategories ? "rotate(180deg)" : "rotate(0)" }}
+        /> */}
+        <img
+          src="./icons/category header icon.svg"
+          alt="navbar icon"
+          style={{ transform: openCategories ? "rotate(180deg)" : "rotate(0)" }}
         />
       </Stack>
 

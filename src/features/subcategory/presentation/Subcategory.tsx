@@ -31,12 +31,12 @@ const Subcategory: FC = () => {
       <SubcategoryHeader />
       <Grid container width="100%" my={5} spacing={3}>
         {/* Filters Section */}
-        <Grid xs={size1_4}>
+        <Grid size={size1_4}>
           <SubcategoryFilters subcategory={subcategory} />
         </Grid>
 
         {/* Products Section */}
-        <Grid xs={size4_1}>
+        <Grid size={size4_1}>
           <SubcategoryProducts subcategory={subcategory} />
         </Grid>
       </Grid>

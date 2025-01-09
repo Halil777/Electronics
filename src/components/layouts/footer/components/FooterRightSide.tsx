@@ -1,5 +1,5 @@
 import { FC } from "react";
-import Grid from "@mui/material/Grid2";
+// import Grid from "@mui/material/Grid2";
 import { Box, Stack } from "@mui/material";
 import FooterTitle from "./FooterTitle";
 import FooterLinks from "./FooterLinks";

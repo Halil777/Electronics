@@ -1,11 +1,11 @@
 import { FC } from "react";
-import Grid from "@mui/material/Grid2";
-import { Box, Stack, Typography } from "@mui/material";
-import { size2_4, size4_8 } from "../utils/gridSize";
+// import Grid from "@mui/material/Grid2";
+import { Stack, Typography } from "@mui/material";
+// import { size2_4, size4_8 } from "../utils/gridSize";
 import {
   headerContactSubTitle,
   headerContactTitle,
-  headerContacttitleContainer,
+  // headerContacttitleContainer,
 } from "../styles/headerStyles";
 import { useTranslation } from "react-i18next";
 

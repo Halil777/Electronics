@@ -1,17 +1,17 @@
 import { FC } from "react";
 import { MenuItem, Select, Stack, Typography } from "@mui/material";
 import { deliveryNavigateTitle } from "../../delivery/styles/deliveryStyle";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-interface Category {
-  id: number;
-  title_en: string;
+interface CategoryProps {
+  category: {
+    // You can define a more specific type for category if needed
+    id: number;
+    title_en: string;
+  };
 }
 
-const CategoryHeader: FC<Category> = () => {
-  const location = useLocation();
-  const { category }: { category?: Category } = location.state || {};
-
+const CategoryHeader: FC<CategoryProps> = ({ category }) => {
   return (
     <>
       {/* Breadcrumb Navigation */}

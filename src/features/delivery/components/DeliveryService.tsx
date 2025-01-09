@@ -15,7 +15,7 @@ const fetcher: BareFetcher<any> = (url: string) =>
   fetch(url).then((res) => res.json());
 
 const DeliveryService: FC = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const { data, error, isLoading } = useSWR(
     `${BASE_URL}delivery-rule`,
     fetcher

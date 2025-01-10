@@ -8,10 +8,9 @@ import {
 import CategoryFilters from "../components/categoryFilters/CategoryFilters";
 import CategoryHeader from "../components/CategoryHeader";
 import CategoryProductsBox from "../components/categoryProducts/CategoryProductsBox";
-import { Product } from "../../../../sidebar/presentation/Sidebar";
 
 interface CategoriesProps {
-  products: Product[] | null;
+  products: any[] | null;
   totalProducts: number | null;
 }
 

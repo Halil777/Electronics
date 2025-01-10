@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Container } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import {
   size1_4,
@@ -8,26 +8,33 @@ import {
 import CategoryFilters from "../components/categoryFilters/CategoryFilters";
 import CategoryHeader from "../components/CategoryHeader";
 import CategoryProductsBox from "../components/categoryProducts/CategoryProductsBox";
-import { useLocation } from "react-router-dom";
+import { Product } from "../../../../sidebar/presentation/Sidebar";
 
-const Categories: FC = () => {
-  const location = useLocation();
-  const { category } = location.state || {};
+interface CategoriesProps {
+  products: Product[] | null;
+  totalProducts: number | null;
+}
 
+const Categories: FC<CategoriesProps> = ({ products, totalProducts }) => {
   return (
-    <>
-      <Container>
-        <CategoryHeader category={category} />
-        <Grid container width="100%" my={5} spacing={3}>
-          <Grid size={size1_4}>
-            <CategoryFilters category={category} />
-          </Grid>
-          <Grid size={size4_1}>
-            <CategoryProductsBox category={category} />
-          </Grid>
+    <Container>
+      <CategoryHeader />
+      <Grid container width="100%" my={5} spacing={3}>
+        <Grid size={size1_4}>
+          <CategoryFilters />
         </Grid>
-      </Container>
-    </>
+        <Grid size={size4_1}>
+          {products && totalProducts !== null ? (
+            <CategoryProductsBox
+              products={products}
+              totalProducts={totalProducts} // Pass the totalProducts prop
+            />
+          ) : (
+            <Typography>No products found</Typography>
+          )}
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 

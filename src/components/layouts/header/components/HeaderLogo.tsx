@@ -17,7 +17,7 @@ const HeaderLogo: FC = () => {
         />
         <Typography
           sx={{
-            fontSize: "16px",
+            fontSize: "14px",
             fontWeight: "400",
             lineHeight: "21.7px",
             width: "100%",

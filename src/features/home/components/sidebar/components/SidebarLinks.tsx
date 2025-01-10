@@ -5,28 +5,42 @@ import { useCategories } from "../../../../../hooks/category/useCategory";
 import { useSubcategories } from "../../../../../hooks/subcategry/useSubcategory";
 import { useNavigate } from "react-router-dom";
 
-const SidebarLinks: FC = () => {
-  const { categories, isLoading: isCategoriesLoading } = useCategories();
-  const { subcategories, isLoading: isSubcategoriesLoading } =
-    useSubcategories();
+interface SidebarLinksProps {
+  selectedFilters: {
+    categoryId?: number;
+    subcategoryId?: number;
+    segmentId?: number;
+    brandId?: number;
+  };
+  onCategorySelect: (filters: {
+    categoryId?: number;
+    subcategoryId?: number;
+    segmentId?: number;
+    brandId?: number;
+  }) => void;
+}
 
-  const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
+const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
+  const { categories, isLoading: isCategoriesLoading } = useCategories();
+  const [expandedCategory, setExpandedCategory] = useState<any | null>(null);
   const navigate = useNavigate();
 
-  const handleCategoryMouseEnter = (categoryId: number) => {
-    setExpandedCategory(categoryId);
-  };
-
-  const handleCategoryMouseLeave = () => {
-    setExpandedCategory(null);
-  };
+  const {
+    subcategories,
+    isLoading: isSubcategoriesLoading,
+    isError: isSubcategoryError,
+  } = useSubcategories(expandedCategory?.id);
 
   const handleCategoryClick = (category: any) => {
-    navigate(`/categories/${category.id}`, { state: { category } });
+    console.log("Category Clicked:", category); // Debug log
+    onCategorySelect({ categoryId: category.id });
+    navigate("/categories");
   };
 
   const handleSubcategoryClick = (subcategory: any) => {
-    navigate(`/subcategories/${subcategory.id}`, { state: { subcategory } });
+    console.log("Subcategory Clicked:", subcategory); // Debug log
+    onCategorySelect({ subcategoryId: subcategory.id });
+    navigate("/categories");
   };
 
   if (isCategoriesLoading)
@@ -51,8 +65,8 @@ const SidebarLinks: FC = () => {
         {categories.map((category: any) => (
           <div
             key={category.id}
-            onMouseEnter={() => handleCategoryMouseEnter(category.id)}
-            onMouseLeave={handleCategoryMouseLeave}
+            onMouseEnter={() => setExpandedCategory(category)}
+            onMouseLeave={() => setExpandedCategory(null)}
           >
             <Stack
               direction="row"
@@ -72,8 +86,8 @@ const SidebarLinks: FC = () => {
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Box sx={sidelinkImageBox}>
                   <img
-                    src={category.imageUrl || "./images/banner1.png"}
-                    alt={category.title_en}
+                    src={category?.imageUrl || "./images/banner1.png"}
+                    alt={category?.title_en}
                     style={{
                       width: "100%",
                       height: "100%",
@@ -82,55 +96,42 @@ const SidebarLinks: FC = () => {
                   />
                 </Box>
                 <Typography sx={{ fontSize: "12px" }}>
-                  {category.title_en}
+                  {category?.title_en}
                 </Typography>
               </Stack>
-              <img
-                src="./icons/arrow.svg"
-                alt="arrow"
-                style={{
-                  transform:
-                    expandedCategory === category.id
-                      ? "rotate(180deg)"
-                      : "rotate(0deg)",
-                  transition: "transform 0.3s ease",
-                }}
-              />
             </Stack>
-
             <Collapse
-              in={expandedCategory === category.id}
+              in={expandedCategory?.id === category.id}
               timeout={300}
               unmountOnExit
             >
               <Stack spacing={1} mt={1} pl={2}>
                 {isSubcategoriesLoading ? (
                   <Typography>Loading subcategories...</Typography>
+                ) : isSubcategoryError ? (
+                  <Typography>Error Fetching Subcategories</Typography>
                 ) : (
-                  subcategories
-                    ?.filter((sub: any) => sub.category_id === category.id)
-                    .map((sub: any) => (
-                      <Stack
-                        key={sub.id}
-                        direction="row"
-                        spacing={1}
-                        alignItems="center"
-                        sx={{
-                          padding: "6px",
-                          borderRadius: "4px",
-                          transition: "background-color 0.3s ease",
-                          "&:hover": {
-                            backgroundColor: "#fafafa",
-                            cursor: "pointer",
-                          },
-                        }}
-                        onClick={() => handleSubcategoryClick(sub)}
-                      >
-                        <Typography sx={{ fontSize: "13px" }}>
-                          {sub.title_en}
-                        </Typography>
-                      </Stack>
-                    ))
+                  subcategories?.map((sub: any) => (
+                    <Stack
+                      key={sub.id}
+                      direction="row"
+                      spacing={1}
+                      alignItems="center"
+                      sx={{
+                        padding: "6px",
+                        borderRadius: "4px",
+                        "&:hover": {
+                          backgroundColor: "#fafafa",
+                          cursor: "pointer",
+                        },
+                      }}
+                      onClick={() => handleSubcategoryClick(sub)}
+                    >
+                      <Typography sx={{ fontSize: "13px" }}>
+                        {sub?.title_en}
+                      </Typography>
+                    </Stack>
+                  ))
                 )}
               </Stack>
             </Collapse>

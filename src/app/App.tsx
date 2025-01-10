@@ -65,7 +65,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
-              <Route path="/categories/:categoryId" element={<Categories />} />
+              <Route path="/categories" element={<Categories />} />
               <Route
                 path="/subcategories/:subcategoryId"
                 element={<Categories />}

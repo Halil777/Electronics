@@ -3,49 +3,33 @@ import { MenuItem, Select, Stack, Typography } from "@mui/material";
 import { deliveryNavigateTitle } from "../../delivery/styles/deliveryStyle";
 import { Link } from "react-router-dom";
 
-interface CategoryProps {
-  category: {
-    // You can define a more specific type for category if needed
-    id: number;
-    title_en: string;
-  };
+interface CategoryHeaderProps {
+  categoryTitle?: string;
 }
 
-const CategoryHeader: FC<CategoryProps> = ({ category }) => {
+const CategoryHeader: FC<CategoryHeaderProps> = ({ categoryTitle }) => {
+  const staticCategoryTitle = categoryTitle || "Default Category Title";
+
   return (
     <>
-      {/* Breadcrumb Navigation */}
       <Typography sx={deliveryNavigateTitle} mt={5}>
         <Link to="/" style={{ textDecoration: "none", color: "#777777" }}>
           Baş sahypa
         </Link>
-        {category && (
-          <>
-            {" / "}
-            <Link
-              to={`/categories/${category.id}`}
-              state={{ category }}
-              style={{ textDecoration: "none", color: "#777777" }}
-            >
-              {category.title_en}
-            </Link>
-          </>
-        )}
+        {" / "}
+        <Typography style={{ textDecoration: "none", color: "#777777" }}>
+          {staticCategoryTitle}
+        </Typography>
       </Typography>
-
-      {/* Header and Sort Option */}
       <Stack
         my={3}
         direction="row"
         alignItems="center"
         justifyContent="space-between"
       >
-        {/* Title */}
         <Typography sx={{ fontWeight: 600, fontSize: "18px" }}>
-          {category?.title_en || "All Products"}
+          {staticCategoryTitle}
         </Typography>
-
-        {/* Sort Dropdown */}
         <Select
           displayEmpty
           defaultValue="A-Z"

@@ -10,7 +10,11 @@ const FooterLinks: FC = () => {
   return (
     <>
       {footerLinks.map((item) => (
-        <Typography onClick={() => navigate(item.path)} sx={footerLinksStyle}>
+        <Typography
+          key={item.title}
+          onClick={() => navigate(item.path)}
+          sx={footerLinksStyle}
+        >
           {item.title}
         </Typography>
       ))}

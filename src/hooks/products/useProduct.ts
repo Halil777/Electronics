@@ -1,31 +1,97 @@
 import useSWR from "swr";
 import { BASE_URL } from "../../api/instance";
 
+// Fetching function
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export const useProduct = (limit: number = 1300) => {
+// Types for brand, subcategory, and product properties
+interface Brand {
+  id: number;
+  imageUrl: string;
+  title_tm: string;
+  title_ru: string;
+  title_en: string;
+  desc_tm: string;
+  desc_ru: string;
+  desc_en: string;
+}
+
+interface Subcategory {
+  id: number;
+  imageUrl: string;
+  title_tm: string;
+  title_ru: string;
+  title_en: string;
+  desc_tm: string;
+  desc_ru: string;
+  desc_en: string;
+  category_id: number;
+}
+
+interface Property {
+  id: number;
+  title_tm: string;
+  title_ru: string;
+  title_en: string;
+  value_tm: string;
+  value_ru: string;
+  value_en: string;
+  type: string;
+  product_id: number;
+}
+
+interface Product {
+  id: number;
+  title_tm: string;
+  title_ru: string;
+  title_en: string;
+  imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+  price: number;
+  discount_percentage: number;
+  stock: number;
+  brand: Brand[];
+  subcategories: Subcategory[];
+  properties: Property[];
+  images: string[]; // Product images
+}
+
+interface UseProductResponse {
+  products: Product[] | undefined;
+  totalProducts: number | undefined;
+  lastAddedDiscountedProducts: Product[];
+  isLoading: boolean;
+  isError: boolean;
+  mutate: () => void;
+}
+
+export const useProduct = (
+  limit: number = 1300,
+  page: number = 1
+): UseProductResponse => {
   const { data, error, mutate } = useSWR(
-    `${BASE_URL}products?limit=${limit}`,
+    `${BASE_URL}products?limit=${limit}&page=${page}`,
     fetcher
   );
 
+  // Function to get last added discounted products
   const getLastAddedDiscountedProducts = (
-    products: any[] | undefined,
+    products: Product[] | undefined,
     limit: number
-  ): any[] => {
+  ): Product[] => {
     if (!products || products.length === 0) {
       return [];
     }
 
-    // Sort the products by created_at in descending order (newest first)
+    // Sort products by created_at in descending order (newest first)
     const sortedProducts = [...products].sort((a, b) => {
-      return (
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-      );
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
 
+    // Filter discounted products (discount_percentage > 0)
     const discountedProducts = sortedProducts.filter(
-      (product: any) => product.discount_percentage > 0
+      (product: Product) => product.discount_percentage > 0
     );
 
     // Return the first 'limit' number of products

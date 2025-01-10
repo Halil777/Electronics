@@ -1,18 +1,28 @@
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import { BASE_URL } from "../../api/instance";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = async (url: string) => {
+  const response = await fetch(url);
 
-export const useSubcategories = () => {
+  if (!response.ok) {
+    throw new Error(`Failed to fetch subcategories: ${response.statusText}`);
+  }
+
+  return response.json();
+};
+
+export const useSubcategories = (selectedCategoryId: string | null) => {
   const { data, error, isLoading } = useSWR(
     `${BASE_URL}subcategories`,
     fetcher
   );
 
+  const filteredSubcategories =
+    data?.filter((sub: any) => sub.category_id === selectedCategoryId) || [];
+
   return {
-    subcategories: data,
-    isLoading,
+    subcategories: filteredSubcategories, // Ensure subcategories is always an array
+    isLoading: !error && !data,
     isError: !!error,
-    mutate,
   };
 };

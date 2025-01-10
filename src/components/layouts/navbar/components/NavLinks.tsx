@@ -3,7 +3,7 @@ import { Stack, Typography } from "@mui/material";
 import { navLinks } from "../styles/navLinks";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import NavbarCategory from "./NavbarCategory";
+import NavbarCategory from "./navbar_products/NavbarCategory";
 
 const NavLinks: FC = () => {
   const navigate = useNavigate();

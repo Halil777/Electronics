@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import SidebarLinks from "../components/SidebarLinks";
 import Categories from "../../../../categories/presentation/Categories";
 import { BASE_URL } from "../../../../../api/instance";
@@ -14,7 +14,7 @@ interface Product {
   id: number;
   name: string;
   price: number;
-  // Add other relevant fields
+  // Add other relevant fields as needed
 }
 
 const Sidebar: FC = () => {
@@ -26,9 +26,15 @@ const Sidebar: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    // Fetch filtered products when filters change
+    if (Object.keys(selectedFilters).length > 0) {
+      fetchFilteredProducts(selectedFilters);
+    }
+  }, [selectedFilters]);
+
   const handleCategorySelect = async (filters: Filters) => {
-    setSelectedFilters(filters);
-    await fetchFilteredProducts(filters);
+    setSelectedFilters(filters); // This will trigger the effect to fetch products
   };
 
   const fetchFilteredProducts = async (filters: Filters) => {
@@ -40,14 +46,17 @@ const Sidebar: FC = () => {
         limit: "20", // Default limit
       });
 
-      // Add filters to query parameters
-      Object.keys(filters).forEach((key) => {
-        if (filters[key as keyof Filters]) {
-          queryParams.append(key, String(filters[key as keyof Filters]));
-        }
-      });
+      if (filters.categoryId)
+        queryParams.append("categoryId", String(filters.categoryId));
+      if (filters.subcategoryId)
+        queryParams.append("subcategoryId", String(filters.subcategoryId));
+      if (filters.segmentId)
+        queryParams.append("segmentId", String(filters.segmentId));
+      if (filters.brandId)
+        queryParams.append("brandId", String(filters.brandId));
 
       const url = `${BASE_URL}/products/client/products?${queryParams.toString()}`;
+      console.log("Request URL:", url); // Log URL to check if categoryId is passed
       const response = await fetch(url);
 
       if (!response.ok) {
@@ -55,9 +64,11 @@ const Sidebar: FC = () => {
       }
 
       const data = await response.json();
+      console.log("Fetched data:", data); // Log the fetched data
+
       setFilteredProducts(data.data);
       setTotalProducts(data.total);
-    } catch (error) {
+    } catch (err) {
       setError("Error fetching products.");
     } finally {
       setLoading(false);
@@ -70,10 +81,15 @@ const Sidebar: FC = () => {
         selectedFilters={selectedFilters}
         onCategorySelect={handleCategorySelect}
       />
-      {loading && <div>Loading...</div>}
+      {loading && <div>Loading products...</div>}
       {error && <div style={{ color: "red" }}>{error}</div>}
       {filteredProducts && (
-        <Categories products={filteredProducts} totalProducts={totalProducts} />
+        <Categories
+          products={filteredProducts}
+          totalProducts={totalProducts}
+          selectedFilters={selectedFilters}
+          onCategorySelect={handleCategorySelect}
+        />
       )}
     </>
   );

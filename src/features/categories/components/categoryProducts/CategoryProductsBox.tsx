@@ -18,9 +18,13 @@ interface Product {
 
 interface CategoryProductsBoxProps {
   products: Product[];
+  totalProducts: number; // Add totalProducts to the props
 }
 
-const CategoryProductsBox: FC<CategoryProductsBoxProps> = ({ products }) => {
+const CategoryProductsBox: FC<CategoryProductsBoxProps> = ({
+  products,
+  totalProducts, // Destructure totalProducts from props
+}) => {
   const navigate = useNavigate();
 
   return (
@@ -96,6 +100,12 @@ const CategoryProductsBox: FC<CategoryProductsBoxProps> = ({ products }) => {
           </Box>
         </Grid>
       ))}
+      {/* Display the total products count */}
+      {totalProducts !== null && (
+        <Typography variant="h6" mt={3}>
+          Total Products: {totalProducts}
+        </Typography>
+      )}
     </Grid>
   );
 };

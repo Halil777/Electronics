@@ -12,7 +12,7 @@ const fetcher = async (url: string) => {
 };
 
 export const useSegment = () => {
-  const { data, error, isLoading } = useSWR(`${BASE_URL}segment`, fetcher);
+  const { data, error } = useSWR(`${BASE_URL}segment`, fetcher);
 
   return {
     segment: data || [], // Ensure segment is always an array

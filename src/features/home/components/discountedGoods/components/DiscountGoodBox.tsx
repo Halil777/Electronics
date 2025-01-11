@@ -4,6 +4,8 @@ import Grid from "@mui/material/Grid2";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStoreOutlined";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import axios from "axios";
+import { BASE_URL } from "../../../../../api/instance";
 import {
   addStoreDiscountGoodButton,
   auctionDiscountTextCountBox,
@@ -18,11 +20,11 @@ import {
   discountGoodsTitle,
   discountGoodTitle,
 } from "../styles/discoutGoodsStyle";
-import { useProduct } from "../../../../../hooks/products/useProduct";
 
 const DiscountGoodBox: FC = () => {
-  const { lastAddedDiscountedProducts, isLoading, isError } = useProduct();
   const [discountedProducts, setDiscountedProducts] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isError, setIsError] = useState<boolean>(false);
   const [compareStates, setCompareStates] = useState<Record<number, boolean>>(
     {}
   );
@@ -30,11 +32,26 @@ const DiscountGoodBox: FC = () => {
     {}
   );
 
-  useEffect(() => {
-    if (lastAddedDiscountedProducts) {
-      setDiscountedProducts(lastAddedDiscountedProducts);
+  // Fetch discounted products with a fixed limit of 4
+  const fetchDiscountedProducts = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(`${BASE_URL}products?limit=40&page=1`);
+      const products = response.data.data;
+      const discounted = products.filter(
+        (product: any) => product.discount_percentage > 0
+      );
+      setDiscountedProducts(discounted);
+      setIsLoading(false);
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
     }
-  }, [lastAddedDiscountedProducts]);
+  };
+
+  useEffect(() => {
+    fetchDiscountedProducts();
+  }, []);
 
   const handleCompareClick = (productId: number) => {
     setCompareStates((prevState) => ({
@@ -62,13 +79,17 @@ const DiscountGoodBox: FC = () => {
     );
   }
 
+  if (discountedProducts.length === 0) {
+    return <Typography>No discounted products available</Typography>;
+  }
+
   return (
     <>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Typography sx={discountGoodsTitle}>Aksiýadaky harytlar</Typography>
         <Button
           sx={discountGoodsSeeAllButton}
-          endIcon={<KeyboardArrowRightIcon sx={{ width: "12px" }} />}
+          endIcon={<KeyboardArrowRightIcon />}
         >
           Hemmesini görmek
         </Button>
@@ -76,45 +97,33 @@ const DiscountGoodBox: FC = () => {
       <Grid container spacing={2} my={3}>
         {discountedProducts.map((product: any) => (
           <Grid key={product.id} size={{ lg: 3, md: 4, sm: 6, xs: 6 }}>
-            <Box>
-              <Box
-                sx={{
-                  background: "#f7f7f7",
-                  width: "100%",
-                  height: "auto",
-                  p: 2,
-                  borderRadius: "6px",
-                }}
-              >
+            <Box sx={{ background: "#f7f7f7", p: 2, borderRadius: "6px" }}>
+              <Box sx={auctionTextBox}>
                 <Stack direction="row">
                   <Box sx={auctionTextBox}>Aksiya</Box>
                   <Box sx={auctionDiscountTextCountBox}>
                     -{product.discount_percentage}%
                   </Box>
                 </Stack>
-                <Box sx={auctionImageBox}>
-                  <img
-                    src={product.images[0]} // Assuming the first image is the main one
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                    alt={product.title}
-                  />
-                </Box>
+              </Box>
+              <Box sx={auctionImageBox}>
+                <img
+                  src={product.images[0] || "fallback-image.jpg"} // Add fallback image if not available
+                  alt={product.title_en}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
               </Box>
               <Stack my={2}>
                 <Typography sx={discountGoodTitle} noWrap>
                   {product.title_en}
                 </Typography>
                 <Typography sx={discountGoodCompanyTitle}>
-                  {product.brand}
+                  {product.brand?.[0]?.title_en || "Unknown Brand"}
                 </Typography>
                 <Stack direction="row" spacing={1} my={1}>
                   <Typography sx={discountGoodCodeText}>Haryt kody:</Typography>
                   <Typography sx={discountGoodCodeText}>
-                    {product.product_code}
+                    {product.product_code || "No code"}
                   </Typography>
                 </Stack>
                 <Stack
@@ -161,21 +170,20 @@ const DiscountGoodBox: FC = () => {
                   <img
                     src={
                       compareStates[product.id]
-                        ? "./icons/compare white.svg" // Icon for active state
-                        : "./icons/compare.svg" // Icon for inactive state
+                        ? "./icons/compare white.svg"
+                        : "./icons/compare.svg"
                     }
                     alt="compare-icon"
                     style={{ marginRight: "5px" }}
                   />
                   Deňeşdir
                 </Button>
-
                 <Button
                   onClick={() => handleFavoriteClick(product.id)}
                   sx={{
                     ...compareDiscountGoodsCostButton,
                     backgroundColor: favoriteStates[product.id]
-                      ? "#C3000E" // Red fill when favorited
+                      ? "#C3000E"
                       : "transparent",
                     color: favoriteStates[product.id] ? "#fff" : "#929292",
                     "&:hover": {
@@ -189,7 +197,7 @@ const DiscountGoodBox: FC = () => {
                     sx={{
                       fontWeight: 300,
                       width: "12px",
-                      color: favoriteStates[product.id] ? "#fff" : "#929292", // Change icon color based on favorite state
+                      color: favoriteStates[product.id] ? "#fff" : "#929292",
                     }}
                   />
                   Saýla

@@ -12,10 +12,7 @@ const fetcher = async (url: string) => {
 };
 
 export const useSubcategories = (selectedCategoryId: string | null) => {
-  const { data, error, isLoading } = useSWR(
-    `${BASE_URL}subcategories`,
-    fetcher
-  );
+  const { data, error } = useSWR(`${BASE_URL}subcategories`, fetcher);
 
   const filteredSubcategories =
     data?.filter((sub: any) => sub.category_id === selectedCategoryId) || [];

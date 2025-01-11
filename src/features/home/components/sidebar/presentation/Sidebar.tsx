@@ -1,6 +1,5 @@
 import { FC, useState, useEffect } from "react";
 import SidebarLinks from "../components/SidebarLinks";
-import Categories from "../../../../categories/presentation/Categories";
 import { BASE_URL } from "../../../../../api/instance";
 
 interface Filters {
@@ -83,14 +82,6 @@ const Sidebar: FC = () => {
       />
       {loading && <div>Loading products...</div>}
       {error && <div style={{ color: "red" }}>{error}</div>}
-      {filteredProducts && (
-        <Categories
-          products={filteredProducts}
-          totalProducts={totalProducts}
-          selectedFilters={selectedFilters}
-          onCategorySelect={handleCategorySelect}
-        />
-      )}
     </>
   );
 };

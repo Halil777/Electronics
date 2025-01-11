@@ -71,9 +71,9 @@ const LastProductsDetails: FC = () => {
                     {product.title_tm || product.title_ru || product.title_en}
                   </Typography>
                   <Typography sx={lastAddedProductCompanyName}>
-                    {product.brand?.title_tm ||
-                      product.brand?.title_ru ||
-                      product.brand?.title_en}
+                    {product.brand?.[0]?.title_tm ||
+                      product.brand?.[0]?.title_ru ||
+                      product.brand?.[0]?.title_en}
                   </Typography>
                   <Typography sx={lastAddedProductCost}>
                     {product.price} m.

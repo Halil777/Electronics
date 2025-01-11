@@ -8,13 +8,12 @@ import {
 import CategoryFilters from "../components/categoryFilters/CategoryFilters";
 import CategoryHeader from "../components/CategoryHeader";
 import CategoryProductsBox from "../components/categoryProducts/CategoryProductsBox";
-import { Filters } from "../../../types"; // Assuming you have a types file for your filters
 
 interface CategoriesProps {
   products: any[] | null;
   totalProducts: number | null;
-  selectedFilters: Filters; // Add selectedFilters prop to manage current filter state
-  onCategorySelect: (filters: Filters) => void; // Function to handle filter selection
+  selectedFilters: any; // Add selectedFilters prop to manage current filter state
+  onCategorySelect: (filters: any) => void; // Function to handle filter selection
 }
 
 const Categories: FC<CategoriesProps> = ({

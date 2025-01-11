@@ -42,7 +42,7 @@ const Home: FC = () => {
           <Box>
             <Banner />
           </Box>
-          {/* <Box my={3}>
+          <Box my={3}>
             <DiscountedGoods />
           </Box>
           <Box my={3}>
@@ -53,7 +53,7 @@ const Home: FC = () => {
           </Box>
           <Box my={3}>
             <OurPartners />
-          </Box> */}
+          </Box>
         </Grid>
       </Grid>
     </Container>

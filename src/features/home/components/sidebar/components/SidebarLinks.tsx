@@ -34,13 +34,13 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
   const handleCategoryClick = (category: any) => {
     console.log("Category Clicked:", category); // Debug log
     onCategorySelect({ categoryId: category.id });
-    navigate("/categories");
+    navigate("/categories?categoryId=" + category.id);
   };
 
   const handleSubcategoryClick = (subcategory: any) => {
     console.log("Subcategory Clicked:", subcategory); // Debug log
     onCategorySelect({ subcategoryId: subcategory.id });
-    navigate("/categories");
+    navigate("/categories?subcategoryId=" + subcategory.id);
   };
 
   if (isCategoriesLoading)

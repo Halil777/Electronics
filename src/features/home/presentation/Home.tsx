@@ -14,8 +14,12 @@ import DiscountedGoods from "../components/discountedGoods/presentation/Discount
 import GoodOfWeek from "../components/goodOfWeek/presentation/GoodOfWeek";
 import OfferedGoods from "../components/offeredGoods/presentation/OfferedGoods";
 import OurPartners from "../components/ourPartners/presentation/OurPartners";
+import ProductViewModel from "../../products/presentation/ProductViewModel";
+import { observer } from "mobx-react-lite";
 
-const Home: FC = () => {
+const Home: FC = observer(() => {
+
+  
   return (
     <Container>
       <Grid container width="100%" mt={2} spacing={2}>
@@ -56,8 +60,9 @@ const Home: FC = () => {
           </Box>
         </Grid>
       </Grid>
+      <h1>{ProductViewModel.loading  + ""}</h1>
     </Container>
   );
-};
+})
 
 export default Home;

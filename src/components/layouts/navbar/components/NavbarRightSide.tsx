@@ -1,18 +1,23 @@
-import { Stack } from "@mui/material";
 import { FC, useState } from "react";
+import { Stack } from "@mui/material";
 import Language from "../../../../language/Language";
 import { useNavigate } from "react-router-dom";
 import Login from "../../../login/Login";
 import useDrawer from "./useDrawer";
 import NavbarSearchGlobal from "../../navbarSearch/NavbarSearchGlobal";
-
-const NavbarRightSide: FC = () => {
+import { observer } from "mobx-react-lite";
+import defaultProfileImage from "../../../../../public/navbarIcons/profile.svg";
+import UserViewModel from "../../../login/UserViewModel";
+const NavbarRightSide: FC = observer(() => {
   const navigate = useNavigate();
   const { isOpen, openDrawer, closeDrawer } = useDrawer();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const handleSearchToggle = () => setIsSearchOpen((prev) => !prev);
 
+  const profileImage = UserViewModel.user?.profileImage
+    ? UserViewModel.user?.profileImage
+    : defaultProfileImage;
   return (
     <>
       {isSearchOpen ? (
@@ -26,12 +31,27 @@ const NavbarRightSide: FC = () => {
             onClick={handleSearchToggle}
           />
 
-          <img
-            src="./navbarIcons/profile.svg"
-            alt="profile"
-            style={{ cursor: "pointer" }}
-            onClick={openDrawer}
-          />
+          {UserViewModel.user?.profileImage ? (
+            <img
+              src={`${profileImage}`}
+              alt="profile"
+              style={{
+                cursor: "pointer",
+                width: "30px",
+                height: "30px",
+                borderRadius: "50%",
+                objectFit: "cover",
+              }}
+              onClick={openDrawer}
+            />
+          ) : (
+            <img
+              src={profileImage}
+              alt="profile"
+              style={{ cursor: "pointer" }}
+              onClick={openDrawer}
+            />
+          )}
           <img
             src="./navbarIcons/mdi-light_heart.svg"
             style={{ cursor: "pointer" }}
@@ -43,8 +63,6 @@ const NavbarRightSide: FC = () => {
             alt="basket"
             style={{ cursor: "pointer" }}
           />
-
-          {/* where gift card route click */}
           <img
             onClick={() => navigate("/compare")}
             src="./navbarIcons/compare.svg"
@@ -58,6 +76,6 @@ const NavbarRightSide: FC = () => {
       <Login isOpen={isOpen} onClose={closeDrawer} />
     </>
   );
-};
+});
 
 export default NavbarRightSide;

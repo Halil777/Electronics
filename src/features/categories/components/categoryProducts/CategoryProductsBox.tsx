@@ -5,17 +5,69 @@ import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStore
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 interface Product {
-  id: string;
-  title_en: string;
-  brand: string;
-  product_code: string;
-  price: number;
-  stock: number;
-  images: string[];
-  category_id: string;
-  description?: string;
-}
+  id:number;
+  title_tm:string;
+  title_ru:string;
+  title_en:string;
+  desc_tm:string;
+  desc_ru:string;
+  desc_en:string;
+  price:number;
+  old_price:number;
+  discount_percentage:number;
+  discounted_price:number;
+  stock:number;
+  is_active:boolean;
+  weight:number;
+  width:number;
+  height:number;
+  depth:number;
+  images:string[];
+  size:string;
+  color:string;
+  tags:string;
+  views:number;
+  rating:number;
+  brand_id:number;
+  category_id:number;
+  segment_id:number;
+  created_at:string;
+  updated_at:string;
+  brand:{
+      id:number;
+      imageUrl:string;
+      title_tm:string;
+      title_ru:string;
+      title_en:string;
+      desc_tm:string;
+      desc_ru:string;
+      desc_en:string;
+  };
+  category:{
+      id:number;
+      imageUrl:string;
+      title_tm:string;
+      title_ru:string;
+      title_en:string;
+      desc_tm:string;
+      desc_ru:string;
+      desc_en:string;
+      category_id:number;
+  };
+    segment:{
+        id:number;
+        imageUrl:string;
+        title_tm:string;
+        title_ru:string;
+        title_en:string;
+        desc_tm:string;
+        desc_ru:string;
+        desc_en:string;
+        subcategory_id:number;
+    };
+  properties:any[]
 
+}
 interface CategoryProductsBoxProps {
   products: Product[];
   totalProducts: number; // Add totalProducts to the props
@@ -53,7 +105,7 @@ const CategoryProductsBox: FC<CategoryProductsBoxProps> = ({
                 {product.title_en}
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                {product.brand}
+                {product.brand?.title_en}
               </Typography>
               <Typography variant="body1" sx={{ mt: 1 }}>
                 {product.price} m.

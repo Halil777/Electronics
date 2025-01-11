@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useRef } from "react";
 import {
   Drawer,
   Box,
@@ -7,17 +7,107 @@ import {
   Button,
   Checkbox,
   IconButton,
+  TextField,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
+import { observer } from "mobx-react-lite";
+import UserViewModel from "./UserViewModel";
+import OtpVerification from "./OtpVerification";
 
 interface LoginProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const Login: FC<LoginProps> = ({ isOpen, onClose }) => {
+const Login: FC<LoginProps> = observer(({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState<"login" | "register">("register");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
+  const [isNotify, setIsNotify] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isOtpVerificationOpen, setIsOtpVerificationOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState<string | null>(null);
+  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
+    "success"
+  );
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      setSelectedFileName(selectedFile.name);
+    } else {
+      setFile(null);
+      setSelectedFileName(null);
+    }
+  };
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsNotify(e.target.checked);
+  };
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSnackbarMessage(null); // Clear previous messages
+    setSnackbarOpen(false);
+    try {
+      await UserViewModel.registerUser({
+        file,
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        password,
+        isNotify,
+      });
+
+      if (UserViewModel.registrationSuccess) {
+        setIsOtpVerificationOpen(true);
+        setSnackbarMessage("Successfully registered!");
+        setSnackbarSeverity("success");
+        setSnackbarOpen(true);
+      } else if (UserViewModel.error) {
+        let message = UserViewModel.error;
+        if (UserViewModel.error.includes("already registered")) {
+          message = "This email or phone number is already registered.";
+        }
+        setSnackbarMessage(message);
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
+      }
+    } catch (error: any) {
+      console.log("Error:", error);
+      setSnackbarMessage("An unexpected error has occurred.");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handleOtpVerificationClose = () => {
+    setIsOtpVerificationOpen(false);
+    setActiveTab("login");
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Login In");
+    // Handle login logic here
+  };
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
   return (
     <Drawer
       anchor="right"
@@ -82,35 +172,21 @@ const Login: FC<LoginProps> = ({ isOpen, onClose }) => {
 
           {/* Conditional Inputs */}
           {activeTab === "login" ? (
-            <>
+            <Box component={"form"} onSubmit={handleLogin} width={"100%"}>
               <Stack spacing={3} width="100%">
-                <input
+                <TextField
                   type="text"
-                  placeholder="Ady"
-                  style={{
-                    width: "100%",
-                    height: "50px",
-                    border: "none",
-                    outline: "none",
-                    borderRadius: "4px",
-                    paddingLeft: "12px",
-                    fontSize: "16px",
-                    background: "#F5F5F5",
-                  }}
+                  label="Ady"
+                  style={{ background: "#F5F5F5" }}
+                  fullWidth
+                  required
                 />
-                <input
-                  type="text"
-                  placeholder="Parol"
-                  style={{
-                    width: "100%",
-                    height: "50px",
-                    border: "none",
-                    outline: "none",
-                    borderRadius: "4px",
-                    paddingLeft: "12px",
-                    fontSize: "16px",
-                    background: "#F5F5F5",
-                  }}
+                <TextField
+                  type="password"
+                  label="Parol"
+                  style={{ background: "#F5F5F5" }}
+                  fullWidth
+                  required
                 />
               </Stack>
               <Stack
@@ -128,6 +204,7 @@ const Login: FC<LoginProps> = ({ isOpen, onClose }) => {
                 </Typography>
               </Stack>
               <Button
+                type={"submit"}
                 variant="contained"
                 sx={{
                   textTransform: "none",
@@ -158,67 +235,91 @@ const Login: FC<LoginProps> = ({ isOpen, onClose }) => {
                   agza boluň
                 </Typography>
               </Stack>
-            </>
+            </Box>
           ) : (
-            <>
-              <Stack spacing={1} width="100%">
-                <input
+            <Box component={"form"} onSubmit={handleRegister} width={"100%"}>
+              <Stack spacing={1} width="100%" mt={2}>
+                <TextField
                   type="text"
-                  placeholder="Ady"
-                  style={{
-                    width: "100%",
-                    height: "50px",
-                    border: "none",
-                    outline: "none",
-                    borderRadius: "4px",
-                    paddingLeft: "12px",
-                    fontSize: "16px",
-                    background: "#F5F5F5",
-                  }}
+                  label="Ady"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  style={{ background: "#F5F5F5" }}
+                  fullWidth
+                  required
                 />
-                <input
+                <TextField
                   type="text"
-                  placeholder="+993"
-                  style={{
-                    width: "100%",
-                    height: "50px",
-                    border: "none",
-                    outline: "none",
-                    borderRadius: "4px",
-                    paddingLeft: "12px",
-                    fontSize: "16px",
-                    background: "#F5F5F5",
-                  }}
+                  label="Familiýa"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  style={{ background: "#F5F5F5" }}
+                  fullWidth
+                  required
                 />
-                <input
+                <TextField
                   type="text"
-                  placeholder="E-mail"
-                  style={{
-                    width: "100%",
-                    height: "50px",
-                    border: "none",
-                    outline: "none",
-                    borderRadius: "4px",
-                    paddingLeft: "12px",
-                    fontSize: "16px",
-                    background: "#F5F5F5",
-                  }}
+                  label="+993"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  style={{ background: "#F5F5F5" }}
+                  fullWidth
+                  required
                 />
-                <input
-                  type="text"
-                  placeholder="Parol"
-                  style={{
-                    width: "100%",
-                    height: "50px",
-                    border: "none",
-                    outline: "none",
-                    borderRadius: "4px",
-                    paddingLeft: "12px",
-                    fontSize: "16px",
-                    background: "#F5F5F5",
-                  }}
+                <TextField
+                  type="email"
+                  label="E-mail"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={{ background: "#F5F5F5" }}
+                  fullWidth
+                  required
+                />
+                <TextField
+                  type="password"
+                  label="Parol"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{ background: "#F5F5F5" }}
+                  fullWidth
+                  required
                 />
               </Stack>
+              <input
+                type="file"
+                id="file-upload"
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+                ref={fileInputRef}
+              />
+              <Button
+                fullWidth
+                variant="outlined"
+                component="span"
+                onClick={handleButtonClick}
+                sx={{
+                  mt: 1,
+                  textTransform: "none",
+                  background: "#F5F5F5",
+                  color: "#2E2F38",
+                  "&.MuiButton-outlined": {
+                    borderColor: "#929292",
+                  },
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#929292",
+                  },
+                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "#929292",
+                  },
+                }}
+              >
+                {selectedFileName || "Upload Profile Picture"}
+              </Button>
+              {selectedFileName && (
+                <Typography variant="caption" ml={1}>
+                  {selectedFileName}
+                </Typography>
+              )}
               <Stack
                 direction="row"
                 justifyContent="center"
@@ -227,14 +328,18 @@ const Login: FC<LoginProps> = ({ isOpen, onClose }) => {
               >
                 <Checkbox
                   sx={{
-                    transform: "scale(0.8)", // Scale the size of the checkbox
-                    padding: "0px", // Reduce padding around the checkbox
+                    transform: "scale(0.8)",
+                    padding: "0px",
                   }}
+                  checked={isNotify}
+                  onChange={handleCheckboxChange}
                 />
                 <Typography fontSize="14px">Bildiriş almaga razymy?</Typography>
               </Stack>
               <Button
+                type={"submit"}
                 variant="contained"
+                disabled={UserViewModel.loading}
                 sx={{
                   textTransform: "none",
                   background: "#E0E0E0",
@@ -245,7 +350,7 @@ const Login: FC<LoginProps> = ({ isOpen, onClose }) => {
                   borderRadius: "4px",
                 }}
               >
-                Registrasiýa
+                {UserViewModel.loading ? "Registering..." : "Registrasiýa"}
               </Button>
               <Stack
                 direction="row"
@@ -266,12 +371,30 @@ const Login: FC<LoginProps> = ({ isOpen, onClose }) => {
                   Ulgama girmek
                 </Typography>
               </Stack>
-            </>
+            </Box>
           )}
         </Box>
       </>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+      <OtpVerification
+        isOpen={isOtpVerificationOpen}
+        onClose={handleOtpVerificationClose}
+      />
     </Drawer>
   );
-};
+});
 
 export default Login;

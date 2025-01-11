@@ -56,7 +56,7 @@ const OfferedGoodsBox: FC = () => {
     },
   ];
 
-  const [products, setProducts] = useState<any[]>(staticProducts);
+  const [products] = useState<any[]>(staticProducts);
   const [compareStates, setCompareStates] = useState<Record<number, boolean>>(
     {}
   );

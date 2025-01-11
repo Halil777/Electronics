@@ -9,19 +9,15 @@ interface Filters {
   brandId?: number;
 }
 
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  // Add other relevant fields as needed
-}
+// interface Product {
+//   id: number;
+//   name: string;
+//   price: number;
+//   // Add other relevant fields as needed
+// }
 
 const Sidebar: FC = () => {
   const [selectedFilters, setSelectedFilters] = useState<Filters>({});
-  const [filteredProducts, setFilteredProducts] = useState<Product[] | null>(
-    null
-  );
-  const [totalProducts, setTotalProducts] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -64,9 +60,6 @@ const Sidebar: FC = () => {
 
       const data = await response.json();
       console.log("Fetched data:", data); // Log the fetched data
-
-      setFilteredProducts(data.data);
-      setTotalProducts(data.total);
     } catch (err) {
       setError("Error fetching products.");
     } finally {

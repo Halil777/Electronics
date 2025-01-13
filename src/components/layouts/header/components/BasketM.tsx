@@ -7,7 +7,7 @@ const BasketM: FC = () => {
   return (
     <>
       <img
-        src="./icons/basket.svg"
+        src="/icons/basket.svg"
         onClick={() => navigate("/basket")}
         style={{ width: "20px" }}
         alt="basket picture"

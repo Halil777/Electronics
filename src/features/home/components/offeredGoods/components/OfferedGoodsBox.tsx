@@ -180,8 +180,8 @@ const OfferedGoodsBox: FC = () => {
                   <img
                     src={
                       compareStates[product.id]
-                        ? "./icons/compare white.svg"
-                        : "./icons/compare.svg"
+                        ? "/icons/compare white.svg"
+                        : "/icons/compare.svg"
                     }
                     alt="compare-icon"
                     style={{ marginRight: "5px" }}

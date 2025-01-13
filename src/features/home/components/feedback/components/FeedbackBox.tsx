@@ -48,7 +48,7 @@ const FeedbackBox: FC = () => {
       <Slider {...settings}>
         <Box>
           <Stack direction="row" justifyContent="center" my={4}>
-            <img src="./icons/“.svg" alt="feedback icon" />
+            <img src="/icons/“.svg" alt="feedback icon" />
           </Stack>
           <Typography sx={feedbackMessage}>
             What is Lorem Ipsum? Lorem Ipsum is simply dummy text...
@@ -67,7 +67,7 @@ const FeedbackBox: FC = () => {
         </Box>
         <Box>
           <Stack direction="row" justifyContent="center" my={4}>
-            <img src="./icons/“.svg" alt="feedback icon" />
+            <img src="/icons/“.svg" alt="feedback icon" />
           </Stack>
           <Typography sx={feedbackMessage}>
             What is Lorem Ipsum? Lorem Ipsum is simply dummy text...

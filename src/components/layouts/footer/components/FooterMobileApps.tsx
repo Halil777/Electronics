@@ -17,7 +17,7 @@ const FooterMobileApps: FC = () => {
             cursor: "pointer",
             transition: "all 0.3s ease-in-out",
           }}
-          src="./icons/appstore.svg"
+          src="/icons/appstore.svg"
           alt="appstore picture"
           className="appstore-img"
         />
@@ -32,7 +32,7 @@ const FooterMobileApps: FC = () => {
             cursor: "pointer",
             transition: "all 0.3s ease-in-out",
           }}
-          src="./icons/googleplay.svg"
+          src="/icons/googleplay.svg"
           alt="googleplay.svg"
           className="googleplay-img"
         />

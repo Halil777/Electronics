@@ -75,7 +75,7 @@ const FullDescriptionProduct: FC<Props> = observer(() => {
             sx={backPaper}
             elevation={3}
           >
-            <img src="./icons/back.svg" alt="back arrow" />
+            <img src="/icons/back.svg" alt="back arrow" />
           </Paper>
           <Grid container>
             <Grid size={{ lg: 6, md: 6, sm: 12, xs: 12 }}>
@@ -114,7 +114,7 @@ const FullDescriptionProduct: FC<Props> = observer(() => {
                 {selectedProduct?.title_tm}
               </Typography>
               <Typography>
-                Haryt kody: <span>123456789</span>
+                Haryt kody: <span>{selectedProduct?.tags || 123456789}</span>
               </Typography>
               <Stack spacing={2} my={3}>
                 {selectedProduct?.properties?.map((property: any, index) => (
@@ -125,7 +125,7 @@ const FullDescriptionProduct: FC<Props> = observer(() => {
                     justifyContent="space-between"
                   >
                     <Typography sx={currentSelectedProductProportiesTitle}>
-                      {property.key_tm}
+                      {property.title_en}
                     </Typography>
                     <Typography>{property.value_tm}</Typography>
                   </Stack>
@@ -150,7 +150,7 @@ const FullDescriptionProduct: FC<Props> = observer(() => {
                   Sebede goş
                 </Button>
                 <img
-                  src="./icons/compare.svg"
+                  src="/icons/compare.svg"
                   style={{ width: "30px", cursor: "pointer" }}
                   alt=""
                 />

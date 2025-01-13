@@ -80,7 +80,7 @@ const NavbarCategory: FC = () => {
       >
         <Typography sx={navLinks}>Kategoriýa</Typography>
         <img
-          src="./icons/category header icon.svg"
+          src="/icons/category header icon.svg"
           alt="navbar icon"
           style={{ transform: openCategories ? "rotate(180deg)" : "rotate(0)" }}
         />

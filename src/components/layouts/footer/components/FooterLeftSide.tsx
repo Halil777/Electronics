@@ -16,7 +16,7 @@ const FooterLeftSide: FC = () => {
         <Box sx={{ width: { lg: "80%", md: "80%", sm: "70%", xs: "60%" } }}>
           <img
             style={{ width: "100%" }}
-            src="./icons/footerLogo.svg"
+            src="/icons/footerLogo.svg"
             alt="footer logo"
           />
         </Box>

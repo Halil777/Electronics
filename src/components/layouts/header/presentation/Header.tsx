@@ -44,7 +44,7 @@ const Header: FC = () => {
           >
             <img
               onClick={() => navigate("/")}
-              src="./icons/logo.svg"
+              src="/icons/logo.svg"
               style={{ width: "150px", height: "28px" }}
               alt=""
             />

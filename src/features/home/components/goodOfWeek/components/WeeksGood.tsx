@@ -82,7 +82,7 @@ const WeeksGood: FC = () => {
             justifyContent="center"
           >
             <Stack direction="row" alignItems="center" spacing={1}>
-              <img src="./icons/lucide_crown.svg" alt="crown" />
+              <img src="/icons/lucide_crown.svg" alt="crown" />
               <Typography sx={weeksGoodTitle}>Товар недели</Typography>
             </Stack>
             <Typography sx={weeksGoodQualityDetail}>

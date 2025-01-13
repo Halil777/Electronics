@@ -25,13 +25,13 @@ const NavbarSearchGlobal: FC<{ onClose: () => void }> = ({ onClose }) => {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <img src="./icons/search.svg" alt="search" />
+              <img src="/icons/search.svg" alt="search" />
             </InputAdornment>
           ),
           endAdornment: searchValue && (
             <InputAdornment position="end">
               <img
-                src="./icons/close.svg"
+                src="/icons/close.svg"
                 alt="close"
                 style={{ cursor: "pointer" }}
                 onClick={() => {

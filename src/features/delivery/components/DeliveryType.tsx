@@ -74,7 +74,7 @@ const DeliveryType: FC = () => {
                 />
               </Box>
               <Stack direction="row" p={3} spacing={3}>
-                <img src="./icons/express.svg" alt="express type" />
+                <img src="/icons/express.svg" alt="express type" />
                 <Stack spacing={1}>
                   <Typography
                     sx={{ fontSize: "14px", color: "#0470C4", fontWeight: 600 }}
@@ -131,7 +131,7 @@ const DeliveryType: FC = () => {
                 />
               </Box>
               <Stack direction="row" p={3} spacing={3}>
-                <img src="./icons/mail.svg" alt="express type" />
+                <img src="/icons/mail.svg" alt="express type" />
                 <Stack spacing={1}>
                   <Typography
                     sx={{ fontSize: "14px", color: "#86BF93", fontWeight: 600 }}
@@ -190,7 +190,7 @@ const DeliveryType: FC = () => {
                 />
               </Box>
               <Stack direction="row" p={3} spacing={3}>
-                <img src="./icons/courier.svg" alt="express type" />
+                <img src="/icons/courier.svg" alt="express type" />
                 <Stack spacing={1}>
                   <Typography
                     sx={{ fontSize: "14px", color: "#D0A35C", fontWeight: 600 }}
@@ -247,7 +247,7 @@ const DeliveryType: FC = () => {
                 />
               </Box>
               <Stack direction="row" p={3} spacing={2}>
-                <img src="./icons/walk.svg" alt="express type" />
+                <img src="/icons/walk.svg" alt="express type" />
                 <Stack spacing={1}>
                   <Typography
                     sx={{ fontSize: "14px", color: "#0470C4", fontWeight: 600 }}

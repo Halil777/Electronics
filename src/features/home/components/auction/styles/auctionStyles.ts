@@ -1,12 +1,12 @@
 export const auctionTitle = {
-  fontize: "12px",
+  fontize: "10px",
   fontWeight: 600,
   color: "#2E2F38",
   lineHeight: "16.34px",
 };
 
 export const auctionSubtitle = {
-  fontize: "10px",
+  fontize: "8px",
   fontWeight: 400,
   color: "#2E2F38",
   lineHeight: "13.62px",

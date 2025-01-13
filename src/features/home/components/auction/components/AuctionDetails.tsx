@@ -1,40 +1,172 @@
-import { Box, Stack, Typography } from "@mui/material";
-import { FC } from "react";
+import { Box, Paper, Stack, Typography, Skeleton } from "@mui/material";
+import { FC, useState, useEffect } from "react";
 import {
   auctionCost,
   auctionDateBox,
   auctionSubtitle,
   auctionTitle,
 } from "../styles/auctionStyles";
+import { sideLinkBox } from "../../sidebar/components/sidelinksStyle";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import { decode } from "blurhash";
+import { motion, AnimatePresence } from "framer-motion";
 
-const AuctionDetails: FC = () => {
+// Function to convert blurhash to base64
+const blurHashToBase64 = (
+  blurhash?: string,
+  width: number = 32,
+  height: number = 32
+) => {
+  if (!blurhash) return null;
+  try {
+    const pixels = decode(blurhash, width, height);
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+    const imageData = ctx.createImageData(width, height);
+    imageData.data.set(pixels);
+    ctx.putImageData(imageData, 0, 0);
+    return canvas.toDataURL();
+  } catch (e) {
+    console.error("error blurhash", e);
+    return null;
+  }
+};
+
+interface AuctionDetailsProps {
+  isLoading: boolean;
+  blurhash?: string;
+}
+const AuctionDetails: FC<AuctionDetailsProps> = ({ isLoading, blurhash }) => {
+  const [timeRemaining, setTimeRemaining] = useState({
+    days: 2,
+    hours: 12,
+    minutes: 3,
+    seconds: 2,
+  });
+
+  useEffect(() => {
+    if (!isLoading) {
+      const timer = setInterval(() => {
+        setTimeRemaining((prevTime) => {
+          let { days, hours, minutes, seconds } = prevTime;
+
+          if (seconds > 0) {
+            seconds--;
+          } else {
+            seconds = 59;
+            if (minutes > 0) {
+              minutes--;
+            } else {
+              minutes = 59;
+              if (hours > 0) {
+                hours--;
+              } else {
+                hours = 23;
+                if (days > 0) {
+                  days--;
+                } else {
+                  clearInterval(timer);
+                  return prevTime; // Stop counter
+                }
+              }
+            }
+          }
+
+          return { days, hours, minutes, seconds };
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [isLoading]);
+
+  const timerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.3, ease: "easeInOut" },
+    },
+  };
+  if (isLoading) {
+    return (
+      <>
+        <Paper elevation={1} sx={sideLinkBox}>
+          <Skeleton variant="text" sx={{ fontSize: "12px", width: 80 }} />
+        </Paper>
+        <Box
+          sx={{
+            width: "100%",
+            height: "267px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Skeleton variant="rectangular" width="100%" height="100%" />
+        </Box>
+        <Stack mt={{ lg: 2, md: 2, sm: 0, xs: 0 }} mb={3} spacing={2}>
+          <Skeleton variant="text" sx={{ fontSize: "1.2rem", width: 250 }} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: 180 }} />
+        </Stack>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          mb={2}
+        >
+          <Skeleton variant="text" sx={{ fontSize: "1.5rem", width: 80 }} />
+        </Stack>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          spacing={2}
+        >
+          {Array.from({ length: 4 }).map((_, index) => (
+            <Stack key={index} alignItems="center" spacing={1}>
+              <Skeleton variant="circular" width={30} height={30} />
+              <Skeleton variant="text" sx={{ fontSize: "1rem", width: 60 }} />
+            </Stack>
+          ))}
+        </Stack>
+      </>
+    );
+  }
   return (
     <>
-      <Box
-        sx={{
-          background: "#E0E0E0",
-          height: "34px",
-          p: "10px",
-          display: "flex",
-          alignItems: "center",
-          color: "#2E2F38",
-        }}
-      >
-        <Typography>Auction</Typography>
-      </Box>
+      <Paper elevation={1} sx={sideLinkBox}>
+        <Typography sx={{ fontWeight: 700, fontSize: "12px" }}>
+          Auksion
+        </Typography>
+      </Paper>
       <Box
         sx={{
           width: "100%",
           height: "267px", // Фиксированная высота контейнера
           display: "flex",
           alignItems: "center",
-          justifyContent: "center", // Центрируем контент (если нужно)
-          backgroundImage: "url(./images/banner1.png)", // Устанавливаем изображение как фон
-          backgroundSize: "95% 65%", // Изображение будет масштабироваться, чтобы покрыть контейнер
-          backgroundPosition: "center", // Центрируем изображение по центру
-          backgroundRepeat: "no-repeat", // Отключаем повторение фона
+          justifyContent: "center",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "95% 65%",
         }}
-      ></Box>
+      >
+        <LazyLoadImage
+          src="./images/banner1.png"
+          placeholderSrc={blurHashToBase64(blurhash) || ""}
+          effect="blur"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "contain",
+          }}
+        />
+      </Box>
       <Stack mt={{ lg: 2, md: 2, sm: 0, xs: 0 }} mb={3} spacing={2}>
         <Typography sx={auctionTitle}>
           Noutbuk Deli Alienware m16 R2(1006663238)
@@ -50,22 +182,28 @@ const AuctionDetails: FC = () => {
         justifyContent="center"
         spacing={2}
       >
-        <Stack alignItems="center" spacing={1}>
-          <Box sx={auctionDateBox}>2</Box>
-          <Typography sx={auctionSubtitle}>Gun</Typography>
-        </Stack>
-        <Stack alignItems="center" spacing={1}>
-          <Box sx={auctionDateBox}>12</Box>
-          <Typography sx={auctionSubtitle}>Sagat</Typography>
-        </Stack>
-        <Stack alignItems="center" spacing={1}>
-          <Box sx={auctionDateBox}>3</Box>
-          <Typography sx={auctionSubtitle}>Minut</Typography>
-        </Stack>
-        <Stack alignItems="center" spacing={1}>
-          <Box sx={auctionDateBox}>2</Box>
-          <Typography sx={auctionSubtitle}>Sekunt</Typography>
-        </Stack>
+        <AnimatePresence>
+          {Object.keys(timeRemaining).map((key, index) => (
+            <motion.div
+              key={key}
+              initial="hidden"
+              animate="visible"
+              variants={timerVariants}
+              custom={index}
+              style={{
+                alignItems: "center",
+                display: "flex",
+                gap: "5px",
+                flexDirection: "column",
+              }}
+            >
+              <Box sx={auctionDateBox}>
+                {timeRemaining[key as keyof typeof timeRemaining]}
+              </Box>
+              <Typography sx={auctionSubtitle}>{key}</Typography>
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </Stack>
     </>
   );

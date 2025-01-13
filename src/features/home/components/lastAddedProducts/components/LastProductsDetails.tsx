@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Paper, Stack, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { FC } from "react";
@@ -11,6 +11,7 @@ import {
 } from "../styles/lastAddedProductsStyle";
 import { useProduct } from "../../../../../hooks/products/useProduct";
 import { useNavigate } from "react-router-dom";
+import { sideLinkBox } from "../../sidebar/components/sidelinksStyle";
 
 const LastProductsDetails: FC = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
@@ -32,19 +33,11 @@ const LastProductsDetails: FC = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          background: "#E0E0E0",
-          height: "34px",
-          p: "10px",
-          display: "flex",
-          alignItems: "center",
-          color: "#2E2F38",
-        }}
-        mt={3}
-      >
-        <Typography>Soňky goşulanlar</Typography>
-      </Box>
+      <Paper elevation={1} sx={sideLinkBox}>
+        <Typography sx={{ fontWeight: 700, fontSize: "12px" }}>
+          Soňky goşulanlar
+        </Typography>
+      </Paper>
       <Stack p={2} spacing={1} ref={ref}>
         {lastAddedDiscountedProducts?.map((product, index) => (
           <motion.div

@@ -46,7 +46,7 @@ const OtpVerification: FC<OtpVerificationProps> = observer(
 
     return (
       <Dialog open={isOpen} onClose={onClose}>
-        <DialogTitle>OTP Verification: {UserViewModel.user?.otp}</DialogTitle>
+        <DialogTitle>OTP Verification</DialogTitle>
         <DialogContent sx={{ p: "20px" }}>
           <Typography>
             Please enter the OTP sent to your phone number

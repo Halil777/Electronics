@@ -1,5 +1,5 @@
 export const deliveryNavigateTitle = {
-  color: "#000",
+  color: "#777777",
   fontSize: "14px",
   fontWeight: 400,
   marginBottom: "20px",

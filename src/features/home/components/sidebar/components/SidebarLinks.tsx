@@ -1,11 +1,4 @@
-import {
-  Box,
-  Paper,
-  Stack,
-  Typography,
-  Collapse,
-  Skeleton,
-} from "@mui/material";
+import { Box, Paper, Stack, Typography, Skeleton } from "@mui/material";
 import { FC, useState } from "react";
 import { sideLinkBox, sidelinkImageBox } from "./sidelinksStyle";
 import { useCategories } from "../../../../../hooks/category/useCategory";

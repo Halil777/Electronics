@@ -8,7 +8,11 @@ import { useNavigate } from "react-router-dom";
 import LangFlags from "../../../../language/LangFlags";
 import BasketM from "../components/BasketM";
 
-const Header: FC = () => {
+interface HeaderProps {
+  isLoading: boolean;
+}
+
+const Header: FC<HeaderProps> = ({ isLoading }) => {
   const navigate = useNavigate();
 
   return (
@@ -23,7 +27,7 @@ const Header: FC = () => {
                 <HeaderLogo />
               </Grid>
               <Grid size={size4_1}>
-                <HeaderContacts />
+                <HeaderContacts isLoading={isLoading} />
               </Grid>
             </Grid>
           </Box>

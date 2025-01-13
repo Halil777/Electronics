@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "../components/layouts/Layout";
-import { Suspense, lazy, useState, useEffect, FC } from "react";
+import { Suspense, lazy, useState, useEffect } from "react";
 import ScrollToTop from "../language/utils/ScrollToTop ";
 import CustomSkeletonLoader from "../components/skeleton/CustomSkeletonLoader";
 

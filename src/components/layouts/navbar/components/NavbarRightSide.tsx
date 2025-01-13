@@ -29,6 +29,7 @@ const NavbarRightSide: FC = observer(() => {
     if (items.length > 0) {
       setOpenSnackbar(true);
       setMessage("Product added to basket");
+      console.log(openSnackbar);
     }
   }, [items.length]);
 
@@ -41,6 +42,7 @@ const NavbarRightSide: FC = observer(() => {
     }
     setOpenSnackbar(false);
     setMessage(null);
+    console.log(event);
   };
   return (
     <>

@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "../components/layouts/Layout";
-import { Suspense, lazy, useState, useEffect } from "react";
+import { Suspense, lazy, useState, useEffect, FC } from "react";
 import ScrollToTop from "../language/utils/ScrollToTop ";
+import CustomSkeletonLoader from "../components/skeleton/CustomSkeletonLoader";
 
 const Home = lazy(() => import("../features/home/presentation/Home"));
 const Categories = lazy(
@@ -44,6 +45,8 @@ const FullDescriptionProduct = lazy(
   () => import("../features/products/components/FullDescriptionProduct")
 );
 
+// Custom Skeleton Loader
+
 const App = () => {
   const [selectedFilters] = useState<any>({});
 
@@ -57,7 +60,7 @@ const App = () => {
     <div>
       <BrowserRouter>
         <ScrollToTop />
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<CustomSkeletonLoader />}>
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />

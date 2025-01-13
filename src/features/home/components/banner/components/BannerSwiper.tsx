@@ -1,7 +1,34 @@
 import React, { useRef } from "react";
 import Slider from "react-slick";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Skeleton } from "@mui/material";
 import { useBanners } from "../../../../../hooks/banner/useBanners";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import { decode } from "blurhash";
+
+// Function to convert blurhash to base64
+const blurHashToBase64 = (
+  blurhash: string,
+  width: number = 32,
+  height: number = 32
+) => {
+  if (!blurhash) return null;
+  try {
+    const pixels = decode(blurhash, width, height);
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+    const imageData = ctx.createImageData(width, height);
+    imageData.data.set(pixels);
+    ctx.putImageData(imageData, 0, 0);
+    return canvas.toDataURL();
+  } catch (e) {
+    console.error("error blurhash", e);
+    return null;
+  }
+};
 
 // Slick settings
 const settings = {
@@ -10,8 +37,7 @@ const settings = {
   speed: 4000,
   slidesToShow: 1,
   slidesToScroll: 1,
-  autoplay: true,
-  autoplaySpeed: 5000,
+  autoplay: false, // Autoplay disabled
   arrows: true,
   nextArrow: <div className="swiper-button-next" />,
   prevArrow: <div className="swiper-button-prev" />,
@@ -22,7 +48,29 @@ const BannerSwiper: React.FC = () => {
   const mainSliderRef = useRef<Slider | null>(null); // Main slider reference
   const thumbsSliderRef = useRef<Slider | null>(null); // Thumbnail slider reference
 
-  if (isLoading) return <Typography>Loading banners...</Typography>;
+  if (isLoading) {
+    return (
+      <>
+        <Box
+          sx={{
+            height: {
+              lg: "380px",
+              md: "380px",
+              sm: "200px",
+              xs: "200px",
+            },
+          }}
+        >
+          <Skeleton variant="rectangular" width="100%" height="100%" />
+        </Box>
+        <Box sx={{ display: "flex", gap: 2, marginTop: 2 }}>
+          <Skeleton variant="rectangular" width="50%" height="180px" />
+          <Skeleton variant="rectangular" width="50%" height="180px" />
+        </Box>
+      </>
+    );
+  }
+
   if (isError) return <Typography>Error loading banners</Typography>;
 
   return (
@@ -34,7 +82,7 @@ const BannerSwiper: React.FC = () => {
         asNavFor={thumbsSliderRef.current || undefined} // Link with thumbnail slider
       >
         {banners && Array.isArray(banners)
-          ? banners?.map((banner: { imageUrl: string }, index: number) => (
+          ? banners?.map((banner: any, index: number) => (
               <div key={index}>
                 <Box
                   sx={{
@@ -46,9 +94,11 @@ const BannerSwiper: React.FC = () => {
                     },
                   }}
                 >
-                  <img
+                  <LazyLoadImage
                     src={banner.imageUrl}
                     alt={`Banner ${index + 1}`}
+                    placeholderSrc={blurHashToBase64(banner.blurhash) || ""}
+                    effect="blur"
                     style={{
                       width: "100%",
                       height: "100%",
@@ -74,14 +124,16 @@ const BannerSwiper: React.FC = () => {
         className="gallery-thumbs-small"
       >
         {banners && Array.isArray(banners)
-          ? banners?.map((banner: { imageUrl: string }, index: number) => (
+          ? banners?.map((banner: any, index: number) => (
               <div
                 key={`small_banners_image_key${index}`}
                 style={{ marginRight: "10px" }}
               >
-                <img
+                <LazyLoadImage
                   src={banner.imageUrl}
                   alt={`Thumbnail ${index + 1}`}
+                  placeholderSrc={blurHashToBase64(banner.blurhash) || ""}
+                  effect="blur"
                   style={{
                     width: "100%",
                     height: "180px",

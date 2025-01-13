@@ -13,6 +13,7 @@ import {
   discountGoodLastCount,
   discountGoodTitle,
 } from "../../../home/components/discountedGoods/styles/discoutGoodsStyle";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Product {
   id: number;
@@ -104,140 +105,159 @@ const CategoryProductsBox: FC<CategoryProductsBoxProps> = ({ products }) => {
     }));
   };
 
+  const productItemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (delay: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: delay * 0.2, duration: 0.7, ease: "easeInOut" },
+    }),
+  };
+
   return (
     <Grid container spacing={2}>
-      {products.map((product) => (
-        <Grid size={{ lg: 3, md: 4, sm: 6, xs: 6 }} key={product.id}>
-          <Box>
-            <Box
-              sx={{
-                width: "100%",
-                height: {
-                  lg: "200px",
-                  md: "200px",
-                  sm: "180px",
-                  xs: "150px",
-                },
-                overflow: "hidden",
-                background: "#f7f7f7",
-                p: 2,
-                borderRadius: "6px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+      <AnimatePresence>
+        {products.map((product, index) => (
+          <Grid size={{ lg: 3, md: 4, sm: 6, xs: 6 }} key={product.id}>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={productItemVariants}
+              custom={index}
             >
-              <img
-                onClick={() => navigate(`/product/${product.id}`)}
-                src={product.images[0] || "./images/placeholder.png"}
-                alt={product.title_en}
-                style={{
-                  width: "90%",
-                  height: "90%",
-                  objectFit: "cover",
-                  display: "block",
-                }}
-                loading="lazy"
-              />
-            </Box>
-            <Stack my={2}>
-              <Typography
-                sx={discountGoodTitle}
-                noWrap
-                onClick={() => navigate(`/product/${product.id}`)}
-              >
-                {product.title_en}
-              </Typography>
-              <Typography sx={discountGoodCompanyTitle}>
-                {product.brand?.title_en || "No Brand"}
-              </Typography>
-              <Stack direction="row" spacing={1} my={1}>
-                <Typography sx={discountGoodCodeText}>Haryt kody:</Typography>
-                <Typography sx={discountGoodCodeText}>
-                  {product.stock || "N/A"}
-                  {/* here need to product code instead stock */}
-                </Typography>
-              </Stack>
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Typography sx={discountGoodCost}>
-                  {product.price} m.
-                </Typography>
-                <Button variant="contained" sx={discountGoodLastCount}>
-                  Nagt {product.stock || 0}
-                </Button>
-              </Stack>
-            </Stack>
-            <Button
-              variant="contained"
-              fullWidth
-              endIcon={<LocalGroceryStoreOutlinedIcon />}
-              sx={addStoreDiscountGoodButton}
-            >
-              Sebede goş
-            </Button>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Button
-                onClick={() => handleCompareClick(product.id)}
-                sx={{
-                  ...compareDiscountGoodsCostButton,
-                  backgroundColor: compareStates[product.id]
-                    ? "#C3000E"
-                    : "transparent",
-                  color: compareStates[product.id] ? "#fff" : "#929292",
-                  "&:hover": {
-                    backgroundColor: compareStates[product.id]
-                      ? "#C3000E"
-                      : "#f0f0f0",
-                  },
-                }}
-              >
-                <img
-                  src={
-                    compareStates[product.id]
-                      ? "/icons/compare white.svg"
-                      : "/icons/compare.svg"
-                  }
-                  alt="compare-icon"
-                  style={{ marginRight: "5px" }}
-                />
-                Deňeşdir
-              </Button>
-              <Button
-                onClick={() => handleFavoriteClick(product.id)}
-                sx={{
-                  ...compareDiscountGoodsCostButton,
-                  backgroundColor: favoriteStates[product.id]
-                    ? "#C3000E"
-                    : "transparent",
-                  color: favoriteStates[product.id] ? "#fff" : "#929292",
-                  "&:hover": {
-                    backgroundColor: favoriteStates[product.id]
-                      ? "#C3000E"
-                      : "#f0f0f0",
-                  },
-                }}
-              >
-                <FavoriteBorderIcon
+              <Box>
+                <Box
                   sx={{
-                    fontWeight: 300,
-                    width: "12px",
-                    color: favoriteStates[product.id] ? "#fff" : "#929292",
+                    width: "100%",
+                    height: {
+                      lg: "200px",
+                      md: "200px",
+                      sm: "180px",
+                      xs: "150px",
+                    },
+                    overflow: "hidden",
+                    background: "#f7f7f7",
+                    p: 2,
+                    borderRadius: "6px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
-                />
-                Saýla
-              </Button>
-            </Stack>
-          </Box>
-        </Grid>
-      ))}
+                >
+                  <img
+                    onClick={() => navigate(`/product/${product.id}`)}
+                    src={product.images[0] || "./images/placeholder.png"}
+                    alt={product.title_en}
+                    style={{
+                      width: "90%",
+                      height: "90%",
+                      objectFit: "cover",
+                      display: "block",
+                    }}
+                    loading="lazy"
+                  />
+                </Box>
+                <Stack my={2}>
+                  <Typography
+                    sx={discountGoodTitle}
+                    noWrap
+                    onClick={() => navigate(`/product/${product.id}`)}
+                  >
+                    {product.title_en}
+                  </Typography>
+                  <Typography sx={discountGoodCompanyTitle}>
+                    {product.brand?.title_en || "No Brand"}
+                  </Typography>
+                  <Stack direction="row" spacing={1} my={1}>
+                    <Typography sx={discountGoodCodeText}>
+                      Haryt kody:
+                    </Typography>
+                    <Typography sx={discountGoodCodeText}>
+                      {product.tags || "N/A"}
+                    </Typography>
+                  </Stack>
+                  <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                  >
+                    <Typography sx={discountGoodCost}>
+                      {product.price} m.
+                    </Typography>
+                    <Button variant="contained" sx={discountGoodLastCount}>
+                      Nagt {product.stock || 0}
+                    </Button>
+                  </Stack>
+                </Stack>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  endIcon={<LocalGroceryStoreOutlinedIcon />}
+                  sx={addStoreDiscountGoodButton}
+                >
+                  Sebede goş
+                </Button>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Button
+                    onClick={() => handleCompareClick(product.id)}
+                    sx={{
+                      ...compareDiscountGoodsCostButton,
+                      backgroundColor: compareStates[product.id]
+                        ? "#C3000E"
+                        : "transparent",
+                      color: compareStates[product.id] ? "#fff" : "#929292",
+                      "&:hover": {
+                        backgroundColor: compareStates[product.id]
+                          ? "#C3000E"
+                          : "#f0f0f0",
+                      },
+                    }}
+                  >
+                    <img
+                      src={
+                        compareStates[product.id]
+                          ? "/icons/compare white.svg"
+                          : "/icons/compare.svg"
+                      }
+                      alt="compare-icon"
+                      style={{ marginRight: "5px" }}
+                    />
+                    Deňeşdir
+                  </Button>
+                  <Button
+                    onClick={() => handleFavoriteClick(product.id)}
+                    sx={{
+                      ...compareDiscountGoodsCostButton,
+                      backgroundColor: favoriteStates[product.id]
+                        ? "#C3000E"
+                        : "transparent",
+                      color: favoriteStates[product.id] ? "#fff" : "#929292",
+                      "&:hover": {
+                        backgroundColor: favoriteStates[product.id]
+                          ? "#C3000E"
+                          : "#f0f0f0",
+                      },
+                    }}
+                  >
+                    <FavoriteBorderIcon
+                      sx={{
+                        fontWeight: 300,
+                        width: "12px",
+                        color: favoriteStates[product.id] ? "#fff" : "#929292",
+                      }}
+                    />
+                    Saýla
+                  </Button>
+                </Stack>
+              </Box>
+            </motion.div>
+          </Grid>
+        ))}
+      </AnimatePresence>
     </Grid>
   );
 };

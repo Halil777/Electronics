@@ -25,7 +25,7 @@ const NavbarRightSide: FC = observer(() => {
       ) : (
         <Stack direction="row" alignItems="center" spacing={2}>
           <img
-            src="./navbarIcons/search.svg"
+            src="/navbarIcons/search.svg"
             style={{ cursor: "pointer" }}
             alt="search"
             onClick={handleSearchToggle}
@@ -53,19 +53,19 @@ const NavbarRightSide: FC = observer(() => {
             />
           )}
           <img
-            src="./navbarIcons/mdi-light_heart.svg"
+            src="/navbarIcons/mdi-light_heart.svg"
             style={{ cursor: "pointer" }}
             alt="heart"
           />
           <img
             onClick={() => navigate("/basket")}
-            src="./navbarIcons/iconamoon_shopping-card-light.svg"
+            src="/navbarIcons/iconamoon_shopping-card-light.svg"
             alt="basket"
             style={{ cursor: "pointer" }}
           />
           <img
             onClick={() => navigate("/compare")}
-            src="./navbarIcons/compare.svg"
+            src="/navbarIcons/compare.svg"
             style={{ cursor: "pointer" }}
             alt="gift"
           />

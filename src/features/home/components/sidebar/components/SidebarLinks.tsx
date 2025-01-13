@@ -1,9 +1,43 @@
-import { Box, Paper, Stack, Typography, Collapse } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Stack,
+  Typography,
+  Collapse,
+  Skeleton,
+} from "@mui/material";
 import { FC, useState } from "react";
 import { sideLinkBox, sidelinkImageBox } from "./sidelinksStyle";
 import { useCategories } from "../../../../../hooks/category/useCategory";
 import { useSubcategories } from "../../../../../hooks/subcategry/useSubcategory";
 import { useNavigate } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import { decode } from "blurhash";
+import { motion, AnimatePresence } from "framer-motion";
+// Function to convert blurhash to base64
+const blurHashToBase64 = (
+  blurhash: string,
+  width: number = 32,
+  height: number = 32
+) => {
+  if (!blurhash) return null;
+  try {
+    const pixels = decode(blurhash, width, height);
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+    const imageData = ctx.createImageData(width, height);
+    imageData.data.set(pixels);
+    ctx.putImageData(imageData, 0, 0);
+    return canvas.toDataURL();
+  } catch (e) {
+    console.error("error blurhash", e);
+    return null;
+  }
+};
 
 interface SidebarLinksProps {
   selectedFilters: {
@@ -43,8 +77,61 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
     navigate("/categories?subcategoryId=" + subcategory.id);
   };
 
-  if (isCategoriesLoading)
-    return <Typography>Loading categories...</Typography>;
+  const categoryItemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (delay: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: delay * 0.05, duration: 0.3, ease: "easeInOut" },
+    }),
+  };
+
+  const subcategoryItemVariants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: (delay: number) => ({
+      opacity: 1,
+      x: 0,
+      transition: { delay: delay * 0.05, duration: 0.3, ease: "easeInOut" },
+    }),
+  };
+
+  if (isCategoriesLoading) {
+    return (
+      <Box sx={{ background: "#fff", width: "100%", height: "auto" }}>
+        <Paper elevation={1} sx={sideLinkBox}>
+          <Skeleton variant="text" sx={{ fontSize: "12px", width: 70 }} />
+        </Paper>
+        <Box
+          sx={{
+            height: "50vh",
+            overflowY: "auto",
+            scrollbarWidth: "none",
+            "&::-webkit-scrollbar": { display: "none" },
+          }}
+        >
+          {Array.from(new Array(5)).map((_, index) => (
+            <Box key={index} sx={{ padding: 1 }}>
+              <Stack direction="row" alignItems="center" spacing={1}>
+                <Skeleton variant="circular" width={30} height={30} />
+                <Skeleton variant="text" sx={{ fontSize: "12px", width: 80 }} />
+              </Stack>
+              <Stack spacing={1} mt={1} pl={2}>
+                {Array.from(new Array(2)).map((_, index) => (
+                  <Stack key={index}>
+                    <Skeleton
+                      variant="text"
+                      sx={{ fontSize: "12px", width: 70 }}
+                    />
+                  </Stack>
+                ))}
+              </Stack>
+            </Box>
+          ))}
+        </Box>
+      </Box>
+    );
+  }
+
   if (!categories) return <Typography>No categories found</Typography>;
 
   return (
@@ -62,9 +149,13 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
           "&::-webkit-scrollbar": { display: "none" },
         }}
       >
-        {categories.map((category: any) => (
-          <div
+        {categories.map((category: any, index: number) => (
+          <motion.div
             key={category.id}
+            initial="hidden"
+            animate="visible"
+            variants={categoryItemVariants}
+            custom={index}
             onMouseEnter={() => setExpandedCategory(category)}
             onMouseLeave={() => setExpandedCategory(null)}
           >
@@ -85,9 +176,11 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
             >
               <Stack direction="row" alignItems="center" spacing={1}>
                 <Box sx={sidelinkImageBox}>
-                  <img
+                  <LazyLoadImage
                     src={category?.imageUrl || "./images/banner1.png"}
                     alt={category?.title_en}
+                    placeholderSrc={blurHashToBase64(category.blurhash) || ""}
+                    effect="blur"
                     style={{
                       width: "100%",
                       height: "100%",
@@ -100,42 +193,63 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
                 </Typography>
               </Stack>
             </Stack>
-            <Collapse
-              in={expandedCategory?.id === category.id}
-              timeout={300}
-              unmountOnExit
-            >
-              <Stack spacing={1} mt={1} pl={2}>
-                {isSubcategoriesLoading ? (
-                  <Typography>Loading subcategories...</Typography>
-                ) : isSubcategoryError ? (
-                  <Typography>Error Fetching Subcategories</Typography>
-                ) : (
-                  subcategories?.map((sub: any) => (
-                    <Stack
-                      key={sub.id}
-                      direction="row"
-                      spacing={1}
-                      alignItems="center"
-                      sx={{
-                        padding: "6px",
-                        borderRadius: "4px",
-                        "&:hover": {
-                          backgroundColor: "#fafafa",
-                          cursor: "pointer",
-                        },
-                      }}
-                      onClick={() => handleSubcategoryClick(sub)}
-                    >
-                      <Typography sx={{ fontSize: "13px" }}>
-                        {sub?.title_en}
-                      </Typography>
-                    </Stack>
-                  ))
-                )}
-              </Stack>
-            </Collapse>
-          </div>
+            <AnimatePresence>
+              {expandedCategory?.id === category.id && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Stack spacing={1} mt={1} pl={2}>
+                    {isSubcategoriesLoading ? (
+                      <Stack spacing={1} mt={1} pl={2}>
+                        {Array.from(new Array(3)).map((_, index) => (
+                          <Stack key={index}>
+                            <Skeleton
+                              variant="text"
+                              sx={{ fontSize: "12px", width: 70 }}
+                            />
+                          </Stack>
+                        ))}
+                      </Stack>
+                    ) : isSubcategoryError ? (
+                      <Typography>Error Fetching Subcategories</Typography>
+                    ) : (
+                      subcategories?.map((sub: any, index: number) => (
+                        <motion.div
+                          key={sub.id}
+                          initial="hidden"
+                          animate="visible"
+                          variants={subcategoryItemVariants}
+                          custom={index}
+                        >
+                          <Stack
+                            direction="row"
+                            spacing={1}
+                            alignItems="center"
+                            sx={{
+                              padding: "6px",
+                              borderRadius: "4px",
+                              "&:hover": {
+                                backgroundColor: "#fafafa",
+                                cursor: "pointer",
+                              },
+                            }}
+                            onClick={() => handleSubcategoryClick(sub)}
+                          >
+                            <Typography sx={{ fontSize: "13px" }}>
+                              {sub?.title_en}
+                            </Typography>
+                          </Stack>
+                        </motion.div>
+                      ))
+                    )}
+                  </Stack>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
         ))}
       </Box>
     </Box>

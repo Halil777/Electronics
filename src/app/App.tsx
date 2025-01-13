@@ -40,6 +40,9 @@ const BuyPresentCard = lazy(
 );
 const Embassy = lazy(() => import("../features/embassy/presentation/Embassy"));
 const Compare = lazy(() => import("../features/compare/presentation/Compare"));
+const FullDescriptionProduct = lazy(
+  () => import("../features/products/components/FullDescriptionProduct")
+);
 
 const App = () => {
   const [selectedFilters] = useState<any>({});
@@ -49,31 +52,6 @@ const App = () => {
       // fetchFilteredProducts(selectedFilters);
     }
   }, [selectedFilters]);
-
-  // const fetchFilteredProducts = async (filters: any) => {
-  //   try {
-  //     const queryParams = new URLSearchParams({
-  //       page: "1", // Default page
-  //       limit: "20", // Default limit
-  //     });
-
-  //     if (filters.categoryId)
-  //       queryParams.append("categoryId", String(filters.categoryId));
-  //     if (filters.subcategoryId)
-  //       queryParams.append("subcategoryId", String(filters.subcategoryId));
-  //     if (filters.segmentId)
-  //       queryParams.append("segmentId", String(filters.segmentId));
-  //     if (filters.brandId)
-  //       queryParams.append("brandId", String(filters.brandId));
-
-  //     const url = `${BASE_URL}/products/client/products?${queryParams.toString()}`;
-
-  //     const response = await axios.get(url);
-  //     const data = response.data; // Axios automatically parses JSON
-  //   } catch (error) {
-  //     console.error("Error fetching products:", error);
-  //   }
-  // };
 
   return (
     <div>
@@ -85,7 +63,11 @@ const App = () => {
               <Route index element={<Home />} />
               <Route path="/categories" element={<Categories />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/product" element={<Products />} />
+              <Route path="/products/" element={<Products />} />
+              <Route
+                path="/product/:productId"
+                element={<FullDescriptionProduct />}
+              />
               <Route path="/users" element={<Users />} />
               <Route path="/embassy" element={<Embassy />} />
               <Route path="/basket" element={<Basket />} />

@@ -78,6 +78,7 @@ const NavbarCategory: FC = () => {
             left: "5%",
             zIndex: 1000,
             p: 2,
+            mt: 2,
           }}
           ref={dropdownRef}
         >

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -11,7 +11,7 @@ import {
 import Grid from "@mui/material/Grid2";
 import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStoreOutlined";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   backPaper,
   currentProductImageBox,
@@ -23,16 +23,48 @@ import {
   smallProductImagePaper,
 } from "../styles/productStyle";
 import { addStoreDiscountGoodButton } from "../../home/components/discountedGoods/styles/discoutGoodsStyle";
+import { observer } from "mobx-react-lite";
+import ProductViewModel from "../presentation/ProductViewModel";
 
-const FullDescriptionProduct: FC = () => {
+interface Props {
+  // productId: number; // Removed
+}
+
+const FullDescriptionProduct: FC<Props> = observer(() => {
   const navigate = useNavigate();
-  const [currentImage, setCurrentImage] = useState("./images/category1.png");
+  const [currentImage, setCurrentImage] = useState<string | null>(null);
+  const { selectedProduct, fetchProductById, loading } = ProductViewModel;
+  const { productId } = useParams(); // Get productId from URL
 
-  const smallImages = [
-    "./images/category1.png",
-    "./images/category2.png",
-    "./images/category3.png",
-  ];
+  useEffect(() => {
+    if (productId && !isNaN(Number(productId))) {
+      console.log("FullDescriptionProduct - productId:", productId);
+      fetchProductById(Number(productId));
+    } else {
+      console.error("Invalid productId:", productId);
+    }
+  }, [productId, fetchProductById]);
+
+  useEffect(() => {
+    console.log("FullDescriptionProduct - selectedProduct:", selectedProduct);
+    if (
+      selectedProduct &&
+      selectedProduct.images &&
+      selectedProduct.images.length > 0
+    ) {
+      setCurrentImage(selectedProduct.images[0]);
+    }
+  }, [selectedProduct]);
+
+  const smallImages = selectedProduct?.images || [];
+
+  if (loading) {
+    return <div>Loading product data</div>;
+  }
+
+  if (!selectedProduct) {
+    return <div>No product data found</div>;
+  }
 
   return (
     <>
@@ -49,7 +81,7 @@ const FullDescriptionProduct: FC = () => {
             <Grid size={{ lg: 6, md: 6, sm: 12, xs: 12 }}>
               <Box sx={currentProductImageBox}>
                 <img
-                  src={currentImage}
+                  src={currentImage || "./images/category1.png"}
                   style={{ width: "70%" }}
                   alt="current product"
                 />
@@ -79,67 +111,34 @@ const FullDescriptionProduct: FC = () => {
             </Grid>
             <Grid size={{ lg: 6, md: 6, sm: 12, xs: 12 }}>
               <Typography sx={currentSelectedProductTitle}>
-                Tozan sorujy Samsung (VCC5241S3K)
+                {selectedProduct?.title_tm}
               </Typography>
               <Typography>
                 Haryt kody: <span>123456789</span>
               </Typography>
               <Stack spacing={2} my={3}>
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Typography sx={currentSelectedProductProportiesTitle}>
-                    Umumy kuwwatlygy
-                  </Typography>
-                  <Typography>1800 Wt</Typography>
-                </Stack>
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Typography sx={currentSelectedProductProportiesTitle}>
-                    Umumy kuwwatlygy
-                  </Typography>
-                  <Typography>1800 Wt</Typography>
-                </Stack>
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Typography sx={currentSelectedProductProportiesTitle}>
-                    Umumy kuwwatlygy
-                  </Typography>
-                  <Typography>1800 Wt</Typography>
-                </Stack>
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Typography sx={currentSelectedProductProportiesTitle}>
-                    Umumy kuwwatlygy
-                  </Typography>
-                  <Typography>1800 Wt</Typography>
-                </Stack>
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Typography sx={currentSelectedProductProportiesTitle}>
-                    Umumy kuwwatlygy
-                  </Typography>
-                  <Typography>1800 Wt</Typography>
-                </Stack>
+                {selectedProduct?.properties?.map((property: any, index) => (
+                  <Stack
+                    key={index}
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <Typography sx={currentSelectedProductProportiesTitle}>
+                      {property.key_tm}
+                    </Typography>
+                    <Typography>{property.value_tm}</Typography>
+                  </Stack>
+                ))}
               </Stack>
               <Divider />
               <Stack direction="row" spacing={2} my={3}>
-                <Typography sx={productCurrentPrice}>1083,50 TMT</Typography>
-                <Typography sx={productOldPrice}>1142,60 TMT</Typography>
+                <Typography sx={productCurrentPrice}>
+                  {selectedProduct?.price} TMT
+                </Typography>
+                <Typography sx={productOldPrice}>
+                  {selectedProduct?.old_price} TMT
+                </Typography>
               </Stack>
               <Stack direction="row" alignItems="center" spacing={2}>
                 <Button
@@ -165,6 +164,6 @@ const FullDescriptionProduct: FC = () => {
       </Container>
     </>
   );
-};
+});
 
 export default FullDescriptionProduct;

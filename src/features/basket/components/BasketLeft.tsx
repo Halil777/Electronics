@@ -15,36 +15,73 @@ import {
   basketProductCountBox,
   clearAllBasketButton,
 } from "../styles/basketStyle";
+import { observer } from "mobx-react-lite";
+import BasketViewModel from "../../../store/basket/BasketViewModel";
 
-const BasketLeft: FC = () => {
+const BasketLeft: FC = observer(() => {
+  const {
+    items,
+    totalPrice,
+    clearBasket,
+    removeFromBasket,
+    increaseQuantity,
+    decreaseQuantity,
+  } = BasketViewModel;
+
+  const handleClearAllBasket = () => {
+    console.log("handleClearAllBasket Called");
+    clearBasket();
+  };
+
+  const increase = (id: number) => {
+    console.log("increase called with id:", id);
+    increaseQuantity(id);
+  };
+  const decrease = (id: number) => {
+    console.log("decrease called with id:", id);
+    decreaseQuantity(id);
+  };
+
+  const remove = (id: number) => {
+    console.log("remove called with id:", id);
+    removeFromBasket(id);
+  };
+
   return (
-    <>
-      <Paper elevation={4} sx={{ width: "100%", py: 2 }}>
-        <Stack
-          direction="row"
-          mx={2}
-          justifyContent="space-between"
-          alignItems="center"
+    <Paper elevation={4} sx={{ width: "100%", py: 2 }}>
+      <Stack
+        direction="row"
+        mx={2}
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Typography>Sebet</Typography>
+        <Button
+          startIcon={<AutoDeleteOutlinedIcon />}
+          sx={clearAllBasketButton}
+          onClick={handleClearAllBasket}
         >
-          <Typography>Sebet</Typography>
-          <Button
-            startIcon={<AutoDeleteOutlinedIcon />}
-            sx={clearAllBasketButton}
-          >
-            Hemmesini bozmak
-          </Button>
-        </Stack>
-        <Divider />
-        <Grid container p={3} spacing={8} alignItems={"center"}>
+          Hemmesini bozmak
+        </Button>
+      </Stack>
+      <Divider />
+      {items.map((item) => (
+        <Grid
+          container
+          p={3}
+          spacing={8}
+          alignItems={"center"}
+          key={item.product.id}
+        >
           <Grid size={{ lg: 6, md: 6, sm: 12, xs: 12 }}>
             <Stack direction="row" alignItems="center" spacing={2}>
               <img
                 style={{ width: "70px" }}
-                src="./images/category1.png"
+                src={item.product.images[0] || "./images/category1.png"}
                 alt="basket pictures"
               />
               <Typography sx={{ fontSize: "14px" }}>
-                Proýektor Xiaomi Mi Smart Projector 2 Pro
+                {item.product.title_en}
               </Typography>
             </Stack>
           </Grid>
@@ -57,34 +94,37 @@ const BasketLeft: FC = () => {
               <Stack direction="row" alignItems="center" spacing={1}>
                 <IconButton
                   sx={{ height: "40px", width: "40px", fontSize: "18px" }}
+                  onClick={() => decrease(item.product.id)}
+                  disabled={item.quantity <= 1}
                 >
                   -
                 </IconButton>
-                <Box sx={basketProductCountBox}>1</Box>
+                <Box sx={basketProductCountBox}>{item.quantity}</Box>
                 <IconButton
                   sx={{ height: "40px", width: "40px", fontSize: "18px" }}
+                  onClick={() => increase(item.product.id)}
                 >
                   +
                 </IconButton>
               </Stack>
               <Typography sx={{ fontSize: "17px", fontWeight: 600 }}>
-                17 139 TMT
+                {item.product.price} TMT
               </Typography>
-              <IconButton>
+              <IconButton onClick={() => remove(item.product.id)}>
                 <ClearOutlinedIcon sx={{ width: "16px" }} />
               </IconButton>
             </Stack>
           </Grid>
         </Grid>
-        <Divider />
-        <Stack direction="row" justifyContent="flex-end" m={3}>
-          <Typography>
-            Jemi: <b>17 139</b>
-          </Typography>
-        </Stack>
-      </Paper>
-    </>
+      ))}
+      <Divider />
+      <Stack direction="row" justifyContent="flex-end" m={3}>
+        <Typography>
+          Jemi: <b>{totalPrice}</b>
+        </Typography>
+      </Stack>
+    </Paper>
   );
-};
+});
 
 export default BasketLeft;

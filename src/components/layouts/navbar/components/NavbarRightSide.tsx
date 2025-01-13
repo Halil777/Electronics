@@ -1,5 +1,5 @@
-import { FC, useState } from "react";
-import { Stack } from "@mui/material";
+import { FC, useState, useEffect } from "react";
+import { Stack, Badge, Snackbar, Alert } from "@mui/material";
 import Language from "../../../../language/Language";
 import { useNavigate } from "react-router-dom";
 import Login from "../../../login/Login";
@@ -8,16 +8,40 @@ import NavbarSearchGlobal from "../../navbarSearch/NavbarSearchGlobal";
 import { observer } from "mobx-react-lite";
 import defaultProfileImage from "../../../../../public/navbarIcons/profile.svg";
 import UserViewModel from "../../../login/UserViewModel";
+import BasketViewModel from "../../../../store/basket/BasketViewModel";
+
 const NavbarRightSide: FC = observer(() => {
   const navigate = useNavigate();
   const { isOpen, openDrawer, closeDrawer } = useDrawer();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+
+  const { totalItems, items } = BasketViewModel;
 
   const handleSearchToggle = () => setIsSearchOpen((prev) => !prev);
 
   const profileImage = UserViewModel.user?.profileImage
     ? UserViewModel.user?.profileImage
     : defaultProfileImage;
+
+  useEffect(() => {
+    if (items.length > 0) {
+      setOpenSnackbar(true);
+      setMessage("Product added to basket");
+    }
+  }, [items.length]);
+
+  const handleCloseSnackbar = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+    setMessage(null);
+  };
   return (
     <>
       {isSearchOpen ? (
@@ -57,12 +81,14 @@ const NavbarRightSide: FC = observer(() => {
             style={{ cursor: "pointer" }}
             alt="heart"
           />
-          <img
-            onClick={() => navigate("/basket")}
-            src="/navbarIcons/iconamoon_shopping-card-light.svg"
-            alt="basket"
-            style={{ cursor: "pointer" }}
-          />
+          <Badge badgeContent={totalItems} color="primary">
+            <img
+              onClick={() => navigate("/basket")}
+              src="/navbarIcons/iconamoon_shopping-card-light.svg"
+              alt="basket"
+              style={{ cursor: "pointer" }}
+            />
+          </Badge>
           <img
             onClick={() => navigate("/compare")}
             src="/navbarIcons/compare.svg"
@@ -72,6 +98,20 @@ const NavbarRightSide: FC = observer(() => {
           <Language />
         </Stack>
       )}
+      <Snackbar
+        open={!!message}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {message}
+        </Alert>
+      </Snackbar>
 
       <Login isOpen={isOpen} onClose={closeDrawer} />
     </>

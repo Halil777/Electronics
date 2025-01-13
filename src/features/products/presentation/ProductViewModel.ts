@@ -9,7 +9,7 @@ interface Filters {
   brandId?: number;
 }
 
-interface Product {
+export interface Product {
   id: number;
   title_tm: string;
   title_ru: string;

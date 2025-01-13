@@ -14,6 +14,8 @@ import {
   discountGoodTitle,
 } from "../../../home/components/discountedGoods/styles/discoutGoodsStyle";
 import { motion, AnimatePresence } from "framer-motion";
+import BasketViewModel from "../../../../store/basket/BasketViewModel";
+import CompareViewModel from "../../../../store/compare/CompareViewModel";
 
 interface Product {
   id: number;
@@ -80,7 +82,7 @@ interface Product {
 }
 interface CategoryProductsBoxProps {
   products: Product[];
-  totalProducts: number; // Add totalProducts to the props
+  totalProducts: number;
 }
 
 const CategoryProductsBox: FC<CategoryProductsBoxProps> = ({ products }) => {
@@ -194,6 +196,7 @@ const CategoryProductsBox: FC<CategoryProductsBoxProps> = ({ products }) => {
                   fullWidth
                   endIcon={<LocalGroceryStoreOutlinedIcon />}
                   sx={addStoreDiscountGoodButton}
+                  onClick={() => BasketViewModel.addToBasket(product)}
                 >
                   Sebede goş
                 </Button>
@@ -203,7 +206,10 @@ const CategoryProductsBox: FC<CategoryProductsBoxProps> = ({ products }) => {
                   alignItems="center"
                 >
                   <Button
-                    onClick={() => handleCompareClick(product.id)}
+                    onClick={() => {
+                      handleCompareClick(product.id);
+                      CompareViewModel.addToCompare(product); // Add product to compare
+                    }}
                     sx={{
                       ...compareDiscountGoodsCostButton,
                       backgroundColor: compareStates[product.id]

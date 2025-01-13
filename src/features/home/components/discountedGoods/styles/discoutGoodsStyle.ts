@@ -50,15 +50,13 @@ export const discountGoodTitle = {
   color: "#000000",
   fontSize: "14px",
   fontWeight: 600,
-  lineHeight: "19px",
-  minHeight: "60px",
+  minHeight: "30px",
 };
 
 export const discountGoodCompanyTitle = {
   color: "#0470C4",
   fontSize: "14px",
   fontWeight: 600,
-  lineHeight: "19px",
 };
 
 export const discountGoodCodeText = {

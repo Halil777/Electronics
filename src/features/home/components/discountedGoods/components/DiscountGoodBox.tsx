@@ -26,6 +26,7 @@ import { useInView } from "react-intersection-observer";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { decode } from "blurhash";
+import BasketViewModel from "../../../../../store/basket/BasketViewModel";
 
 // Function to convert blurhash to base64
 const blurHashToBase64 = (
@@ -272,6 +273,7 @@ const DiscountGoodBox: FC = () => {
                   fullWidth
                   endIcon={<LocalGroceryStoreOutlinedIcon />}
                   sx={addStoreDiscountGoodButton}
+                  onClick={() => BasketViewModel.addToBasket(product)} // call `addToBasket` here
                 >
                   Sebede goş
                 </Button>

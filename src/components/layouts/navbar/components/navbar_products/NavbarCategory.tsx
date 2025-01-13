@@ -5,6 +5,7 @@ import { useCategories } from "../../../../../hooks/category/useCategory";
 import { useSegment } from "../../../../../hooks/segment/useSegment";
 import { useSubcategories } from "../../../../../hooks/subcategry/useSubcategory";
 import { navLinks } from "../../styles/navLinks";
+import { useNavigate } from "react-router-dom";
 
 const NavbarCategory: FC = () => {
   const { categories, isLoading, isError } = useCategories();
@@ -12,6 +13,7 @@ const NavbarCategory: FC = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null
   );
+  const navigate = useNavigate();
   const {
     subcategories,
     isLoading: loadingSubcategories,
@@ -27,6 +29,22 @@ const NavbarCategory: FC = () => {
     setSelectedCategoryId((prevCategoryId) =>
       prevCategoryId === categoryId ? null : categoryId
     );
+  };
+
+  const handleSegmentClick = (
+    categoryId: string,
+    subcategoryId: string,
+    segmentId: string
+  ) => {
+    navigate(
+      `/categories?categoryId=${categoryId}&subcategoryId=${subcategoryId}&segmentId=${segmentId}`
+    );
+    setOpenCategories(false); // Close the drawer
+  };
+
+  const handleBrandClick = (categoryId: string, brandId: string) => {
+    navigate(`/categories?categoryId=${categoryId}&brandId=${brandId}`);
+    setOpenCategories(false); // Close the drawer
   };
 
   useEffect(() => {
@@ -97,6 +115,9 @@ const NavbarCategory: FC = () => {
                       <span>No Image</span>
                     )}
                     <Typography
+                      onClick={() =>
+                        handleBrandClick(category?.id, category?.brand_id)
+                      }
                       onMouseEnter={() => handleCategoryClick(category?.id)}
                       sx={{
                         cursor: "pointer",
@@ -141,6 +162,13 @@ const NavbarCategory: FC = () => {
                         {filteredSegments.length > 0
                           ? filteredSegments.map((seg: any) => (
                               <Typography
+                                onClick={() =>
+                                  handleSegmentClick(
+                                    selectedCategoryId as string,
+                                    sub?.id,
+                                    seg?.id
+                                  )
+                                }
                                 key={seg?.id}
                                 sx={{
                                   cursor: "pointer",

@@ -20,11 +20,13 @@ import {
   discountGoodsTitle,
   discountGoodTitle,
 } from "../styles/discoutGoodsStyle";
+import { useNavigate } from "react-router-dom";
 
 const DiscountGoodBox: FC = () => {
   const [discountedProducts, setDiscountedProducts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
+  const navigate = useNavigate();
   const [compareStates, setCompareStates] = useState<Record<number, boolean>>(
     {}
   );
@@ -108,13 +110,23 @@ const DiscountGoodBox: FC = () => {
               </Box>
               <Box sx={auctionImageBox}>
                 <img
+                  onClick={() => navigate(`/product/${product.id}`)}
                   src={product.images[0] || "fallback-image.jpg"} // Add fallback image if not available
                   alt={product.title_en}
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    cursor: "pointer",
+                  }}
                 />
               </Box>
               <Stack my={2}>
-                <Typography sx={discountGoodTitle} noWrap>
+                <Typography
+                  sx={discountGoodTitle}
+                  onClick={() => navigate(`/product/${product.id}`)}
+                  noWrap
+                >
                   {product.title_en}
                 </Typography>
                 <Typography sx={discountGoodCompanyTitle}>

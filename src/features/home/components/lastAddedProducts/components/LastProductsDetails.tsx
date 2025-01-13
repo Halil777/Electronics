@@ -10,11 +10,12 @@ import {
   productContainerStyle,
 } from "../styles/lastAddedProductsStyle";
 import { useProduct } from "../../../../../hooks/products/useProduct";
+import { useNavigate } from "react-router-dom";
 
 const LastProductsDetails: FC = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const { lastAddedDiscountedProducts, isLoading } = useProduct();
-
+  const navigate = useNavigate();
   // Variants for the cards
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -53,7 +54,10 @@ const LastProductsDetails: FC = () => {
             animate={inView ? "visible" : "hidden"}
             variants={cardVariants}
           >
-            <Box sx={productContainerStyle}>
+            <Box
+              sx={productContainerStyle}
+              onClick={() => navigate(`/product/${product.id}`)}
+            >
               <Stack direction="row" spacing={1}>
                 <Box sx={lastAddedProductsImageBox}>
                   <img

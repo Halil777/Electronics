@@ -5,7 +5,7 @@ import { useBanners } from "../../../../../hooks/banner/useBanners";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { decode } from "blurhash";
-
+import "./bannerSwiper.css";
 // Function to convert blurhash to base64
 const blurHashToBase64 = (
   blurhash: string,
@@ -38,7 +38,7 @@ const settings = {
   slidesToShow: 1,
   slidesToScroll: 1,
   autoplay: false, // Autoplay disabled
-  arrows: true,
+  arrows: false,
   nextArrow: <div className="swiper-button-next" />,
   prevArrow: <div className="swiper-button-prev" />,
 };
@@ -77,7 +77,7 @@ const BannerSwiper: React.FC = () => {
     <div>
       {/* Main Slider */}
       <Slider
-        {...settings}
+        {...{ ...settings, autoplay: true }}
         ref={mainSliderRef}
         asNavFor={thumbsSliderRef.current || undefined} // Link with thumbnail slider
       >
@@ -112,38 +112,43 @@ const BannerSwiper: React.FC = () => {
       </Slider>
 
       {/* Thumbs Slider */}
-      <Slider
-        {...{
-          ...settings,
-          slidesToShow: 2, // Show 2 thumbnails
-          slidesToScroll: 1,
-          focusOnSelect: true, // Enable selecting thumbnails
-          asNavFor: mainSliderRef.current || undefined, // Link with main slider
-        }}
-        ref={thumbsSliderRef}
-        className="gallery-thumbs-small"
-      >
-        {banners && Array.isArray(banners)
-          ? banners?.map((banner: any, index: number) => (
-              <div
-                key={`small_banners_image_key${index}`}
-                style={{ marginRight: "10px" }}
-              >
-                <LazyLoadImage
-                  src={banner.imageUrl}
-                  alt={`Thumbnail ${index + 1}`}
-                  placeholderSrc={blurHashToBase64(banner.blurhash) || ""}
-                  effect="blur"
-                  style={{
-                    width: "100%",
-                    height: "180px",
-                    objectFit: "cover",
-                  }}
-                />
-              </div>
-            ))
-          : null}
-      </Slider>
+      <Box sx={{ overflow: "hidden" }}>
+        <Slider
+          {...{
+            ...settings,
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            focusOnSelect: true,
+            asNavFor: mainSliderRef.current || undefined,
+            centerMode: false,
+            variableWidth: false,
+            autoplay: false,
+          }}
+          ref={thumbsSliderRef}
+          className="gallery-thumbs-small"
+        >
+          {banners && Array.isArray(banners)
+            ? banners?.map((banner: any, index: number) => (
+                <div
+                  key={`small_banners_image_key${index}`}
+                  style={{ width: "50%" }}
+                >
+                  <LazyLoadImage
+                    src={banner.imageUrl}
+                    alt={`Thumbnail ${index + 1}`}
+                    placeholderSrc={blurHashToBase64(banner.blurhash) || ""}
+                    effect="blur"
+                    style={{
+                      width: "100%",
+                      height: "180px",
+                      objectFit: "cover",
+                    }}
+                  />
+                </div>
+              ))
+            : null}
+        </Slider>
+      </Box>
     </div>
   );
 };

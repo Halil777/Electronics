@@ -245,7 +245,7 @@ const DiscountGoodBox: FC = () => {
                     {product.title_en}
                   </Typography>
                   <Typography sx={discountGoodCompanyTitle}>
-                    {product.brand?.[0]?.title_en || "Unknown Brand"}
+                    {product.brand?.title_en || "Unknown Brand"}
                   </Typography>
                   <Stack direction="row" spacing={1} my={1}>
                     <Typography sx={discountGoodCodeText}>
@@ -273,7 +273,7 @@ const DiscountGoodBox: FC = () => {
                   fullWidth
                   endIcon={<LocalGroceryStoreOutlinedIcon />}
                   sx={addStoreDiscountGoodButton}
-                  onClick={() => BasketViewModel.addToBasket(product)} // call `addToBasket` here
+                  onClick={() => BasketViewModel.addToBasket(product)}
                 >
                   Sebede goş
                 </Button>

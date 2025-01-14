@@ -1,6 +1,7 @@
 import { FC } from "react";
 import Slider from "react-slick";
 import { usePartner } from "../../../../../hooks/partners/usePartner";
+import "./partners.css";
 
 const OurPartnersSlider: FC = () => {
   const { partners, isLoading, isError } = usePartner(); // Use the custom hook
@@ -13,6 +14,7 @@ const OurPartnersSlider: FC = () => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2000,
+    variableWidth: true,
     responsive: [
       {
         breakpoint: 1024,
@@ -54,22 +56,13 @@ const OurPartnersSlider: FC = () => {
   }
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px", width: "100%" }}>
       <Slider {...settings}>
         {partners &&
           Array.isArray(partners) &&
           partners.map((partner: any) => (
-            <div key={partner.id} style={{ padding: "10px" }}>
-              <img
-                src={partner.imageUrl}
-                alt={`Partner ${partner.id}`}
-                style={{
-                  width: "192px",
-                  height: "80px",
-                  objectFit: "contain",
-                  marginLeft: "20px",
-                }}
-              />
+            <div key={partner.id} className="partnersImgBox">
+              <img src={partner.imageUrl} alt={`Partner ${partner.id}`} />
             </div>
           ))}
       </Slider>

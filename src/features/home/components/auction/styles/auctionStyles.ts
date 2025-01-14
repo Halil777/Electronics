@@ -6,7 +6,7 @@ export const auctionTitle = {
 };
 
 export const auctionSubtitle = {
-  fontize: "8px",
+  fontize: "6px",
   fontWeight: 400,
   color: "#2E2F38",
   lineHeight: "13.62px",

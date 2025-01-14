@@ -42,32 +42,32 @@ interface AuctionDetailsProps {
 }
 const AuctionDetails: FC<AuctionDetailsProps> = ({ isLoading, blurhash }) => {
   const [timeRemaining, setTimeRemaining] = useState({
-    days: 2,
-    hours: 12,
-    minutes: 3,
-    seconds: 2,
+    Gün: 2,
+    Sagat: 12,
+    Minut: 3,
+    Sekunt: 2,
   });
 
   useEffect(() => {
     if (!isLoading) {
       const timer = setInterval(() => {
         setTimeRemaining((prevTime) => {
-          let { days, hours, minutes, seconds } = prevTime;
+          let { Gün, Sagat, Minut, Sekunt } = prevTime;
 
-          if (seconds > 0) {
-            seconds--;
+          if (Sekunt > 0) {
+            Sekunt--;
           } else {
-            seconds = 59;
-            if (minutes > 0) {
-              minutes--;
+            Sekunt = 59;
+            if (Minut > 0) {
+              Minut--;
             } else {
-              minutes = 59;
-              if (hours > 0) {
-                hours--;
+              Minut = 59;
+              if (Sagat > 0) {
+                Sagat--;
               } else {
-                hours = 23;
-                if (days > 0) {
-                  days--;
+                Sagat = 23;
+                if (Gün > 0) {
+                  Gün--;
                 } else {
                   clearInterval(timer);
                   return prevTime; // Stop counter
@@ -76,7 +76,7 @@ const AuctionDetails: FC<AuctionDetailsProps> = ({ isLoading, blurhash }) => {
             }
           }
 
-          return { days, hours, minutes, seconds };
+          return { Gün, Sagat, Minut, Sekunt };
         });
       }, 1000);
 
@@ -171,7 +171,7 @@ const AuctionDetails: FC<AuctionDetailsProps> = ({ isLoading, blurhash }) => {
         <Typography sx={auctionTitle}>
           Noutbuk Deli Alienware m16 R2(1006663238)
         </Typography>
-        <Typography sx={auctionSubtitle}>Goýulan wagty: Şugün</Typography>
+        <Typography sx={auctionSubtitle}>Goýulan wagty: ŞuGün</Typography>
       </Stack>
       <Stack direction="row" alignItems="center" justifyContent="center" mb={2}>
         <Typography sx={auctionCost}>56450 TMT</Typography>
@@ -200,7 +200,9 @@ const AuctionDetails: FC<AuctionDetailsProps> = ({ isLoading, blurhash }) => {
               <Box sx={auctionDateBox}>
                 {timeRemaining[key as keyof typeof timeRemaining]}
               </Box>
-              <Typography sx={auctionSubtitle}>{key}</Typography>
+              <Typography sx={{ ...auctionSubtitle, fontSize: "11px" }}>
+                {key}
+              </Typography>
             </motion.div>
           ))}
         </AnimatePresence>

@@ -1,5 +1,5 @@
 import { Box, Paper, Stack, Typography, Skeleton } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useState, useRef } from "react";
 import { sideLinkBox, sidelinkImageBox } from "./sidelinksStyle";
 import { useCategories } from "../../../../../hooks/category/useCategory";
 import { useSubcategories } from "../../../../../hooks/subcategry/useSubcategory";
@@ -51,6 +51,9 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
   const { categories, isLoading: isCategoriesLoading } = useCategories();
   const [expandedCategory, setExpandedCategory] = useState<any | null>(null);
   const navigate = useNavigate();
+  const [hoveredCategoryId, setHoveredCategoryId] = useState<number | null>(
+    null
+  );
 
   const {
     subcategories,
@@ -149,8 +152,14 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
             animate="visible"
             variants={categoryItemVariants}
             custom={index}
-            onMouseEnter={() => setExpandedCategory(category)}
-            onMouseLeave={() => setExpandedCategory(null)}
+            onMouseEnter={() => {
+              setHoveredCategoryId(category.id);
+              setExpandedCategory(category);
+            }}
+            onMouseLeave={() => {
+              setHoveredCategoryId(null);
+              setExpandedCategory(null);
+            }}
           >
             <Stack
               direction="row"
@@ -163,7 +172,7 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
                 px: 1,
                 pt: 1,
                 mb: 0.3,
-                transition: "background-color 0.3s ease",
+                transition: "background-color 0.7s ease",
               }}
               onClick={() => handleCategoryClick(category)}
             >
@@ -185,6 +194,17 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
                   {category?.title_en}
                 </Typography>
               </Stack>
+              <motion.img
+                src="/icons/arrow.svg"
+                alt=""
+                style={{
+                  transformOrigin: "center",
+                }}
+                animate={{
+                  rotate: hoveredCategoryId === category.id ? 180 : 0,
+                }}
+                transition={{ duration: 0.2 }}
+              />
             </Stack>
             <AnimatePresence>
               {expandedCategory?.id === category.id && (

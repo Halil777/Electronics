@@ -9,7 +9,7 @@ import {
 } from "../../delivery/styles/deliveryStyle";
 import { BASE_URL } from "../../../api/instance";
 import { useTranslation } from "react-i18next";
-import { Link as RouterLink } from "react-router-dom"; // Import RouterLink for navigation
+import { Link as RouterLink } from "react-router-dom";
 
 const fetcher: BareFetcher<any> = (url: string) =>
   fetch(url).then((res) => res.json());

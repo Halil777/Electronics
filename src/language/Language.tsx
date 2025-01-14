@@ -1,5 +1,11 @@
 import { FC, useState, useEffect } from "react";
-import { Box, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import {
+  Box,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography,
+} from "@mui/material";
 import i18n from "./i18n"; // Import i18n for language management
 
 const Language: FC = () => {
@@ -46,9 +52,15 @@ const Language: FC = () => {
           },
         }}
       >
-        <MenuItem value="tm">TKM</MenuItem>
-        <MenuItem value="en">ENG</MenuItem>
-        <MenuItem value="ru">RUS</MenuItem>
+        <MenuItem value="tm">
+          <Typography sx={{ fontSize: "13px" }}>TKM</Typography>
+        </MenuItem>
+        <MenuItem value="en">
+          <Typography sx={{ fontSize: "13px" }}>ENG </Typography>
+        </MenuItem>
+        <MenuItem value="ru">
+          <Typography sx={{ fontSize: "13px" }}> RUS</Typography>
+        </MenuItem>
       </Select>
     </Box>
   );

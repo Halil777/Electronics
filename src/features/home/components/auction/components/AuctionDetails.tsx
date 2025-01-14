@@ -157,7 +157,7 @@ const AuctionDetails: FC<AuctionDetailsProps> = ({ isLoading, blurhash }) => {
         }}
       >
         <LazyLoadImage
-          src="./images/banner1.png"
+          src="/week/tech-home.png"
           placeholderSrc={blurHashToBase64(blurhash) || ""}
           effect="blur"
           style={{
@@ -174,7 +174,7 @@ const AuctionDetails: FC<AuctionDetailsProps> = ({ isLoading, blurhash }) => {
         <Typography sx={auctionSubtitle}>Goýulan wagty: Şugün</Typography>
       </Stack>
       <Stack direction="row" alignItems="center" justifyContent="center" mb={2}>
-        <Typography sx={auctionCost}>56450</Typography>
+        <Typography sx={auctionCost}>56450 TMT</Typography>
       </Stack>
       <Stack
         direction="row"

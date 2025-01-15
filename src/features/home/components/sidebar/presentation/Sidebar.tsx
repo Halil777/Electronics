@@ -28,7 +28,6 @@ const Sidebar: FC = () => {
       const remainingScrollInVh = (remainingScroll / windowHeight) * 100;
       setRemainingScrollVh(remainingScrollInVh >= 0 ? remainingScrollInVh : 0);
       setIsFixed(remainingScrollInVh <= 100);
-      console.log(remainingScrollVh);
     };
 
     handleScroll(); // Initial calculation
@@ -91,7 +90,8 @@ const Sidebar: FC = () => {
       sx={{
         position: isFixed ? "fixed" : "static",
         width: isFixed ? "18%" : "100%",
-        top: isFixed ? 30 : "",
+        top: isFixed ? 20 : "",
+        zIndex: 100,
       }}
     >
       <SidebarLinks

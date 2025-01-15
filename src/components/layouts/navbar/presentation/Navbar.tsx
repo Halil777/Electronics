@@ -39,9 +39,9 @@ const Navbar: FC = () => {
           <Stack
             direction="row"
             alignItems="center"
-            height="100%"
+            height="50%"
             justifyContent="space-between"
-            spacing={3}
+            spacing={1}
           >
             <NavbarMenu />
             <NavbarSearch />

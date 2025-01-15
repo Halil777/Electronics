@@ -36,7 +36,7 @@ const Header: FC<HeaderProps> = ({ isLoading }) => {
       <Box
         sx={{
           display: { lg: "none", md: "none", sm: "flex", xs: "flex" },
-          height: "100px",
+          height: "80px",
         }}
       >
         <Container>
@@ -44,7 +44,7 @@ const Header: FC<HeaderProps> = ({ isLoading }) => {
             direction="row"
             justifyContent="space-between"
             alignItems="center"
-            height="100%"
+            height="80%"
           >
             <img
               onClick={() => navigate("/")}

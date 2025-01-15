@@ -197,3 +197,4 @@ const NavbarCategory: FC = () => {
 };
 
 export default NavbarCategory;
+// :when opening paper background don't scroll

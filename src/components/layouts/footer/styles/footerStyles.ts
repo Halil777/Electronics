@@ -1,6 +1,6 @@
 export const footerBox = {
   background: "#404040",
-  padding: "30px 0px 30px 0px",
+  padding: "30px 0px 5px 0px",
 };
 
 export const footersubLogo = {

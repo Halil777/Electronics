@@ -4,6 +4,7 @@ import {
   Button,
   Container,
   Divider,
+  IconButton,
   Paper,
   Stack,
   Typography,
@@ -30,6 +31,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import ReactImageMagnify from "react-image-magnify";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import useFavoriteProducts from "../../Favourites/components/FavouritesProducts";
 
 interface Props {
   // productId: number; // Removed
@@ -41,7 +44,7 @@ const FullDescriptionProduct: FC<Props> = observer(() => {
   const { selectedProduct, fetchProductById, loading } = ProductViewModel;
   const { productId } = useParams();
   const [expanded, setExpanded] = useState(false);
-
+  const { favorites, toggleFavorite } = useFavoriteProducts();
   // Intersection Observer for animation trigger
   const { ref: containerRef, inView: containerInView } = useInView({
     threshold: 0.2,
@@ -93,11 +96,7 @@ const FullDescriptionProduct: FC<Props> = observer(() => {
     <>
       <Container>
         <Paper elevation={4} sx={fullDescriptionPaper} ref={containerRef}>
-          <Paper
-            onClick={() => navigate("/categories")}
-            sx={backPaper}
-            elevation={3}
-          >
+          <Paper onClick={() => navigate(-1)} sx={backPaper} elevation={3}>
             <img src="/icons/back.svg" alt="back arrow" />
           </Paper>
           <Grid container>
@@ -261,14 +260,34 @@ const FullDescriptionProduct: FC<Props> = observer(() => {
                 >
                   Sebede goş
                 </Button>
+                <IconButton
+                  onClick={() => toggleFavorite(selectedProduct)}
+                  sx={{
+                    color: favorites.includes(selectedProduct)
+                      ? "#C3000E"
+                      : "inherit",
+                    borderRadius: "50%",
+
+                    transition: "background-color 0.3s, transform 0.2s",
+                    transform: favorites ? "scale(1.1)" : "scale(1)",
+                  }}
+                >
+                  {favorites.includes(selectedProduct) ? (
+                    <FavoriteIcon />
+                  ) : (
+                    <FavoriteBorderIcon
+                      sx={{
+                        color: "#C3000E",
+                      }}
+                    />
+                  )}
+                </IconButton>
                 <img
                   src="/icons/compare.svg"
                   style={{ width: "30px", cursor: "pointer" }}
                   alt=""
                 />
-                <FavoriteBorderIcon
-                  sx={{ width: "30px", cursor: "pointer", opacity: 0.6 }}
-                />
+                {/* <FavoriteButton isFavorite={favorites} onToggle={toggleFavorite} /> */}
               </Stack>
             </Grid>
           </Grid>

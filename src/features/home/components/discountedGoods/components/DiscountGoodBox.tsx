@@ -27,6 +27,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { decode } from "blurhash";
 import BasketViewModel from "../../../../../store/basket/BasketViewModel";
+import useFavoriteProducts from "../../../../Favourites/components/FavouritesProducts";
 
 // Function to convert blurhash to base64
 const blurHashToBase64 = (
@@ -57,6 +58,8 @@ const DiscountGoodBox: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { favorites, toggleFavorite } = useFavoriteProducts();
+
   const [compareStates, setCompareStates] = useState<Record<number, boolean>>(
     {}
   );
@@ -212,7 +215,7 @@ const DiscountGoodBox: FC = () => {
               custom={index}
               variants={productItemVariants}
             >
-              <Box sx={{ background: "#f7f7f7", p: 2, borderRadius: "6px" }}>
+              <Box sx={{ background: "#f7f7f7", p: 1, borderRadius: "6px" }}>
                 <Box sx={auctionTextBox}>
                   <Stack direction="row">
                     <Box sx={auctionTextBox}>Aksiya</Box>
@@ -308,16 +311,39 @@ const DiscountGoodBox: FC = () => {
                     />
                     Deňeşdir
                   </Button>
+                  {/* <Button
+                    onClick={() => toggleFavorite(product)}
+                    sx={{
+                      color: favorites.includes(product)
+                        ? "#C3000E"
+                        : "inherit",
+                      borderRadius: "50%",
+
+                      transition: "background-color 0.3s, transform 0.2s",
+                      transform: favorites ? "scale(1.1)" : "scale(1)",
+                    }}
+                  >
+                    {favorites.includes(product) ? (
+                      <FavoriteIcon />
+                    ) : (
+                      <FavoriteBorderIcon
+                        sx={{
+                          color: "#C3000E",
+                        }}
+                      />
+                    )}
+                  </Button> */}
                   <Button
-                    onClick={() => handleFavoriteClick(product.id)}
+                    // onClick={() => handleFavoriteClick(product.id)}
+                    onClick={() => toggleFavorite(product)}
                     sx={{
                       ...compareDiscountGoodsCostButton,
-                      backgroundColor: favoriteStates[product.id]
+                      backgroundColor: favorites.includes(product)
                         ? "#C3000E"
                         : "transparent",
-                      color: favoriteStates[product.id] ? "#fff" : "#929292",
+                      color: favorites.includes(product) ? "#fff" : "#929292",
                       "&:hover": {
-                        backgroundColor: favoriteStates[product.id]
+                        backgroundColor: favorites.includes(product)
                           ? "#C3000E"
                           : "#f0f0f0",
                       },
@@ -327,7 +353,7 @@ const DiscountGoodBox: FC = () => {
                       sx={{
                         fontWeight: 300,
                         width: "12px",
-                        color: favoriteStates[product.id] ? "#fff" : "#929292",
+                        color: favorites.includes(product) ? "#fff" : "#929292",
                       }}
                     />
                     Saýla

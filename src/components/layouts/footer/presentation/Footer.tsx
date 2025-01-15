@@ -20,7 +20,7 @@ const Footer: FC = () => {
           </Grid>
         </Container>
         <Divider color="#F2F2F2" />
-        <Typography sx={{ color: "#DBDBDB", mt: 2, textAlign: "center" }}>
+        <Typography sx={{ color: "#DBDBDB", mt: 1, textAlign: "center" }}>
           Ähli hukuklary goralan. Powered by Älem Tilsimat
         </Typography>
       </Box>

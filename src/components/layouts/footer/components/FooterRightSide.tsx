@@ -46,7 +46,7 @@ const FooterRightSide: FC = () => {
           </Stack>
         </Grid>
       </Grid> */}
-      <Stack direction="row" justifyContent={"space-between"}>
+      <Stack direction="row" flexWrap="wrap" justifyContent={"space-between"}>
         <Stack spacing={2}>
           <FooterTitle text="Tiz kömek" />
           <Box>

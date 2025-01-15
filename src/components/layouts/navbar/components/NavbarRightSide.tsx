@@ -9,6 +9,7 @@ import { observer } from "mobx-react-lite";
 import defaultProfileImage from "../../../../../public/navbarIcons/profile.svg";
 import UserViewModel from "../../../login/UserViewModel";
 import BasketViewModel from "../../../../store/basket/BasketViewModel";
+import useFavoriteProducts from "../../../../features/Favourites/components/FavouritesProducts";
 
 const NavbarRightSide: FC = observer(() => {
   const navigate = useNavigate();
@@ -16,6 +17,8 @@ const NavbarRightSide: FC = observer(() => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const { favorites } = useFavoriteProducts();
+  console.log(favorites);
 
   const { totalItems, items } = BasketViewModel;
 
@@ -78,11 +81,14 @@ const NavbarRightSide: FC = observer(() => {
               onClick={openDrawer}
             />
           )}
-          <img
-            src="/navbarIcons/mdi-light_heart.svg"
-            style={{ cursor: "pointer" }}
-            alt="heart"
-          />
+          <Badge badgeContent={favorites.length} color="primary">
+            <img
+              onClick={() => navigate("/favourites")}
+              src="/navbarIcons/mdi-light_heart.svg"
+              style={{ cursor: "pointer" }}
+              alt="heart"
+            />
+          </Badge>
           <Badge badgeContent={totalItems} color="primary">
             <img
               onClick={() => navigate("/basket")}

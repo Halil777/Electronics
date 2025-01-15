@@ -1,52 +1,54 @@
-import React, { useRef } from "react";
-import Slider from "react-slick";
+import React from "react";
+// import Slider from "react-slick";
 import { Box, Typography, Skeleton } from "@mui/material";
 import { useBanners } from "../../../../../hooks/banner/useBanners";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+// import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { decode } from "blurhash";
+// import { decode } from "blurhash";
 import "./bannerSwiper.css";
+import MinBannerSwiper from "./MinBannerSwiper";
+import MainSwiper from "./MainSwiper";
 // Function to convert blurhash to base64
-const blurHashToBase64 = (
-  blurhash: string,
-  width: number = 32,
-  height: number = 32
-) => {
-  if (!blurhash) return null;
-  try {
-    const pixels = decode(blurhash, width, height);
-    const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return null;
-    const imageData = ctx.createImageData(width, height);
-    imageData.data.set(pixels);
-    ctx.putImageData(imageData, 0, 0);
-    return canvas.toDataURL();
-  } catch (e) {
-    console.error("error blurhash", e);
-    return null;
-  }
-};
+// const blurHashToBase64 = (
+//   blurhash: string,
+//   width: number = 32,
+//   height: number = 32
+// ) => {
+//   if (!blurhash) return null;
+//   try {
+//     const pixels = decode(blurhash, width, height);
+//     const canvas = document.createElement("canvas");
+//     canvas.width = width;
+//     canvas.height = height;
+//     const ctx = canvas.getContext("2d");
+//     if (!ctx) return null;
+//     const imageData = ctx.createImageData(width, height);
+//     imageData.data.set(pixels);
+//     ctx.putImageData(imageData, 0, 0);
+//     return canvas.toDataURL();
+//   } catch (e) {
+//     console.error("error blurhash", e);
+//     return null;
+//   }
+// };
 
 // Slick settings
-const settings = {
-  dots: false,
-  infinite: true,
-  speed: 4000,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  autoplay: false, // Autoplay disabled
-  arrows: false,
-  nextArrow: <div className="swiper-button-next" />,
-  prevArrow: <div className="swiper-button-prev" />,
-};
+// const settings = {
+//   dots: false,
+//   infinite: true,
+//   speed: 4000,
+//   slidesToShow: 1,
+//   slidesToScroll: 1,
+//   autoplay: false, // Autoplay disabled
+//   arrows: false,
+//   nextArrow: <div className="swiper-button-next" />,
+//   prevArrow: <div className="swiper-button-prev" />,
+// };
 
 const BannerSwiper: React.FC = () => {
   const { banners, isLoading, isError } = useBanners(); // Use custom hook
-  const mainSliderRef = useRef<Slider | null>(null); // Main slider reference
-  const thumbsSliderRef = useRef<Slider | null>(null); // Thumbnail slider reference
+  // const mainSliderRef = useRef<Slider | null>(null); // Main slider reference
+  // const thumbsSliderRef = useRef<Slider | null>(null); // Thumbnail slider reference
 
   if (isLoading) {
     return (
@@ -76,7 +78,7 @@ const BannerSwiper: React.FC = () => {
   return (
     <div>
       {/* Main Slider */}
-      <Slider
+      {/* <Slider
         {...{ ...settings, autoplay: true }}
         ref={mainSliderRef}
         asNavFor={thumbsSliderRef.current || undefined} // Link with thumbnail slider
@@ -109,18 +111,18 @@ const BannerSwiper: React.FC = () => {
               </div>
             ))
           : null}
-      </Slider>
-
+      </Slider> */}
+      <MainSwiper banners={banners} />
       {/* Thumbs Slider */}
-      <Box sx={{ overflow: "hidden" }}>
+      {/* <Box sx={{ overflow: "hidden" }}>
         <Slider
           {...{
             ...settings,
             slidesToShow: 2,
-            slidesToScroll: 1,
+            slidesToScroll: 2,
             focusOnSelect: true,
             asNavFor: mainSliderRef.current || undefined,
-            centerMode: false,
+            centerMode: true,
             variableWidth: false,
             autoplay: false,
           }}
@@ -148,7 +150,8 @@ const BannerSwiper: React.FC = () => {
               ))
             : null}
         </Slider>
-      </Box>
+      </Box> */}
+      <MinBannerSwiper banners={banners} />
     </div>
   );
 };

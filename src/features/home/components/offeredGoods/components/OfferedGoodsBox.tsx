@@ -15,6 +15,7 @@ import {
   discountGoodsTitle,
   discountGoodTitle,
 } from "../../discountedGoods/styles/discoutGoodsStyle";
+import useFavoriteProducts from "../../../../Favourites/components/FavouritesProducts";
 
 const OfferedGoodsBox: FC = () => {
   const staticProducts = [
@@ -63,6 +64,7 @@ const OfferedGoodsBox: FC = () => {
   const [favoriteStates, setFavoriteStates] = useState<Record<number, boolean>>(
     {}
   );
+  const { favorites, toggleFavorite } = useFavoriteProducts();
 
   const handleCompareClick = (productId: number) => {
     setCompareStates((prevState) => ({
@@ -188,7 +190,7 @@ const OfferedGoodsBox: FC = () => {
                   />
                   Deňeşdir
                 </Button>
-                <Button
+                {/* <Button
                   onClick={() => handleFavoriteClick(product.id)}
                   sx={{
                     ...compareDiscountGoodsCostButton,
@@ -208,6 +210,31 @@ const OfferedGoodsBox: FC = () => {
                       fontWeight: 300,
                       width: "12px",
                       color: favoriteStates[product.id] ? "#fff" : "#929292",
+                    }}
+                  />
+                  Saýla
+                </Button> */}
+                <Button
+                  // onClick={() => handleFavoriteClick(product.id)}
+                  onClick={() => toggleFavorite(product)}
+                  sx={{
+                    ...compareDiscountGoodsCostButton,
+                    backgroundColor: favorites.includes(product)
+                      ? "#C3000E"
+                      : "transparent",
+                    color: favorites.includes(product) ? "#fff" : "#929292",
+                    "&:hover": {
+                      backgroundColor: favorites.includes(product)
+                        ? "#C3000E"
+                        : "#f0f0f0",
+                    },
+                  }}
+                >
+                  <FavoriteBorderIcon
+                    sx={{
+                      fontWeight: 300,
+                      width: "12px",
+                      color: favorites.includes(product) ? "#fff" : "#929292",
                     }}
                   />
                   Saýla

@@ -16,6 +16,7 @@ export const deliveryDescriptionText = {
   fontSize: "18px",
   fontWeight: 400,
   lineHeight: "30px",
+  minHeight:'30vh'
 };
 
 export const deliveryUnderlineTSyle = {

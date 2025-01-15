@@ -15,6 +15,9 @@ const Products = lazy(
   () => import("../features/products/presentation/Products")
 );
 const Users = lazy(() => import("../features/users/presentation/Users"));
+const Favourites = lazy(
+  () => import("../features/Favourites/presentation/Favourites")
+);
 const Basket = lazy(() => import("../features/basket/presentation/Basket"));
 const Delivery = lazy(
   () => import("../features/delivery/presentation/Delivery")
@@ -84,6 +87,7 @@ const App = () => {
               <Route path="/present-card" element={<PresentCard />} />
               <Route path="/buy-present-card" element={<BuyPresentCard />} />
               <Route path="/compare" element={<Compare />} />
+              <Route path="/favourites" element={<Favourites />} />
             </Route>
           </Routes>
         </Suspense>

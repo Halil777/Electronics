@@ -1,5 +1,12 @@
 import { FC } from "react";
-import { Box, Container, Typography, Link } from "@mui/material";
+import {
+  Box,
+  Container,
+  Typography,
+  Link,
+  CircularProgress,
+  Stack,
+} from "@mui/material";
 import useSWR, { BareFetcher } from "swr";
 import {
   deliveryDescriptionText,
@@ -25,7 +32,14 @@ const DeliveryService: FC = () => {
   const descriptionKey = `desc_${i18n.language}`;
 
   if (isLoading) {
-    return <Typography sx={deliveryDescriptionText}>{t("loading")}</Typography>;
+    return (
+      <Stack alignItems="center" mt={5}>
+        <Typography sx={deliveryDescriptionText}>
+          <CircularProgress />
+          {/* {t("loading")} */}
+        </Typography>
+      </Stack>
+    );
   }
 
   if (error) {

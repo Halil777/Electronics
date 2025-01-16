@@ -64,6 +64,7 @@ const OfferedGoodsBox: FC = () => {
   const [favoriteStates, setFavoriteStates] = useState<Record<number, boolean>>(
     {}
   );
+
   const { favorites, toggleFavorite } = useFavoriteProducts();
 
   const handleCompareClick = (productId: number) => {
@@ -79,6 +80,7 @@ const OfferedGoodsBox: FC = () => {
       [productId]: !prevState[productId],
     }));
   };
+  console.log(favoriteStates, handleFavoriteClick);
 
   return (
     <>

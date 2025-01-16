@@ -84,6 +84,7 @@ const DiscountGoodBox: FC = () => {
       );
       setDiscountedProducts(discounted);
       setIsLoading(false);
+      console.log(favoriteStates);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
@@ -107,6 +108,8 @@ const DiscountGoodBox: FC = () => {
       [productId]: !prevState[productId], // Toggle the favorite state
     }));
   };
+
+  console.log(handleFavoriteClick);
 
   const handleShowAll = () => {
     setShowAll(true);

@@ -117,5 +117,6 @@ export default MainSwiper;
 const blurHashToBase64 = (blurhash: string) => {
   // Convert your blurhash to base64 here if necessary
   // blurhash;
+  console.log(blurhash);
   return "";
 };

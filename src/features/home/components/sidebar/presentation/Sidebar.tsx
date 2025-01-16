@@ -30,6 +30,9 @@ const Sidebar: FC = () => {
       setIsFixed(remainingScrollInVh <= 100);
     };
 
+    // if don't need need to remove from state
+    console.log(remainingScrollVh);
+
     handleScroll(); // Initial calculation
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", handleScroll);

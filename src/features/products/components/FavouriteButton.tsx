@@ -1,7 +1,7 @@
+import { FC } from "react";
 import { IconButton } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { FC, useState } from "react";
 
 interface FavoriteButtonProps {
   isFavorite: boolean;

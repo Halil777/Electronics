@@ -2,10 +2,10 @@ import React, { useRef } from "react";
 import { Box } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs, Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
 import { Swiper as SwiperClass } from "swiper/types"; // Import Swiper class for type
 
+// import "swiper/css";
+// import "swiper/css/navigation";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const MinBannerSwiper: React.FC<{ banners: any[] }> = ({ banners }) => {
@@ -59,10 +59,3 @@ const MinBannerSwiper: React.FC<{ banners: any[] }> = ({ banners }) => {
 };
 
 export default MinBannerSwiper;
-
-// Helper function (if required)
-// const blurHashToBase64 = (blurhash: string) => {
-//   // Convert your blurhash to base64 here if necessary
-//   // blurhash
-//   return "";
-// };

@@ -110,53 +110,16 @@ class ProductViewModel {
     this.totalProducts = null;
   };
 
-  // async fetchFilteredProducts() {
-  //   this.loading = true;
-  //   this.error = null;
-
-  //   try {
-  //     const queryParams = new URLSearchParams({
-  //       page: String(this.currentPage),
-  //       limit: String(this.limit),
-  //     });
-
-  //     if (this.filters.categoryId)
-  //       queryParams.append("categoryId", String(this.filters.categoryId));
-  //     if (this.filters.subcategoryId)
-  //       queryParams.append("subcategoryId", String(this.filters.subcategoryId));
-  //     if (this.filters.segmentId)
-  //       queryParams.append("segmentId", String(this.filters.segmentId));
-  //     if (this.filters.brandId)
-  //       queryParams.append("brandId", String(this.filters.brandId));
-
-  //     const url = `${BASE_URL}products/client/products?${queryParams.toString()}`;
-      
-  //     const response = await axios.get(url);
-  //     const data: ApiResponse = response.data;
-  //     console.log(data.data);
-
-  //     this.products = data.data;
-  //     this.totalProducts = data.total;
-  //     return  this.products;
-  //   } catch (error: any) {
-  //     console.error("Error fetching products:", error);
-  //     this.error = "Failed to load products. Please try again.";
-  //     this.products = [];
-  //     this.totalProducts = null;
-  //   } finally {
-  //     this.loading = false;
-  //   }
-  // }
-   async  fetchFilteredProducts(): Promise<any[]> {
+  async fetchFilteredProducts(): Promise<any[]> {
     this.loading = true;
     this.error = null;
-  
+
     try {
       const queryParams = new URLSearchParams({
         page: String(this.currentPage),
         limit: String(this.limit),
       });
-  
+
       if (this.filters.categoryId)
         queryParams.append("categoryId", String(this.filters.categoryId));
       if (this.filters.subcategoryId)
@@ -165,15 +128,15 @@ class ProductViewModel {
         queryParams.append("segmentId", String(this.filters.segmentId));
       if (this.filters.brandId)
         queryParams.append("brandId", String(this.filters.brandId));
-  
+
       const url = `${BASE_URL}products/client/products?${queryParams.toString()}`;
-  
+
       const response = await axios.get(url);
       const data: ApiResponse = response.data;
-  
+
       this.products = data.data;
       this.totalProducts = data.total;
-  
+
       // Explicitly return the products
       return this.products;
     } catch (error: any) {
@@ -184,8 +147,7 @@ class ProductViewModel {
       this.loading = false;
     }
   }
-  
-  
+
   fetchProductById = async (productId: number) => {
     // Changed to arrow function
     this.loading = true;

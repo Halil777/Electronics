@@ -1,10 +1,10 @@
 import React from "react";
 import { Table, TableBody, TableCell, TableRow, Box } from "@mui/material";
 import MultiLangTypography from "../../../components/utils/MultiLangTypography";
-import { Item } from "../../../components/redux/interface";
+// import { Item } from "../../../components/redux/interface";
 
 interface ExcelLikeTableProps {
-  items: Item[];
+  items: any[];
 }
 const ExcelLikeTable: React.FC<ExcelLikeTableProps> = ({ items }) => {
   return (

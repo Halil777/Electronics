@@ -141,7 +141,7 @@ const CategoryProductsBox: FC<CategoryProductsBoxProps> = ({ products }) => {
   return (
     <Grid container spacing={2}>
       <AnimatePresence>
-        {products.map((product, index) => (
+        {products.map((product: any, index) => (
           <Grid size={{ lg: 3, md: 4, sm: 6, xs: 6 }} key={product.id}>
             <motion.div
               initial="hidden"

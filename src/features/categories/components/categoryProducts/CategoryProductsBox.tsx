@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Box, Typography, Stack, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import LocalGroceryStoreOutlinedIcon from "@mui/icons-material/LocalGroceryStoreOutlined";
@@ -15,7 +15,11 @@ import {
 } from "../../../home/components/discountedGoods/styles/discoutGoodsStyle";
 import { motion, AnimatePresence } from "framer-motion";
 import BasketViewModel from "../../../../store/basket/BasketViewModel";
-import CompareViewModel from "../../../../store/compare/CompareViewModel";
+import { useAppSelector } from "../../../../components/redux/customHook";
+import { observable, toJS } from "mobx";
+import { useDispatch } from "react-redux";
+import { toggleFavorite } from "../../../../components/redux/favouriteSlice";
+import { addProduct } from "../../../../components/redux/ProductSlice";
 
 interface Product {
   id: number;
@@ -87,25 +91,43 @@ interface CategoryProductsBoxProps {
 
 const CategoryProductsBox: FC<CategoryProductsBoxProps> = ({ products }) => {
   const navigate = useNavigate();
-  const [compareStates, setCompareStates] = useState<Record<number, boolean>>(
-    {}
-  );
-  const [favoriteStates, setFavoriteStates] = useState<Record<number, boolean>>(
-    {}
-  );
-  const handleCompareClick = (productId: number) => {
-    setCompareStates((prevState) => ({
-      ...prevState,
-      [productId]: !prevState[productId],
-    }));
+  // const [compareStates, setCompareStates] = useState<Record<number, boolean>>(
+  //   {}
+  // );
+  // const [favoriteStates, setFavoriteStates] = useState<Record<number, boolean>>(
+  //   {}
+  // );
+  const compareProducts = useAppSelector((state) => state.compare.products);
+  const dispatch = useDispatch();
+
+  const handleCompareClick = (product: any) => {
+    const observableArray = observable(product);
+
+    // Передаем копию наблюдаемого массива в функцию или компонент
+    const copyOfArray = toJS(observableArray);
+    dispatch(addProduct(copyOfArray));
+    // setCompareStates((prevState) => ({
+    //   ...prevState,
+    //   [productId]: !prevState[productId],
+    // }));
   };
 
-  const handleFavoriteClick = (productId: number) => {
-    setFavoriteStates((prevState) => ({
-      ...prevState,
-      [productId]: !prevState[productId],
-    }));
+  const favorites = useAppSelector((state) => state.favorites.favorites);
+  console.log(favorites);
+
+  const handleToggleFavorite = (product: any) => {
+    const observableArray = observable(product);
+
+    // Передаем копию наблюдаемого массива в функцию или компонент
+    const copyOfArray = toJS(observableArray);
+    dispatch(toggleFavorite(copyOfArray));
   };
+  // const handleFavoriteClick = (productId: number) => {
+  //   setFavoriteStates((prevState) => ({
+  //     ...prevState,
+  //     [productId]: !prevState[productId],
+  //   }));
+  // };
 
   const productItemVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -207,17 +229,25 @@ const CategoryProductsBox: FC<CategoryProductsBoxProps> = ({ products }) => {
                 >
                   <Button
                     onClick={() => {
-                      handleCompareClick(product.id);
-                      CompareViewModel.addToCompare(product); // Add product to compare
+                      handleCompareClick(product);
+                      // CompareViewModel.addToCompare(product); // Add product to compare
                     }}
                     sx={{
                       ...compareDiscountGoodsCostButton,
-                      backgroundColor: compareStates[product.id]
+                      backgroundColor: compareProducts.some(
+                        (comp) => comp.id === product.id
+                      )
                         ? "#C3000E"
                         : "transparent",
-                      color: compareStates[product.id] ? "#fff" : "#929292",
+                      color: compareProducts.some(
+                        (comp) => comp.id === product.id
+                      )
+                        ? "#fff"
+                        : "#929292",
                       "&:hover": {
-                        backgroundColor: compareStates[product.id]
+                        backgroundColor: compareProducts.some(
+                          (comp) => comp.id === product.id
+                        )
                           ? "#C3000E"
                           : "#f0f0f0",
                       },
@@ -225,7 +255,7 @@ const CategoryProductsBox: FC<CategoryProductsBoxProps> = ({ products }) => {
                   >
                     <img
                       src={
-                        compareStates[product.id]
+                        compareProducts.some((comp) => comp.id === product.id)
                           ? "/icons/compare white.svg"
                           : "/icons/compare.svg"
                       }
@@ -235,15 +265,21 @@ const CategoryProductsBox: FC<CategoryProductsBoxProps> = ({ products }) => {
                     Deňeşdir
                   </Button>
                   <Button
-                    onClick={() => handleFavoriteClick(product.id)}
+                    onClick={() => handleToggleFavorite(product)}
                     sx={{
                       ...compareDiscountGoodsCostButton,
-                      backgroundColor: favoriteStates[product.id]
+                      backgroundColor: favorites.some(
+                        (fav) => fav.id === product.id
+                      )
                         ? "#C3000E"
                         : "transparent",
-                      color: favoriteStates[product.id] ? "#fff" : "#929292",
+                      color: favorites.some((fav) => fav.id === product.id)
+                        ? "#fff"
+                        : "#929292",
                       "&:hover": {
-                        backgroundColor: favoriteStates[product.id]
+                        backgroundColor: favorites.some(
+                          (fav) => fav.id === product.id
+                        )
                           ? "#C3000E"
                           : "#f0f0f0",
                       },
@@ -253,7 +289,9 @@ const CategoryProductsBox: FC<CategoryProductsBoxProps> = ({ products }) => {
                       sx={{
                         fontWeight: 300,
                         width: "12px",
-                        color: favoriteStates[product.id] ? "#fff" : "#929292",
+                        color: favorites.some((fav) => fav.id === product.id)
+                          ? "#fff"
+                          : "#929292",
                       }}
                     />
                     Saýla

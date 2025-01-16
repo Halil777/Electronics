@@ -51,13 +51,13 @@ const FeedbackBox: FC = () => {
             <img src="/icons/“.svg" alt="feedback icon" />
           </Stack>
           <Typography sx={feedbackMessage}>
-            What is Lorem Ipsum? Lorem Ipsum is simply dummy text...
+            Saýtda köp harytlary iň arzan bahadan tapyp bolýar.
           </Typography>
           <Stack direction="row" alignItems="center" spacing={2} my={5}>
             <Avatar
               sx={feedbackAvatar}
               alt="Halil Gayypov"
-              src="./images/banner1.png"
+              src="./images/avatar.png"
             />
             <Stack>
               <Typography sx={feedbackMessage}>Ata Atayew</Typography>
@@ -70,16 +70,16 @@ const FeedbackBox: FC = () => {
             <img src="/icons/“.svg" alt="feedback icon" />
           </Stack>
           <Typography sx={feedbackMessage}>
-            What is Lorem Ipsum? Lorem Ipsum is simply dummy text...
+            Saýt täze brend harytlary arzan bahadan hödürleýär. Sag boluň!
           </Typography>
           <Stack direction="row" alignItems="center" spacing={2} my={5}>
             <Avatar
               sx={feedbackAvatar}
               alt="Halil Gayypov"
-              src="./images/banner1.png"
+              src="./images/avatar3.png"
             />
             <Stack>
-              <Typography sx={feedbackMessage}>Ata Atayew</Typography>
+              <Typography sx={feedbackMessage}>Meret Meredow</Typography>
               <Typography sx={feedbackTypeText}>Musderi</Typography>
             </Stack>
           </Stack>

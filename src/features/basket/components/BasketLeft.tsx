@@ -19,33 +19,7 @@ import { observer } from "mobx-react-lite";
 import BasketViewModel from "../../../store/basket/BasketViewModel";
 
 const BasketLeft: FC = observer(() => {
-  const {
-    items,
-    totalPrice,
-    clearBasket,
-    removeFromBasket,
-    increaseQuantity,
-    decreaseQuantity,
-  } = BasketViewModel;
-
-  const handleClearAllBasket = () => {
-    console.log("handleClearAllBasket Called");
-    clearBasket();
-  };
-
-  const increase = (id: number) => {
-    console.log("increase called with id:", id);
-    increaseQuantity(id);
-  };
-  const decrease = (id: number) => {
-    console.log("decrease called with id:", id);
-    decreaseQuantity(id);
-  };
-
-  const remove = (id: number) => {
-    console.log("remove called with id:", id);
-    removeFromBasket(id);
-  };
+  const { items, totalPrice } = BasketViewModel;
 
   return (
     <Paper elevation={4} sx={{ width: "100%", py: 2 }}>
@@ -59,7 +33,8 @@ const BasketLeft: FC = observer(() => {
         <Button
           startIcon={<AutoDeleteOutlinedIcon />}
           sx={clearAllBasketButton}
-          onClick={handleClearAllBasket}
+          // onClick={() => handleClearAllBasket()}
+          onClick={() => BasketViewModel.clearBasket()}
         >
           Hemmesini bozmak
         </Button>
@@ -94,7 +69,10 @@ const BasketLeft: FC = observer(() => {
               <Stack direction="row" alignItems="center" spacing={1}>
                 <IconButton
                   sx={{ height: "40px", width: "40px", fontSize: "18px" }}
-                  onClick={() => decrease(item.product.id)}
+                  onClick={() =>
+                    BasketViewModel.decreaseQuantity(item.product.id)
+                  }
+                  // onClick={() => decrease(item.product.id)}
                   disabled={item.quantity <= 1}
                 >
                   -
@@ -102,7 +80,10 @@ const BasketLeft: FC = observer(() => {
                 <Box sx={basketProductCountBox}>{item.quantity}</Box>
                 <IconButton
                   sx={{ height: "40px", width: "40px", fontSize: "18px" }}
-                  onClick={() => increase(item.product.id)}
+                  // onClick={() => increase(item.product.id)}
+                  onClick={() =>
+                    BasketViewModel.increaseQuantity(item.product.id)
+                  }
                 >
                   +
                 </IconButton>
@@ -110,7 +91,13 @@ const BasketLeft: FC = observer(() => {
               <Typography sx={{ fontSize: "17px", fontWeight: 600 }}>
                 {item.product.price} TMT
               </Typography>
-              <IconButton onClick={() => remove(item.product.id)}>
+              <IconButton
+                onClick={() =>
+                  BasketViewModel.removeFromBasket(Number(item.product.id))
+                }
+
+                // onClick={() => remove(item.product.id)}
+              >
                 <ClearOutlinedIcon sx={{ width: "16px" }} />
               </IconButton>
             </Stack>

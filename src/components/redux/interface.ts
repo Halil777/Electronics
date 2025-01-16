@@ -1,6 +1,8 @@
 export interface Product {
     id: number;
-    brand: string;
+    brand: {
+      title_en:string
+      };
     brand_id: number;
     category: string;
     category_id: number;
@@ -31,6 +33,7 @@ export interface Product {
     views: number;
     weight: number;
     width: number;
+    product_code: string;
   }
   export interface Product2 {
     id: string;

@@ -8,17 +8,12 @@ import {
   Stack,
   Typography,
   Button,
-  Grid2,
 } from "@mui/material";
 // import { firstRowBox, secondRowBox } from "../styles/compareDescription";
 import { useAppSelector } from "../../../components/redux/customHook";
 import MultiLangTypography from "../../../components/utils/MultiLangTypography";
-import { compareGridSize } from "../utils/compareSize";
-import {
-  compareDescriptionTitle,
-  firstRowBox,
-  secondRowBox,
-} from "../styles/compareDescription";
+import { firstRowBox } from "../styles/compareDescription";
+import BasketViewModel from "../../../store/basket/BasketViewModel";
 
 const CompareDescription: FC = () => {
   const compareProducts = useAppSelector((state) => state.compare.products);
@@ -46,9 +41,9 @@ const CompareDescription: FC = () => {
                     }}
                   >
                     <MultiLangTypography
-                      title_en={item.title_en}
-                      title_ru={item.title_ru}
-                      title_tm={item.title_tm}
+                      title_en={item.title_en || "def"}
+                      title_ru={item.title_ru || "def"}
+                      title_tm={item.title_tm || "def"}
                     />
                   </TableCell>
                 </TableRow>
@@ -95,6 +90,7 @@ const CompareDescription: FC = () => {
                         fontSize: 12,
                         textTransform: "revert",
                       }}
+                      onClick={() => BasketViewModel.addToBasket(item)}
                     >
                       Sebede goş
                     </Button>
@@ -116,9 +112,9 @@ const CompareDescription: FC = () => {
                     }}
                   >
                     <MultiLangTypography
-                      title_en={item.desc_en}
-                      title_ru={item.desc_ru}
-                      title_tm={item.desc_tm}
+                      title_en={item.desc_en || "def"}
+                      title_ru={item.desc_ru || "def"}
+                      title_tm={item.desc_tm || "def"}
                     />
                   </TableCell>
                 </TableRow>

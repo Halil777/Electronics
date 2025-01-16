@@ -27,8 +27,15 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { decode } from "blurhash";
 import BasketViewModel from "../../../../../store/basket/BasketViewModel";
-import useFavoriteProducts from "../../../../Favourites/components/FavouritesProducts";
-
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../../components/redux/customHook";
+import { addProduct } from "../../../../../components/redux/ProductSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../components/redux/store";
+import { toggleFavorite } from "../../../../../components/redux/favouriteSlice";
+// const { toggleFavorite } = useFavoriteProducts();
 // Function to convert blurhash to base64
 const blurHashToBase64 = (
   blurhash: string,
@@ -58,14 +65,13 @@ const DiscountGoodBox: FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
   const navigate = useNavigate();
-  const { favorites, toggleFavorite } = useFavoriteProducts();
 
-  const [compareStates, setCompareStates] = useState<Record<number, boolean>>(
-    {}
-  );
-  const [favoriteStates, setFavoriteStates] = useState<Record<number, boolean>>(
-    {}
-  );
+  // const [compareStates, setCompareStates] = useState<Record<number, boolean>>(
+  //   {}
+  // );
+  // const [favoriteStates, setFavoriteStates] = useState<Record<number, boolean>>(
+  //   {}
+  // );
   const [showAll, setShowAll] = useState(false);
 
   // Intersection Observer for animation trigger
@@ -84,7 +90,7 @@ const DiscountGoodBox: FC = () => {
       );
       setDiscountedProducts(discounted);
       setIsLoading(false);
-      console.log(favoriteStates);
+      // console.log(favoriteStates);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
@@ -95,21 +101,35 @@ const DiscountGoodBox: FC = () => {
     fetchDiscountedProducts();
   }, []);
 
-  const handleCompareClick = (productId: number) => {
-    setCompareStates((prevState) => ({
-      ...prevState,
-      [productId]: !prevState[productId], // Toggle the compare state
-    }));
-  };
+  const dispatch = useAppDispatch();
+  const compareProducts = useAppSelector((state) => state.compare.products);
+  console.log(compareProducts);
 
-  const handleFavoriteClick = (productId: number) => {
-    setFavoriteStates((prevState) => ({
-      ...prevState,
-      [productId]: !prevState[productId], // Toggle the favorite state
-    }));
-  };
+  const favorites = useSelector(
+    (state: RootState) => state.favorites.favorites
+  );
 
-  console.log(handleFavoriteClick);
+  const handleToggleFavorite = (product: any) => {
+    dispatch(toggleFavorite(product)); // Remove the product if it's already a favorite
+  };
+  // const isProductInCompare = compareProducts.some((p) => p.id === productId);
+
+  // const handleCompareClick = (productId: number) => {
+  //     isProductInCompare
+  //       ? dispatch(removeProduct(productId))
+  //       : dispatch(addProduct(product))
+  //   // setCompareStates((prevState) => ({
+  //   //   ...prevState,
+  //   //   [productId]: !prevState[productId], // Toggle the compare state
+  //   // }));
+  // };
+
+  // const handleFavoriteClick = (productId: number) => {
+  //   setFavoriteStates((prevState) => ({
+  //     ...prevState,
+  //     [productId]: !prevState[productId], // Toggle the favorite state
+  //   }));
+  // };
 
   const handleShowAll = () => {
     setShowAll(true);
@@ -289,15 +309,28 @@ const DiscountGoodBox: FC = () => {
                   alignItems="center"
                 >
                   <Button
-                    onClick={() => handleCompareClick(product.id)}
+                    // onClick={() => handleCompareClick(product.id)}
+                    onClick={() =>
+                      // isProductInCompare
+                      //   ? dispatch(removeProduct(product.id)):
+                      dispatch(addProduct(product))
+                    }
                     sx={{
                       ...compareDiscountGoodsCostButton,
-                      backgroundColor: compareStates[product.id]
+                      backgroundColor: compareProducts.some(
+                        (comp) => comp.id === product.id
+                      )
                         ? "#C3000E"
                         : "transparent",
-                      color: compareStates[product.id] ? "#fff" : "#929292",
+                      color: compareProducts.some(
+                        (comp) => comp.id === product.id
+                      )
+                        ? "#fff"
+                        : "#929292",
                       "&:hover": {
-                        backgroundColor: compareStates[product.id]
+                        backgroundColor: compareProducts.some(
+                          (comp) => comp.id === product.id
+                        )
                           ? "#C3000E"
                           : "#f0f0f0",
                       },
@@ -305,8 +338,9 @@ const DiscountGoodBox: FC = () => {
                   >
                     <img
                       src={
-                        compareStates[product.id]
-                          ? "/icons/compare white.svg"
+                        compareProducts.some((p) => p.id === product.id)
+                          ? // compareStates[product.id]
+                            "/icons/compare white.svg"
                           : "/icons/compare.svg"
                       }
                       alt="compare-icon"
@@ -338,15 +372,21 @@ const DiscountGoodBox: FC = () => {
                   </Button> */}
                   <Button
                     // onClick={() => handleFavoriteClick(product.id)}
-                    onClick={() => toggleFavorite(product)}
+                    onClick={() => handleToggleFavorite(product)}
                     sx={{
                       ...compareDiscountGoodsCostButton,
-                      backgroundColor: favorites.includes(product)
+                      backgroundColor: favorites.some(
+                        (fav) => fav.id === product.id
+                      )
                         ? "#C3000E"
                         : "transparent",
-                      color: favorites.includes(product) ? "#fff" : "#929292",
+                      color: favorites.some((fav) => fav.id === product.id)
+                        ? "#fff"
+                        : "#929292",
                       "&:hover": {
-                        backgroundColor: favorites.includes(product)
+                        backgroundColor: favorites.some(
+                          (fav) => fav.id === product.id
+                        )
                           ? "#C3000E"
                           : "#f0f0f0",
                       },
@@ -356,7 +396,9 @@ const DiscountGoodBox: FC = () => {
                       sx={{
                         fontWeight: 300,
                         width: "12px",
-                        color: favorites.includes(product) ? "#fff" : "#929292",
+                        color: favorites.some((fav) => fav.id === product.id)
+                          ? "#fff"
+                          : "#929292",
                       }}
                     />
                     Saýla

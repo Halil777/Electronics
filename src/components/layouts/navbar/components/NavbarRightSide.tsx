@@ -9,7 +9,9 @@ import { observer } from "mobx-react-lite";
 import defaultProfileImage from "../../../../../public/navbarIcons/profile.svg";
 import UserViewModel from "../../../login/UserViewModel";
 import BasketViewModel from "../../../../store/basket/BasketViewModel";
-import useFavoriteProducts from "../../../../features/Favourites/components/FavouritesProducts";
+import { useAppSelector } from "../../../redux/customHook";
+import { RootState } from "../../../redux/store";
+import { useSelector } from "react-redux";
 
 const NavbarRightSide: FC = observer(() => {
   const navigate = useNavigate();
@@ -17,8 +19,12 @@ const NavbarRightSide: FC = observer(() => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const { favorites } = useFavoriteProducts();
-  console.log(favorites);
+  const favorites = useSelector(
+    (state: RootState) => state.favorites.favorites
+  );
+
+  console.log();
+  const compareProducts = useAppSelector((state) => state.compare.products);
 
   const { totalItems, items } = BasketViewModel;
 
@@ -81,7 +87,22 @@ const NavbarRightSide: FC = observer(() => {
               onClick={openDrawer}
             />
           )}
-          <Badge badgeContent={favorites.length} color="primary">
+          {/* <p>{favorites.map((item) => item.title_en)}</p> */}
+          <Badge
+            badgeContent={favorites.length}
+            sx={{
+              "& .MuiBadge-badge": {
+                width: 20,
+                height: 20,
+                marginLeft: 3,
+                backgroundColor: "#fff", // Custom background color
+                color: "#C3000E", // Custom text color
+                fontSize: "0.75rem", // Optional: Adjust text size
+                fontWeight: "bold", // Optional: Bold text
+                border: "1px solid #C3000E", // Optional: Add a border for better visibility
+              },
+            }}
+          >
             <img
               onClick={() => navigate("/favourites")}
               src="/navbarIcons/mdi-light_heart.svg"
@@ -89,7 +110,22 @@ const NavbarRightSide: FC = observer(() => {
               alt="heart"
             />
           </Badge>
-          <Badge badgeContent={totalItems} color="primary">
+
+          <Badge
+            badgeContent={totalItems}
+            sx={{
+              "& .MuiBadge-badge": {
+                width: 20,
+                height: 20,
+                marginLeft: 3,
+                backgroundColor: "#fff", // Custom background color
+                color: "#C3000E", // Custom text color
+                fontSize: "0.75rem", // Optional: Adjust text size
+                fontWeight: "bold", // Optional: Bold text
+                border: "1px solid #C3000E", // Optional: Add a border for better visibility
+              },
+            }}
+          >
             <img
               onClick={() => navigate("/basket")}
               src="/navbarIcons/iconamoon_shopping-card-light.svg"
@@ -97,12 +133,30 @@ const NavbarRightSide: FC = observer(() => {
               style={{ cursor: "pointer" }}
             />
           </Badge>
-          <img
-            onClick={() => navigate("/compare")}
-            src="/navbarIcons/compare.svg"
-            style={{ cursor: "pointer" }}
-            alt="gift"
-          />
+
+          <Badge
+            badgeContent={compareProducts.length}
+            sx={{
+              "& .MuiBadge-badge": {
+                width: 20,
+                height: 20,
+                marginLeft: 3,
+                backgroundColor: "#fff", // Custom background color
+                color: "#C3000E", // Custom text color
+                fontSize: "0.75rem", // Optional: Adjust text size
+                fontWeight: "bold", // Optional: Bold text
+                border: "1px solid #C3000E", // Optional: Add a border for better visibility
+              },
+            }}
+          >
+            <img
+              onClick={() => navigate("/compare")}
+              src="/navbarIcons/compare.svg"
+              style={{ cursor: "pointer" }}
+              alt="gift"
+            />
+          </Badge>
+
           <Language />
         </Stack>
       )}

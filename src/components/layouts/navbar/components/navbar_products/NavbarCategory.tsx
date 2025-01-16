@@ -53,7 +53,7 @@ const NavbarCategory: FC = () => {
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setOpenCategories(false);
+        toggleCategories();
       }
     };
 
@@ -69,6 +69,11 @@ const NavbarCategory: FC = () => {
   if (isError || subcategoriesError)
     return <Typography>Error fetching categories</Typography>;
 
+  const handleSubcategoryClick = (subcategory: any) => {
+    console.log("Subcategory Clicked:", subcategory); // Debug log
+    // onCategorySelect({ subcategoryId: subcategory.id });
+    navigate("/categories?subcategoryId=" + subcategory.id);
+  };
   return (
     <Box>
       <Stack
@@ -90,10 +95,11 @@ const NavbarCategory: FC = () => {
         <Paper
           elevation={3}
           sx={{
-            width: "90%",
+            width: "80%",
             position: "fixed",
-            top: "50px",
-            left: "5%",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -56%)",
             zIndex: 1000,
             p: 2,
             mt: 2,
@@ -114,6 +120,7 @@ const NavbarCategory: FC = () => {
                     ) : (
                       <span>No Image</span>
                     )}
+
                     <Typography
                       onClick={() =>
                         handleBrandClick(category?.id, category?.brand_id)
@@ -147,7 +154,12 @@ const NavbarCategory: FC = () => {
                       : [];
                     return (
                       <Grid key={sub.id} size={{ lg: 3, md: 3, sm: 6, xs: 12 }}>
-                        <Stack mb={2} direction={"row"} spacing={1}>
+                        <Stack
+                          mb={2}
+                          direction={"row"}
+                          spacing={1}
+                          onClick={() => handleSubcategoryClick(sub.id)}
+                        >
                           <Typography
                             sx={{
                               cursor: "pointer",

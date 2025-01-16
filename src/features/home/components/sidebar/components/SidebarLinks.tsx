@@ -1,5 +1,5 @@
-import { Box, Paper, Stack, Typography, Skeleton } from "@mui/material";
-import { FC, useState } from "react";
+import { Box, Paper, Stack, Typography, Skeleton, Grid2 } from "@mui/material";
+import { FC, useRef, useState } from "react";
 import { sideLinkBox, sidelinkImageBox } from "./sidelinksStyle";
 import { useCategories } from "../../../../../hooks/category/useCategory";
 import { useSubcategories } from "../../../../../hooks/subcategry/useSubcategory";
@@ -8,6 +8,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { decode } from "blurhash";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSegment } from "../../../../../hooks/segment/useSegment";
 // Function to convert blurhash to base64
 const blurHashToBase64 = (
   blurhash: string,
@@ -54,6 +55,8 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
   const [hoveredCategoryId, setHoveredCategoryId] = useState<number | null>(
     null
   );
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const { segment: allSegments } = useSegment();
 
   const {
     subcategories,
@@ -72,7 +75,20 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
     onCategorySelect({ subcategoryId: subcategory.id });
     navigate("/categories?subcategoryId=" + subcategory.id);
   };
-
+  const handleSegmentClick = (
+    categoryId: string,
+    subcategoryId: string,
+    segmentId: string
+  ) => {
+    navigate(
+      `/categories?categoryId=${categoryId}&subcategoryId=${subcategoryId}&segmentId=${segmentId}`
+    );
+    // setOpenCategories(false); // Close the drawer
+  };
+  // const handleBrandClick = (categoryId: string, brandId: string) => {
+  //   navigate(`/categories?categoryId=${categoryId}&brandId=${brandId}`);
+  //   // setOpenCategories(false); // Close the drawer
+  // };
   const categoryItemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: (delay: number) => ({
@@ -82,14 +98,14 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
     }),
   };
 
-  const subcategoryItemVariants = {
-    hidden: { opacity: 0, x: -10 },
-    visible: (delay: number) => ({
-      opacity: 1,
-      x: 0,
-      transition: { delay: delay * 0.05, duration: 0.3, ease: "easeInOut" },
-    }),
-  };
+  // const subcategoryItemVariants = {
+  //   hidden: { opacity: 0, x: -10 },
+  //   visible: (delay: number) => ({
+  //     opacity: 1,
+  //     x: 0,
+  //     transition: { delay: delay * 0.05, duration: 0.3, ease: "easeInOut" },
+  //   }),
+  // };
 
   if (isCategoriesLoading) {
     return (
@@ -170,7 +186,7 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
                 cursor: "pointer",
                 borderRadius: "4px",
                 px: 1,
-                pt: 1,
+                pt: 0.5,
                 mb: 0.3,
                 transition: "background-color 0.7s ease",
               }}
@@ -201,7 +217,7 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
                   transformOrigin: "center",
                 }}
                 animate={{
-                  rotate: hoveredCategoryId === category.id ? 180 : 0,
+                  rotate: hoveredCategoryId === category.id ? -90 : 0,
                 }}
                 transition={{ duration: 0.2 }}
               />
@@ -214,9 +230,9 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <Stack spacing={1} mt={1} pl={2}>
+                  <Stack>
                     {isSubcategoriesLoading ? (
-                      <Stack spacing={1} mt={1} pl={2}>
+                      <Stack>
                         {Array.from(new Array(3)).map((_, index) => (
                           <Stack key={index}>
                             <Skeleton
@@ -229,34 +245,116 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
                     ) : isSubcategoryError ? (
                       <Typography>Error Fetching Subcategories</Typography>
                     ) : (
-                      subcategories?.map((sub: any, index: number) => (
-                        <motion.div
-                          key={sub.id}
-                          initial="hidden"
-                          animate="visible"
-                          variants={subcategoryItemVariants}
-                          custom={index}
-                        >
-                          <Stack
-                            direction="row"
-                            spacing={1}
-                            alignItems="center"
-                            sx={{
-                              padding: "6px",
-                              borderRadius: "4px",
-                              "&:hover": {
-                                backgroundColor: "#fafafa",
-                                cursor: "pointer",
-                              },
-                            }}
-                            onClick={() => handleSubcategoryClick(sub)}
-                          >
-                            <Typography sx={{ fontSize: "13px" }}>
-                              {sub?.title_en}
-                            </Typography>
-                          </Stack>
-                        </motion.div>
-                      ))
+                      // subcategories?.map((sub: any, index: number) => (
+                      //   <motion.div
+                      //     key={sub.id}
+                      //     initial="hidden"
+                      //     animate="visible"
+                      //     variants={subcategoryItemVariants}
+                      //     custom={index}
+                      //   >
+                      //     <Stack
+                      //       direction="row"
+                      //       spacing={1}
+                      //       alignItems="center"
+                      //       sx={{
+                      //         padding: "6px",
+                      //         borderRadius: "4px",
+                      //         "&:hover": {
+                      //           backgroundColor: "#fafafa",
+                      //           cursor: "pointer",
+                      //         },
+                      //       }}
+                      //       onClick={() => handleSubcategoryClick(sub)}
+                      //     >
+                      //       <Typography sx={{ fontSize: "13px" }}>
+                      //         {sub?.title_en}
+                      //       </Typography>
+                      //     </Stack>
+                      //   </motion.div>
+                      // ))
+
+                      // {openCategories && (
+                      <Paper
+                        // elevation={3}
+                        sx={{
+                          minWidth: "10%",
+                          height: "55%",
+                          position: "fixed",
+                          top: "24%",
+                          left: "30.5%",
+                          zIndex: 1000,
+                          p: 2,
+                          mt: 2,
+                        }}
+                        ref={dropdownRef}
+                      >
+                        <Stack spacing={3} direction="row">
+                          {subcategories.length > 0 ? (
+                            subcategories.map((sub: any) => {
+                              const filteredSegments = allSegments
+                                ? allSegments.filter(
+                                    (seg: any) =>
+                                      seg?.subcategory_id === sub?.id
+                                  )
+                                : [];
+                              return (
+                                <Grid2
+                                  key={sub.id}
+                                  size={{ lg: 3, md: 3, sm: 6, xs: 12 }}
+                                >
+                                  <Stack
+                                    mb={2}
+                                    direction={"row"}
+                                    spacing={2}
+                                    onClick={() => {
+                                      handleSubcategoryClick(sub.id);
+                                    }}
+                                  >
+                                    <Typography
+                                      sx={{
+                                        cursor: "pointer",
+                                        fontSize: "14px",
+                                        fontWeight: "600",
+                                        textAlign: "center",
+                                        minHeight: 50,
+                                      }}
+                                    >
+                                      {sub?.title_tm}
+                                    </Typography>
+                                  </Stack>
+
+                                  {filteredSegments.length > 0
+                                    ? filteredSegments.map((seg: any) => (
+                                        <Typography
+                                          onClick={() =>
+                                            handleSegmentClick(
+                                              expandedCategory as string,
+                                              sub?.id,
+                                              seg?.id
+                                            )
+                                          }
+                                          key={seg?.id}
+                                          sx={{
+                                            cursor: "pointer",
+                                            mb: 1,
+                                            paddingLeft: "5px",
+                                            fontSize: "14px",
+                                            textAlign: "center",
+                                          }}
+                                        >
+                                          {seg?.title_tm}
+                                        </Typography>
+                                      ))
+                                    : null}
+                                </Grid2>
+                              );
+                            })
+                          ) : expandedCategory ? (
+                            <Typography>Subkategoriýa ýok</Typography>
+                          ) : null}
+                        </Stack>
+                      </Paper>
                     )}
                   </Stack>
                 </motion.div>

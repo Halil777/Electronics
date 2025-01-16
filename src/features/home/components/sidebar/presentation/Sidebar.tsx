@@ -15,9 +15,10 @@ const Sidebar: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [isFixed, setIsFixed] = useState(false);
-  const [remainingScrollVh, setRemainingScrollVh] = useState<number | null>(
-    null
-  );
+  // const [remainingScrollVh, setRemainingScrollVh] = useState<number | null>(
+  //   null
+  // );
+  const [footerPosition, setFooterPosition] = useState<number | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,12 +27,21 @@ const Sidebar: FC = () => {
       const scrollTop = window.scrollY;
       const remainingScroll = documentHeight - windowHeight - scrollTop;
       const remainingScrollInVh = (remainingScroll / windowHeight) * 100;
-      setRemainingScrollVh(remainingScrollInVh >= 0 ? remainingScrollInVh : 0);
-      setIsFixed(remainingScrollInVh <= 100);
-    };
+      // setRemainingScrollVh(remainingScrollInVh >= 0 ? remainingScrollInVh : 0);
 
-    // if don't need need to remove from state
-    console.log(remainingScrollVh);
+      // Calculate the position of the footer
+      const footer = document.getElementById("footer");
+      if (footer) {
+        const footerRect = footer.getBoundingClientRect();
+        setFooterPosition(footerRect.top + 160);
+      }
+
+      // If the footer is approaching, stop the sidebar
+      setIsFixed(
+        remainingScrollInVh <= 100 &&
+          (footerPosition === null || footerPosition > windowHeight)
+      );
+    };
 
     handleScroll(); // Initial calculation
     window.addEventListener("scroll", handleScroll);
@@ -41,7 +51,7 @@ const Sidebar: FC = () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
     };
-  }, []);
+  }, [footerPosition]);
 
   useEffect(() => {
     if (Object.keys(selectedFilters).length > 0) {
@@ -93,8 +103,9 @@ const Sidebar: FC = () => {
       sx={{
         position: isFixed ? "fixed" : "static",
         width: isFixed ? "18%" : "100%",
-        top: isFixed ? 20 : "",
+        top: isFixed ? 140 : "",
         zIndex: 100,
+        bottom: isFixed && footerPosition !== null ? `${footerPosition}px` : "",
       }}
     >
       <SidebarLinks

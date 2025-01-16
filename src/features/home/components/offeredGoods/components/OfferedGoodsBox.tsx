@@ -15,7 +15,9 @@ import {
   discountGoodsTitle,
   discountGoodTitle,
 } from "../../discountedGoods/styles/discoutGoodsStyle";
-import useFavoriteProducts from "../../../../Favourites/components/FavouritesProducts";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../../../components/redux/store";
+import { toggleFavorite } from "../../../../../components/redux/favouriteSlice";
 
 const OfferedGoodsBox: FC = () => {
   const staticProducts = [
@@ -64,8 +66,15 @@ const OfferedGoodsBox: FC = () => {
   const [favoriteStates, setFavoriteStates] = useState<Record<number, boolean>>(
     {}
   );
+  const dispatch = useDispatch();
+  const favorites = useSelector(
+    (state: RootState) => state.favorites.favorites
+  );
 
-  const { favorites, toggleFavorite } = useFavoriteProducts();
+  const handleToggleFavorite = (product: any) => {
+    dispatch(toggleFavorite(product)); // Remove the product if it's already a favorite
+  };
+  // const { favorites, toggleFavorite } = useFavoriteProducts();
 
   const handleCompareClick = (productId: number) => {
     setCompareStates((prevState) => ({
@@ -218,15 +227,21 @@ const OfferedGoodsBox: FC = () => {
                 </Button> */}
                 <Button
                   // onClick={() => handleFavoriteClick(product.id)}
-                  onClick={() => toggleFavorite(product)}
+                  onClick={() => handleToggleFavorite(product)}
                   sx={{
                     ...compareDiscountGoodsCostButton,
-                    backgroundColor: favorites.includes(product)
+                    backgroundColor: favorites.some(
+                      (fav) => fav.id === product.id
+                    )
                       ? "#C3000E"
                       : "transparent",
-                    color: favorites.includes(product) ? "#fff" : "#929292",
+                    color: favorites.some((fav) => fav.id === product.id)
+                      ? "#fff"
+                      : "#929292",
                     "&:hover": {
-                      backgroundColor: favorites.includes(product)
+                      backgroundColor: favorites.some(
+                        (fav) => fav.id === product.id
+                      )
                         ? "#C3000E"
                         : "#f0f0f0",
                     },
@@ -236,7 +251,9 @@ const OfferedGoodsBox: FC = () => {
                     sx={{
                       fontWeight: 300,
                       width: "12px",
-                      color: favorites.includes(product) ? "#fff" : "#929292",
+                      color: favorites.some((fav) => fav.id === product.id)
+                        ? "#fff"
+                        : "#929292",
                     }}
                   />
                   Saýla

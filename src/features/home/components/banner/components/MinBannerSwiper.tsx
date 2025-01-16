@@ -26,13 +26,13 @@ const MinBannerSwiper: React.FC<{ banners: any[] }> = ({ banners }) => {
         <Swiper
           onSwiper={(swiper) => (thumbsSwiperRef.current = swiper)} // Attach thumbs swiper instance
           slidesPerView={2}
-          spaceBetween={1}
+          spaceBetween={10}
           // centeredSlides={true}
           autoplay={false}
           modules={[Navigation, Thumbs, Autoplay]}
           className="gallery-thumbs-small"
           loop={true}
-          speed={4000}
+          speed={3000}
           style={{ cursor: "pointer", height: "100%" }}
         >
           {banners && Array.isArray(banners)

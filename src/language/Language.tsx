@@ -53,13 +53,13 @@ const Language: FC = () => {
         }}
       >
         <MenuItem value="tm">
-          <Typography sx={{ fontSize: "13px" }}>TKM</Typography>
+          <Typography sx={{ fontSize: "13px" }}>TM</Typography>
         </MenuItem>
         <MenuItem value="en">
-          <Typography sx={{ fontSize: "13px" }}>ENG </Typography>
+          <Typography sx={{ fontSize: "13px" }}>EN</Typography>
         </MenuItem>
         <MenuItem value="ru">
-          <Typography sx={{ fontSize: "13px" }}> RUS</Typography>
+          <Typography sx={{ fontSize: "13px" }}> RU</Typography>
         </MenuItem>
       </Select>
     </Box>

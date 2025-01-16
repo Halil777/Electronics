@@ -8,7 +8,7 @@ import { footerBox } from "../styles/footerStyles";
 const Footer: FC = () => {
   return (
     <>
-      <Box sx={footerBox}>
+      <Box sx={footerBox} id="footer">
         <Container>
           <Grid container alignItems="center">
             <Grid size={{ lg: 3, md: 3, sm: 6, xs: 12 }}>

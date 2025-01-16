@@ -13,7 +13,7 @@ const Compare: FC = () => {
   return (
     <>
       <Container>
-        <Grid container width="100%" mt={2} spacing={2} my={4}>
+        <Grid container width="100%" minHeight="70vh" mt={2} spacing={2} my={4}>
           <Grid
             size={size1_4}
             sx={{

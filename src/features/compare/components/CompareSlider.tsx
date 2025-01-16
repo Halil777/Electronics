@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Box } from "@mui/material";
+import { Box, IconButton, Stack } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import {
   compareActiveDots,
@@ -12,114 +12,107 @@ import {
 } from "../styles/compareSlider";
 import "../styles/compareSlider.css";
 import { compareGridSize } from "../utils/compareSize";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../../components/redux/customHook";
+import { removeProduct } from "../../../components/redux/ProductSlice";
 
 const CompareSlider: FC = () => {
-  const [currentImage, setCurrentImage] = useState("./images/auction1.png");
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [currentImages, setCurrentImages] = useState<{ [key: string]: string }>(
+    {}
+  );
+  const dispatch = useAppDispatch();
+  const compareProducts = useAppSelector((state) => state.compare.products);
+  console.log(compareProducts);
 
-  const extraImages = [
-    "./images/auction1.png",
-    "./images/banner1.png",
-    "./images/auction1.png",
-    "./images/banner2.png",
-    "./images/auction1.png",
-  ];
-
-  const handleImageClick = (index: number) => {
-    // Swap image
-    setCurrentImage(extraImages[index]);
-    setActiveIndex(index);
+  const handleImageClick = (productId: string, image: string) => {
+    setCurrentImages((prevImages) => ({
+      ...prevImages,
+      [productId]: image,
+    }));
   };
 
   return (
     <Box sx={compareSliderBox}>
       <Grid container>
-        <Grid size={compareGridSize}>
-          <Box sx={compareItemsCardBox}>
-            <input
-              type="text"
-              placeholder="Gözleg"
-              className="compareSearchInput"
-            />
-            <Box sx={compareImagebox}>
-              <img
-                src={currentImage}
-                className="compareSliderImage"
-                alt="compare current image"
-              />
-            </Box>
-            <Box sx={compareDotsBox}>
-              {extraImages.map((_, index) => (
-                <Box
-                  key={index}
-                  sx={
-                    index === activeIndex
-                      ? compareActiveDots
-                      : comparePassiveDots
-                  }
-                />
-              ))}
-            </Box>
-            <Box sx={compareDotsBox}>
-              {extraImages.map((image, index) => (
-                <Box
-                  key={index}
-                  sx={compareExtraImageBox}
-                  onClick={() => handleImageClick(index)}
-                >
-                  <img
-                    src={image}
-                    className="compareSliderImage"
-                    alt={`compare extra image ${index}`}
-                  />
+        {compareProducts.length > 0 ? (
+          compareProducts.map((elem) => {
+            const selectedImage = currentImages[elem.id] || elem.images[0]; // Default to the first image if none selected
+            return (
+              <Grid key={elem.id} size={compareGridSize}>
+                <Box sx={compareItemsCardBox}>
+                  <Stack direction="row" alignItems="center">
+                    <input
+                      type="text"
+                      placeholder="Gözleg"
+                      className="compareSearchInput"
+                    />
+                    <IconButton
+                      onClick={() => dispatch(removeProduct(elem.id))}
+                    >
+                      <img
+                        src="/images/Delete.png"
+                        style={{ width: 20, height: 20 }}
+                        alt="delete"
+                      />
+                    </IconButton>
+                  </Stack>
+                  <Box sx={compareImagebox}>
+                    <img
+                      src={selectedImage}
+                      className="compareSliderImage"
+                      alt="compare current image"
+                    />
+                  </Box>
+                  <Box sx={compareDotsBox}>
+                    {elem?.images.map((image, index) => (
+                      <Box
+                        key={index}
+                        sx={
+                          image === currentImages[elem.id]
+                            ? compareActiveDots
+                            : comparePassiveDots
+                        }
+                      />
+                    ))}
+                  </Box>
+
+                  <Box sx={compareDotsBox}>
+                    {elem?.images.map((image, index) => (
+                      <Box
+                        key={index}
+                        sx={compareExtraImageBox}
+                        onClick={() => handleImageClick(String(elem.id), image)} // Pass product id and clicked image
+                      >
+                        <img
+                          src={image}
+                          className="compareSliderImage"
+                          alt={`compare extra image ${index}`}
+                        />
+                      </Box>
+                    ))}
+                  </Box>
                 </Box>
-              ))}
-            </Box>
-          </Box>
-        </Grid>
-        <Grid size={compareGridSize}>
-          <Box sx={compareItemsCardBox}>
-            <input
-              type="text"
-              placeholder="Gözleg"
-              className="compareSearchInput"
-            />
-            <Box sx={compareImagebox}>
-              <img
-                src={currentImage}
-                className="compareSliderImage"
-                alt="compare current image"
-              />
-            </Box>
-            <Box sx={compareDotsBox}>
-              {extraImages.map((_, index) => (
-                <Box
-                  key={index}
-                  sx={
-                    index === activeIndex
-                      ? compareActiveDots
-                      : comparePassiveDots
-                  }
-                />
-              ))}
-            </Box>
-            <Box sx={compareDotsBox}>
-              {extraImages.map((image, index) => (
-                <Box
-                  key={index}
-                  sx={compareExtraImageBox}
-                  onClick={() => handleImageClick(index)}
-                >
-                  <img
-                    src={image}
-                    className="compareSliderImage"
-                    alt={`compare extra image ${index}`}
+              </Grid>
+            );
+          })
+        ) : (
+          <Box sx={compareSliderBox}>
+            <Grid container>
+              <Grid size={compareGridSize}>
+                <Box sx={compareItemsCardBox}>
+                  <input
+                    type="text"
+                    placeholder="Gözleg"
+                    className="compareSearchInput"
                   />
+                  <Box sx={compareImagebox}>Deňeşdirmek üçin haryt goşun</Box>
                 </Box>
-              ))}
-            </Box>
+              </Grid>
+            </Grid>
           </Box>
-        </Grid>
+        )}
       </Grid>
     </Box>
   );

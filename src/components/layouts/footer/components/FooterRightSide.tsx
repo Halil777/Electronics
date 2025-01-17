@@ -53,7 +53,7 @@ const FooterRightSide: FC = () => {
             <FooterLinks />
           </Box>
         </Stack>
-        <Stack spacing={2}>
+        <Stack maxWidth={215} spacing={2}>
           <FooterTitle text="Habarlaşmak üçin" />
           <Box>
             <FooterContact />

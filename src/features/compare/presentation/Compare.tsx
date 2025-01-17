@@ -28,7 +28,11 @@ const Compare: FC = () => {
           </Grid>
 
           <Grid size={size4_1}>
-            <Typography textAlign={"center"} my={2} fontWeight={700}>
+            <Typography
+              textAlign={"center"}
+              my={{ lg: 2, md: 2, sm: 2, xs: 0 }}
+              fontWeight={700}
+            >
               Önümi deňeşdirmek
             </Typography>
             <Box>

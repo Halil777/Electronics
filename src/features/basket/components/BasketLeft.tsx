@@ -21,7 +21,19 @@ import BasketViewModel from "../../../store/basket/BasketViewModel";
 const BasketLeft: FC = observer(() => {
   const { items, totalPrice } = BasketViewModel;
 
-  return (
+  return !items.length ? (
+    <Stack alignItems="center" minHeight="30vh" mt={4} spacing={2}>
+      <img src="/images/sebet.png" style={{ width: 100, height: 65 }} alt="" />
+      <Typography
+        color="#4B5563"
+        fontFamily="Open Sans"
+        fontSize={20}
+        fontWeight={600}
+      >
+        Sebediňiz boş
+      </Typography>
+    </Stack>
+  ) : (
     <Paper elevation={4} sx={{ width: "100%", py: 2 }}>
       <Stack
         direction="row"
@@ -40,6 +52,7 @@ const BasketLeft: FC = observer(() => {
         </Button>
       </Stack>
       <Divider />
+
       {items.map((item) => (
         <Grid
           container

@@ -9,6 +9,8 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import { decode } from "blurhash";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSegment } from "../../../../../hooks/segment/useSegment";
+import { useTranslation } from "react-i18next";
+import MultiLang from "../../../../../components/utils/MultiLang";
 // Function to convert blurhash to base64
 const blurHashToBase64 = (
   blurhash: string,
@@ -57,7 +59,7 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
   );
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { segment: allSegments } = useSegment();
-
+  const { t } = useTranslation();
   const {
     subcategories,
     isLoading: isSubcategoriesLoading,
@@ -150,7 +152,7 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
     <Box sx={{ background: "#fff", width: "100%", height: "auto" }}>
       <Paper elevation={1} sx={sideLinkBox}>
         <Typography sx={{ fontWeight: 700, fontSize: "12px" }}>
-          Kategoriýa
+          {t("navbar.categories")}
         </Typography>
       </Paper>
       <Box
@@ -206,9 +208,14 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
                     }}
                   />
                 </Box>
-                <Typography sx={{ fontSize: "12px" }}>
+                <MultiLang
+                  title_en={category?.title_en}
+                  title_ru={category?.title_ru}
+                  title_tm={category?.title_tm}
+                />
+                {/* <Typography sx={{ fontSize: "12px" }}>
                   {category?.title_en}
-                </Typography>
+                </Typography> */}
               </Stack>
               <motion.img
                 src="/icons/arrow.svg"
@@ -275,14 +282,98 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
                       // ))
 
                       // {openCategories && (
+                      // <Paper
+                      //   elevation={3}
+                      //   sx={{
+                      //     minWidth: "10%",
+                      //     height: "55%",
+                      //     position: "fixed",
+                      //     top: "24%",
+                      //     left: "30.5%",
+                      //     zIndex: 1000,
+                      //     p: 2,
+                      //     mt: 2,
+                      //   }}
+                      //   ref={dropdownRef}
+                      // >
+                      //   <Stack spacing={3} direction="row">
+                      //     {subcategories.length > 0 ? (
+                      //       subcategories.map((sub: any) => {
+                      //         const filteredSegments = allSegments
+                      //           ? allSegments.filter(
+                      //               (seg: any) =>
+                      //                 seg?.subcategory_id === sub?.id
+                      //             )
+                      //           : [];
+                      //         return (
+                      //           <Grid2
+                      //             key={sub.id}
+                      //             size={{ lg: 3, md: 3, sm: 6, xs: 12 }}
+                      //           >
+                      //             <Stack
+                      //               mb={2}
+                      //               direction={"row"}
+                      //               spacing={2}
+                      //               onClick={() => {
+                      //                 handleSubcategoryClick(sub.id);
+                      //               }}
+                      //             >
+                      //               <Typography
+                      //                 sx={{
+                      //                   cursor: "pointer",
+                      //                   fontSize: "14px",
+                      //                   fontWeight: "600",
+                      //                   textAlign: "center",
+                      //                   minHeight: 50,
+                      //                 }}
+                      //               >
+                      //                 {sub?.title_tm}
+                      //               </Typography>
+                      //             </Stack>
+
+                      //             {filteredSegments.length > 0
+                      //               ? filteredSegments.map((seg: any) => (
+                      //                   <Typography
+                      //                     onClick={() =>
+                      //                       handleSegmentClick(
+                      //                         expandedCategory as string,
+                      //                         sub?.id,
+                      //                         seg?.id
+                      //                       )
+                      //                     }
+                      //                     key={seg?.id}
+                      //                     sx={{
+                      //                       cursor: "pointer",
+                      //                       mb: 1,
+                      //                       paddingLeft: "5px",
+                      //                       fontSize: "14px",
+                      //                       textAlign: "center",
+                      //                     }}
+                      //                   >
+                      //                     {seg?.title_tm}
+                      //                   </Typography>
+                      //                 ))
+                      //               : null}
+                      //           </Grid2>
+                      //         );
+                      //       })
+                      //     ) : expandedCategory ? (
+                      //       <Typography>Subkategoriýa ýok</Typography>
+                      //     ) : null}
+                      //   </Stack>
+                      // </Paper>
                       <Paper
-                        // elevation={3}
                         sx={{
-                          minWidth: "10%",
+                          minWidth: {
+                            lg: "25%",
+                            md: "35%",
+                            sm: "50%",
+                            xs: "80%",
+                          }, // Adjust width for different screen sizes
                           height: "55%",
                           position: "fixed",
-                          top: "24%",
-                          left: "30.5%",
+                          top: { lg: "20%", md: "22%", sm: "25%", xs: "30%" }, // Adjust top positioning
+                          left: { lg: "30%", md: "25%", sm: "20%", xs: "10%" }, // Adjust left positioning
                           zIndex: 1000,
                           p: 2,
                           mt: 2,
@@ -311,6 +402,11 @@ const SidebarLinks: FC<SidebarLinksProps> = ({ onCategorySelect }) => {
                                       handleSubcategoryClick(sub.id);
                                     }}
                                   >
+                                    {/* <MultiLangTypography
+                                      title_en={sub?.title_en}
+                                      title_ru={sub?.title_ru}
+                                      title_tm={sub?.title_tm}
+                                    /> */}
                                     <Typography
                                       sx={{
                                         cursor: "pointer",

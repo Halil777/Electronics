@@ -24,6 +24,7 @@ import BuyPresentCard from "../features/presentCard/components/BuyPresentCard";
 import Embassy from "../features/embassy/presentation/Embassy";
 import Compare from "../features/compare/presentation/Compare";
 import FullDescriptionProduct from "../features/products/components/FullDescriptionProduct";
+import NotFoundPage from "../components/layouts/NotFound";
 
 // Custom Skeleton Loader
 
@@ -67,6 +68,7 @@ const App = () => {
                 <Route path="/buy-present-card" element={<BuyPresentCard />} />
                 <Route path="/compare" element={<Compare />} />
                 <Route path="/favourites" element={<Favourites />} />
+                <Route path="*" element={<NotFoundPage />} />
               </Route>
             </Routes>
           </Suspense>

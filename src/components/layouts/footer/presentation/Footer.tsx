@@ -21,7 +21,13 @@ const Footer: FC = () => {
         </Container>
         <Divider color="#F2F2F2" />
         <Typography sx={{ color: "#DBDBDB", mt: 1, textAlign: "center" }}>
-          Ähli hukuklary goralan. Powered by Älem Tilsimat
+          Ähli hukuklary goralan. Powered by{" "}
+          <a
+            href="https://alemtilsimat.com"
+            style={{ textDecoration: "none", color: "#DBDBDB" }}
+          >
+            Alem Tilsimat
+          </a>
         </Typography>
       </Box>
     </>

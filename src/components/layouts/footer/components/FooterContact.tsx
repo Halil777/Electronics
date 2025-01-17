@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { FC } from "react";
-import { footerAddressText, footerLinksStyle } from "../styles/footerStyles";
+import { footerAddressText, footerLinksStyle2 } from "../styles/footerStyles";
 
 const FooterContact: FC = () => {
   return (
@@ -8,19 +8,19 @@ const FooterContact: FC = () => {
       <Stack>
         <Box>
           <Typography sx={footerAddressText}>Salgy: </Typography>
-          <Typography sx={footerLinksStyle}>
+          <Typography sx={footerLinksStyle2}>
             Aşgabat, Bitarap Türkmenistan şaýoly 183
           </Typography>
         </Box>
         <Box>
           <Typography sx={footerAddressText}>Telefon: </Typography>
-          <Typography sx={footerLinksStyle}>
+          <Typography sx={footerLinksStyle2}>
             (+993 60) 14-22-41; (+993 62) 56-01-31
           </Typography>
         </Box>
         <Box>
           <Typography sx={footerAddressText}>E-mail: </Typography>
-          <Typography sx={footerLinksStyle}>
+          <Typography sx={footerLinksStyle2}>
             contact1@tehnikadunyasi.com
           </Typography>
         </Box>

@@ -14,8 +14,8 @@ export const footersubLogo = {
 
 export const footerTitle = {
   color: "#fff",
-  fontSize: { lg: "18px", md: "18px", sm: "16px", xs: "16px" },
-  fontWeight: 700,
+  fontSize: { lg: "16px", md: "16px", sm: "16px", xs: "16px" },
+  fontWeight: 600,
   lineHeight: "21px",
   position: "relative",
   marginTop: { lg: 0, md: 0, sm: 4, xs: 4 },
@@ -30,10 +30,12 @@ export const underlineStyle = {
   opacity: 1,
 };
 
-export const footerLinksStyle = {
+export const footerLinksStyle2 = {
+  // width:'70%',
   color: "#fff",
-  fontSize: "16px",
+  fontSize: "14px",
   cursor: "pointer",
+  fontFamily:'Open Sans',
   fontWeight: 400,
   lineHeight: "29px",
   marginBottom: { lg: "10px", md: "10px", sm: "5px", xs: "5px" },
@@ -44,9 +46,24 @@ export const footerLinksStyle = {
     transition: "all 0.3s ease-in-out",
   },
 };
-
+export const footerLinksStyle = {
+  color: "#fff",
+  fontSize: "14px",
+  cursor: "pointer",
+  fontFamily:'Open Sans',
+  fontWeight: 400,
+  lineHeight: "29px",
+  marginBottom: { lg: "10px", md: "10px", sm: "5px", xs: "5px" },
+  "&:hover": {
+    color: "#C3000E",
+    textDecoration: "underline",
+    transform: "scale(1.05)",
+    transition: "all 0.3s ease-in-out",
+  },
+};
 export const footerAddressText = {
   color: "#929292",
   fontSize: "12px",
+  fontFamily:'Open Sans',
   fontWeight: 400,
 };

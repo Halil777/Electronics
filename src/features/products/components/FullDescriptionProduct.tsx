@@ -2,6 +2,7 @@ import { FC, useState, useEffect } from "react";
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   Divider,
   IconButton,
@@ -73,11 +74,20 @@ const FullDescriptionProduct: FC<Props> = observer(() => {
   const smallImages = selectedProduct?.images || [];
 
   if (loading) {
-    return <div>Loading product data</div>;
+    return (
+      <Box minHeight="50vh" alignItems="center" textAlign="center" mt={5}>
+        <CircularProgress />
+        <Typography>Loading</Typography>
+      </Box>
+    );
   }
 
   if (!selectedProduct) {
-    return <div>No product data found</div>;
+    return (
+      <Box minHeight="50vh" textAlign="center" mt={5}>
+        Haryt tapylmady
+      </Box>
+    );
   }
 
   const handleAccordionChange = (panel: boolean) => {

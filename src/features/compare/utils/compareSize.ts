@@ -1,1 +1,1 @@
-export const compareGridSize = { lg: 3, md: 3, sm: 4, xs: 6 };
+export const compareGridSize = { lg: 3, md: 3, sm: 4, xs: 4 };
